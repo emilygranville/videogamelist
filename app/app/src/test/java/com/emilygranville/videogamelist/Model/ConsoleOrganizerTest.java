@@ -53,7 +53,6 @@ class ConsoleOrganizerTest {
         expectedOrder.add(v1);
         expectedOrder.add(v2);
         expectedOrder.add(v3);
-
         assertEquals(expectedOrder, consoleOrganizer.getConsoleMap().get("1"));
 
         //tests for adding an additional list to the map
@@ -61,8 +60,6 @@ class ConsoleOrganizerTest {
         c4.add("1");
         c4.add("3");
         VideoGame newVideoGame1 = new VideoGame("A", c4);
-
-
         expectedOrder.add(0, newVideoGame1);
 
         List<VideoGame> newVideoGameList = new ArrayList<VideoGame>();
@@ -86,10 +83,67 @@ class ConsoleOrganizerTest {
         assertEquals(5, consoleOrganizer.getConsoleMap().get("1").size());
         assertEquals(2, consoleOrganizer.getConsoleMap().get("3").size());
         assertEquals(expectedOrder, consoleOrganizer.getConsoleMap().get("1"));
+
+        //adds a video game to the end of the list
+        VideoGame newVideoGame3 = new VideoGame("Z", c4);
+        expectedOrder.add(newVideoGame3);
+        newVideoGameList = new ArrayList<VideoGame>();
+        newVideoGameList.add(newVideoGame3);
+        consoleOrganizer.setupConsoleOrganizer(newVideoGameList);
+        assertEquals(6, consoleOrganizer.getConsoleMap().get("1").size());
+        assertEquals(3, consoleOrganizer.getConsoleMap().get("3").size());
+        assertEquals(expectedOrder, consoleOrganizer.getConsoleMap().get("1"));
     }
 
     @Test
     void testToString() {
         setUp();
+    }
+
+    @Test
+    void addVideoGame() {
+        setUp();
+
+        consoleOrganizer.setupConsoleOrganizer(videoGameList);
+
+        assertEquals(3, consoleOrganizer.getConsoleMap().get("1").size());
+        assertEquals(1, consoleOrganizer.getConsoleMap().get("2").size());
+        assertNull(consoleOrganizer.getConsoleMap().get("3"));
+        List<VideoGame> expectedOrder = new LinkedList<VideoGame>();
+        expectedOrder.add(v1);
+        expectedOrder.add(v2);
+        expectedOrder.add(v3);
+        assertEquals(expectedOrder, consoleOrganizer.getConsoleMap().get("1"));
+
+        List<String> c4 = new ArrayList<String>();
+        c4.add("1");
+        c4.add("3");
+
+        //adds one video game to beginning of list
+        VideoGame newVideoGame1 = new VideoGame("A", c4);
+        expectedOrder.add(0, newVideoGame1);
+        consoleOrganizer.addVideoGame(newVideoGame1);
+
+        assertEquals(4, consoleOrganizer.getConsoleMap().get("1").size());
+        assertEquals(1, consoleOrganizer.getConsoleMap().get("3").size());
+        assertEquals(expectedOrder, consoleOrganizer.getConsoleMap().get("1"));
+
+        //adds video game to middle of the list
+        VideoGame newVideoGame2 = new VideoGame("D", c4);
+        expectedOrder.add(3, newVideoGame2);
+        consoleOrganizer.addVideoGame(newVideoGame2);
+
+        assertEquals(5, consoleOrganizer.getConsoleMap().get("1").size());
+        assertEquals(2, consoleOrganizer.getConsoleMap().get("3").size());
+        assertEquals(expectedOrder, consoleOrganizer.getConsoleMap().get("1"));
+
+        //adds video game to middle of the list
+        VideoGame newVideoGame3 = new VideoGame("D", c4);
+        expectedOrder.add(3, newVideoGame3);
+        consoleOrganizer.addVideoGame(newVideoGame3);
+
+        assertEquals(6, consoleOrganizer.getConsoleMap().get("1").size());
+        assertEquals(3, consoleOrganizer.getConsoleMap().get("3").size());
+        assertEquals(expectedOrder, consoleOrganizer.getConsoleMap().get("1"));
     }
 }

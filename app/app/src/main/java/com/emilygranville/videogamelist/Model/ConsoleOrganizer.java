@@ -58,6 +58,29 @@ public class ConsoleOrganizer {
         }
     }
 
+    public void addVideoGame(VideoGame videoGame) {
+        for (String consoles : videoGame.getConsoles()) {
+            if (!consoleMap.containsKey(consoles)) {
+                List<VideoGame> consoleList = new LinkedList<VideoGame>();
+                consoleList.add(videoGame);
+                consoleMap.put(consoles, consoleList);
+            } else {
+                List<VideoGame> consoleList = consoleMap.get(consoles);
+                Iterator<VideoGame> it = consoleList.iterator();
+                int index = 0;
+
+                while(it.hasNext()) {
+                    VideoGame next = it.next();
+                    if(videoGame.compareTo(next) <= 0) {
+                        break;
+                    }
+                    index++;
+                }
+                consoleList.add(index, videoGame);
+            }
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder("ConsoleOrganizer:consoleMapKeys=" + consoleMap.keySet() + "\n");
