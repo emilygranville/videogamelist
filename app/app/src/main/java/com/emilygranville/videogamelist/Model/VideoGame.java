@@ -76,4 +76,12 @@ public class VideoGame implements Comparable<VideoGame> {
     public int compareTo(VideoGame o) {
         return this.gameName.compareTo(o.getGameName());
     }
+
+    @Override
+    public String toString() {
+        return "VideoGame{" +
+                "gameName='" + this.gameName + '\'' +
+                ", consoles=" + (this.consoles == null ? "NULL" : this.consoles.toString()) +
+                '}';
+    }
 }
