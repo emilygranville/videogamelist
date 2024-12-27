@@ -26,8 +26,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         dataBinding = true
@@ -45,12 +45,14 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    //testImplementation(libs.junit)
-    //testImplementation(libs.junit.jupiter)
-    //androidTestImplementation(libs.ext.junit)
+    testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
+    androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+
+    testRuntimeOnly(libs.junit.platform.launcher)
+    //testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+    //androidTestImplementation("androidx.test.ext:junit:1.2.1")
 //
 //    testImplementation(libs.junit.v5114)
 //    androidTestImplementation(libs.junit.v5114)
