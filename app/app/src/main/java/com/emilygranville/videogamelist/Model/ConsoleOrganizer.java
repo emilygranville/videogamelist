@@ -33,15 +33,15 @@ public class ConsoleOrganizer {
      * From a list of VideoGame objects, sets up the map
      * @param videoGameList list of the VideoGame objects
      */
-    public void setupConsoleOraganizer(List<VideoGame> videoGameList) {
+    public void setupConsoleOrganizer(List<VideoGame> videoGameList) {
         for (VideoGame videoGame : videoGameList) {
-            for (String console : videoGame.getConsoles()) {
-                if (!consoleMap.containsKey(console)) {
+            for (String consoleKey : videoGame.getConsoles()) {
+                if (!consoleMap.containsKey(consoleKey)) {
                     List<VideoGame> consoleList = new LinkedList<VideoGame>();
                     consoleList.add(videoGame);
-                    consoleMap.put(console, consoleList);
+                    consoleMap.put(consoleKey, consoleList);
                 } else {
-                    List<VideoGame> consoleList = consoleMap.get(console);
+                    List<VideoGame> consoleList = consoleMap.get(consoleKey);
                     Iterator<VideoGame> it = consoleList.iterator();
                     int index = 0;
 
@@ -56,5 +56,18 @@ public class ConsoleOrganizer {
                 }
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder("ConsoleOrganizer:consoleMapKeys=" + consoleMap.keySet() + "\n");
+
+        for (String key: consoleMap.keySet()) {
+            for (VideoGame game : consoleMap.get(key)) {
+                    result.append(game.getGameName()).append("\n");
+            }
+        }
+
+        return result.toString();
     }
 }
