@@ -58,6 +58,10 @@ public class ConsoleOrganizer {
         }
     }
 
+    /**
+     * Adds a single video game to the console map
+     * @param videoGame the video game to add
+     */
     public void addVideoGame(VideoGame videoGame) {
         for (String consoles : videoGame.getConsoles()) {
             if (!consoleMap.containsKey(consoles)) {
@@ -81,6 +85,20 @@ public class ConsoleOrganizer {
         }
     }
 
+    /**
+     * Gives the list of games for a console key
+     * @param console the console for which games are needed
+     * @return the list of games for the console
+     */
+    public List<VideoGame> getGamesForConsole(String console) {
+        String consoleKey = console.toLowerCase().replaceAll("\\s", "");
+        return consoleMap.get(consoleKey);
+    }
+
+    /**
+     * String representation of ConsoleOrganizer
+     * @return the string representation of ConsoleOrganizer
+     */
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder("ConsoleOrganizer:\nMap Keys: " + consoleMap.keySet() + "\n");
