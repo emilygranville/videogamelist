@@ -47,7 +47,7 @@ public class ConsoleOrganizer {
 
                     while(it.hasNext()) {
                         VideoGame next = it.next();
-                        if(videoGame.compareTo(next) > 0) {
+                        if(videoGame.compareTo(next) <= 0) {
                             break;
                         }
                         index++;
@@ -63,6 +63,7 @@ public class ConsoleOrganizer {
         StringBuilder result = new StringBuilder("ConsoleOrganizer:consoleMapKeys=" + consoleMap.keySet() + "\n");
 
         for (String key: consoleMap.keySet()) {
+            result.append("Console: ").append(key).append("\n").append("Games:\n");
             for (VideoGame game : consoleMap.get(key)) {
                     result.append(game.getGameName()).append("\n");
             }
