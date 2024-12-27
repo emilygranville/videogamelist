@@ -83,10 +83,10 @@ public class ConsoleOrganizer {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder("ConsoleOrganizer:consoleMapKeys=" + consoleMap.keySet() + "\n");
+        StringBuilder result = new StringBuilder("ConsoleOrganizer:\nMap Keys: " + consoleMap.keySet() + "\n");
 
         for (String key: consoleMap.keySet()) {
-            result.append("Console: ").append(key).append("\n").append("Games:\n");
+            result.append("Console Name: ").append(key).append("\n").append("Games:\n");
             for (VideoGame game : consoleMap.get(key)) {
                     result.append(game.getGameName()).append("\n");
             }

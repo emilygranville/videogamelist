@@ -36,6 +36,8 @@ class ConsoleOrganizerTest {
         videoGameList.add(v1);
         videoGameList.add(v2);
         videoGameList.add(v3);
+
+        consoleOrganizer.setupConsoleOrganizer(videoGameList);
     }
 
     @Test
@@ -43,8 +45,6 @@ class ConsoleOrganizerTest {
         setUp();
 
         //tests for initial set up
-        consoleOrganizer.setupConsoleOrganizer(videoGameList);
-
         assertEquals(3, consoleOrganizer.getConsoleMap().get("1").size());
         assertEquals(1, consoleOrganizer.getConsoleMap().get("2").size());
         assertNull(consoleOrganizer.getConsoleMap().get("3"));
@@ -96,15 +96,8 @@ class ConsoleOrganizerTest {
     }
 
     @Test
-    void testToString() {
-        setUp();
-    }
-
-    @Test
     void addVideoGame() {
         setUp();
-
-        consoleOrganizer.setupConsoleOrganizer(videoGameList);
 
         assertEquals(3, consoleOrganizer.getConsoleMap().get("1").size());
         assertEquals(1, consoleOrganizer.getConsoleMap().get("2").size());
@@ -145,5 +138,45 @@ class ConsoleOrganizerTest {
         assertEquals(6, consoleOrganizer.getConsoleMap().get("1").size());
         assertEquals(3, consoleOrganizer.getConsoleMap().get("3").size());
         assertEquals(expectedOrder, consoleOrganizer.getConsoleMap().get("1"));
+    }
+
+    @Test
+    void testToString() {
+        setUp();
+
+        //testing simple version
+        String result = "ConsoleOrganizer:\n" +
+                "Map Keys: [1, 2]\n" +
+                "Console Name: 1\n" +
+                "Games:\n" +
+                "B\n" +
+                "C\n" +
+                "F\n" +
+                "Console Name: 2\n" +
+                "Games:\n" +
+                "C\n";
+        assertEquals(result, consoleOrganizer.toString());
+
+        //testing more complicated version
+        List<String> c4 = new ArrayList<String>();
+        c4.add("1");
+        c4.add("3");
+        VideoGame newVideoGame1 = new VideoGame("A", c4);
+        consoleOrganizer.addVideoGame(newVideoGame1);
+        result = "ConsoleOrganizer:\n" +
+                "Map Keys: [1, 2, 3]\n" +
+                "Console Name: 1\n" +
+                "Games:\n" +
+                "A\n" +
+                "B\n" +
+                "C\n" +
+                "F\n" +
+                "Console Name: 2\n" +
+                "Games:\n" +
+                "C\n" +
+                "Console Name: 3\n" +
+                "Games:\n" +
+                "A\n";
+        assertEquals(result, consoleOrganizer.toString());
     }
 }
