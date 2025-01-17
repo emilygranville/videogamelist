@@ -1,4 +1,4 @@
-package com.emilygranville.videogamelist.View;
+package com.emilygranville.videogamelist.Controller;
 
 import android.os.Bundle;
 
@@ -7,10 +7,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 
 import com.emilygranville.videogamelist.R;
+import com.emilygranville.videogamelist.View.DisplayVGView;
+import com.emilygranville.videogamelist.View.IDisplayVGView;
+import com.emilygranville.videogamelist.View.IMainView;
+import com.emilygranville.videogamelist.View.MainView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IMainView.Listener, IDisplayVGView.Listener {
+
+    private IMainView mainView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,5 +29,13 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        this.mainView = new MainView(this,this);
+        setContentView(this.mainView.getRootView());
+
+        Fragment addPackage = new DisplayVGView(this);
+        this.mainView.displayFragment(addPackage, false, "display");
+
     }
+
 }
