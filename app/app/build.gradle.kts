@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.emilygranville.videogamelist"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.emilygranville.videogamelist"
@@ -56,4 +56,7 @@ dependencies {
 //
 //    testImplementation(libs.junit.v5114)
 //    androidTestImplementation(libs.junit.v5114)
+
+    implementation(libs.cardview)
+
 }
