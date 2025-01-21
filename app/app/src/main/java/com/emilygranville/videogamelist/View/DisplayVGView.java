@@ -2,25 +2,27 @@ package com.emilygranville.videogamelist.View;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DisplayVGView#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
+
 public class DisplayVGView extends Fragment implements IDisplayVGView {
 
     FragmentDisplayVgViewBinding binding;
     Listener listener;
-
 
     /**
      * Required empty constructor
@@ -37,23 +39,6 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         this.listener = listener;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DisplayVGView.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DisplayVGView newInstance(String param1, String param2) {
-        DisplayVGView fragment = new DisplayVGView();
-        Bundle args = new Bundle();
-
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,9 +48,24 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_display_vg_view, container, false);
+
+        this.binding = FragmentDisplayVgViewBinding.inflate(inflater);
+        return this.binding.getRoot();
     }
+
+    @Override
+    public void
+    onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView.Adapter<VGViewHolder> itemAdapter = new VGDisplayAdapter(new ArrayList<VideoGame>());
+
+        RecyclerView recyclerView = view.findViewById(R.id.displayRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        recyclerView.setAdapter(itemAdapter);
+    }
+
 }
