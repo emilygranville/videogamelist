@@ -16,18 +16,10 @@ import java.util.List;
 
 public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
 
-    List<VideoGame> videoGameList = new ArrayList<VideoGame>();
+    List<VideoGame> videoGameList;
 
     public VGDisplayAdapter(List<VideoGame> videoGameList) {
         this.videoGameList = videoGameList;
-        videoGameList.add(new VideoGame("Game1"));
-        videoGameList.add(new VideoGame("Game2"));
-        videoGameList.add(new VideoGame("Game3"));
-        videoGameList.add(new VideoGame("Game4"));
-        videoGameList.add(new VideoGame("Game5"));
-        videoGameList.add(new VideoGame("Game6"));
-        videoGameList.add(new VideoGame("Game7"));
-        videoGameList.add(new VideoGame("Game8"));
     }
 
     /**

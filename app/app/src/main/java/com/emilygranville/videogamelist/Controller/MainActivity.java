@@ -9,11 +9,16 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.emilygranville.videogamelist.Model.ConsoleOrganizer;
+import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.View.DisplayVGView;
 import com.emilygranville.videogamelist.View.IDisplayVGView;
 import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.MainView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener, IDisplayVGView.Listener {
 
@@ -33,8 +38,19 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.mainView = new MainView(this,this);
         setContentView(this.mainView.getRootView());
 
-        Fragment addPackage = new DisplayVGView(this);
-        this.mainView.displayFragment(addPackage, false, "display");
+        List<VideoGame> videoGameList = new ArrayList<>();
+        videoGameList.add(new VideoGame("Game1"));
+        videoGameList.add(new VideoGame("Game2"));
+        videoGameList.add(new VideoGame("Game3"));
+        videoGameList.add(new VideoGame("Game4"));
+        videoGameList.add(new VideoGame("Game5"));
+        videoGameList.add(new VideoGame("Game6"));
+        videoGameList.add(new VideoGame("Game7"));
+        videoGameList.add(new VideoGame("Game8"));
+
+        // TODO: fix this to be related to the ConsoleOrganizer
+        Fragment vgView = new DisplayVGView(this, videoGameList);
+        this.mainView.displayFragment(vgView, false, "display");
 
     }
 

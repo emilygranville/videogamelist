@@ -17,12 +17,14 @@ import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class DisplayVGView extends Fragment implements IDisplayVGView {
 
     FragmentDisplayVgViewBinding binding;
     Listener listener;
+    List<VideoGame> videoGameList;
 
     /**
      * Required empty constructor
@@ -35,8 +37,9 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
      * Constructor for display view
      * @param listener listens for edit and delete buttons
      */
-    public DisplayVGView(Listener listener) {
+    public DisplayVGView(Listener listener, List<VideoGame> videoGameList) {
         this.listener = listener;
+        this.videoGameList = videoGameList;
     }
 
     @Override
@@ -60,7 +63,7 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView.Adapter<VGViewHolder> itemAdapter = new VGDisplayAdapter(new ArrayList<VideoGame>());
+        RecyclerView.Adapter<VGViewHolder> itemAdapter = new VGDisplayAdapter(this.videoGameList);
 
         RecyclerView recyclerView = view.findViewById(R.id.displayRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
