@@ -16,6 +16,7 @@ class VideoGameTest {
     VideoGame v1;
     VideoGame v2;
     VideoGame v3;
+    VideoGame v4;
 
     /**
      * Sets up the above variables for the tests
@@ -37,6 +38,9 @@ class VideoGameTest {
 
         assertEquals("A", v1.getGameName());
 
+        v4 = new VideoGame("D", "gamecube");
+
+        assertEquals("D", v4.getGameName());
     }
 
     @Test
@@ -66,6 +70,7 @@ class VideoGameTest {
         assertEquals(c1Copy, v1.getConsoles());
         assertEquals(c2Copy, v2.getConsoles());
         assertEquals(c3Copy, v3.getConsoles());
+        assertEquals(c1Copy, v4.getConsoles());
     }
 
     @Test

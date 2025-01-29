@@ -22,6 +22,12 @@ public class VideoGame implements Comparable<VideoGame> {
         createConsoleList();
     }
 
+    public VideoGame(String gameName, String console) {
+        this.gameName = gameName;
+        createConsoleList();
+        addConsole(console);
+    }
+
     public VideoGame(String gameName, List<String> consoles) {
         this.gameName = gameName;
         this.consoles = consoles;
