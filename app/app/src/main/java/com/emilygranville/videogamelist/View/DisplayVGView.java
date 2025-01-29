@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,7 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
 
         RecyclerView.Adapter<VGViewHolder> itemAdapter = new VGDisplayAdapter(this.videoGameList);
 
-        RecyclerView recyclerView = view.findViewById(R.id.displayRecyclerView);
+        RecyclerView recyclerView = binding.displayRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         recyclerView.setAdapter(itemAdapter);
