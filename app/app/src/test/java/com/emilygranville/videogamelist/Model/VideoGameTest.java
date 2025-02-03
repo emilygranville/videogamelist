@@ -102,9 +102,9 @@ class VideoGameTest {
     void testToString() {
         setUp();
 
-        assertEquals("VideoGame{gameName='A', consoles=NULL}", v1.toString());
-        assertEquals("VideoGame{gameName='B', consoles=[]}", v2.toString());
-        assertEquals("VideoGame{gameName='C', consoles=[switch, xbox]}", v3.toString());
+        assertEquals("VideoGame{gameName='A', price=0.0, consoles=NULL}", v1.toString());
+        assertEquals("VideoGame{gameName='B', price=0.0, consoles=[]}", v2.toString());
+        assertEquals("VideoGame{gameName='C', price=0.0, consoles=[switch, xbox]}", v3.toString());
     }
 
 //  intentional fail test--just for testing how to make the workflow

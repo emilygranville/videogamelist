@@ -9,6 +9,7 @@ import java.util.List;
 public class VideoGame implements Comparable<VideoGame> {
 
     private String gameName;
+    private double price;
     private List<String> consoles;
 
     /**
@@ -28,8 +29,21 @@ public class VideoGame implements Comparable<VideoGame> {
         addConsole(console);
     }
 
+    public VideoGame(String gameName, double price, String console) {
+        this.gameName = gameName;
+        this.price = price;
+        createConsoleList();
+        addConsole(console);
+    }
+
     public VideoGame(String gameName, List<String> consoles) {
         this.gameName = gameName;
+        this.consoles = consoles;
+    }
+
+    public VideoGame(String gameName, double price, List<String> consoles) {
+        this.gameName = gameName;
+        this.price = price;
         this.consoles = consoles;
     }
 
@@ -52,6 +66,14 @@ public class VideoGame implements Comparable<VideoGame> {
 
     public void setGameName(String gameName) {
         this.gameName = gameName;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public List<String> getConsoles() {
@@ -88,6 +110,7 @@ public class VideoGame implements Comparable<VideoGame> {
     public String toString() {
         return "VideoGame{" +
                 "gameName='" + this.gameName + '\'' +
+                ", price=" + this.price +
                 ", consoles=" + (this.consoles == null ? "NULL" : this.consoles.toString()) +
                 '}';
     }
