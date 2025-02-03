@@ -7,5 +7,7 @@ public interface IDisplayVGView {
      */
     interface Listener {
 
+
+        // public void deleteGame(int i);
     }
 }

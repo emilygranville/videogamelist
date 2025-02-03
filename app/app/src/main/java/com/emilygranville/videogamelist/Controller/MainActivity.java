@@ -1,6 +1,7 @@
 package com.emilygranville.videogamelist.Controller;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,14 +40,14 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         setContentView(this.mainView.getRootView());
 
         List<VideoGame> videoGameList = new ArrayList<>();
-        videoGameList.add(new VideoGame("Game1"));
-        videoGameList.add(new VideoGame("Game2"));
-        videoGameList.add(new VideoGame("Game3"));
-        videoGameList.add(new VideoGame("Game4"));
-        videoGameList.add(new VideoGame("Game5"));
-        videoGameList.add(new VideoGame("Game6"));
-        videoGameList.add(new VideoGame("Game7"));
-        videoGameList.add(new VideoGame("Game8"));
+        videoGameList.add(new VideoGame("Game1", "switch"));
+        videoGameList.add(new VideoGame("Game2", "switch"));
+        videoGameList.add(new VideoGame("Game3", "switch"));
+        videoGameList.add(new VideoGame("Game4", "switch"));
+        videoGameList.add(new VideoGame("Game5", "switch"));
+        videoGameList.add(new VideoGame("Game6", "switch"));
+        videoGameList.add(new VideoGame("Game7", "switch"));
+        videoGameList.add(new VideoGame("Game8", "switch"));
 
         // TODO: fix this to be related to the ConsoleOrganizer
         Fragment vgView = new DisplayVGView(this, videoGameList);
