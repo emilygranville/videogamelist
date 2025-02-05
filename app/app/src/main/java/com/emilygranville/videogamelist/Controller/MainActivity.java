@@ -17,8 +17,10 @@ import com.emilygranville.videogamelist.View.DisplayVGView;
 import com.emilygranville.videogamelist.View.IDisplayVGView;
 import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.MainView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener, IDisplayVGView.Listener {
@@ -72,4 +74,21 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         return testConsoleOrganizer;
     }
 
+    /**
+     * Deletes a video game from the ConsoleOrganizer
+     *
+     * @param videoGame
+     */
+    @Override
+    public void deleteGame(VideoGame videoGame) {
+        List<String> consoles = videoGame.getConsoles();
+        HashMap<String, List<VideoGame>> consoleMap = this.consoleOrganizer.getConsoleMap();
+        for (String console : consoles) {
+            List<VideoGame> gameList = consoleMap.get(console);
+            if (gameList.contains(videoGame)) {
+                gameList.remove(videoGame);
+            }
+        }
+        Log.i("vgl", "delete");
+    }
 }

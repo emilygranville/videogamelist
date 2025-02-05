@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class VideoGame implements Comparable<VideoGame> {
 
+    private int gameId;
     private String gameName;
     private double price;
     private List<String> consoles;
@@ -84,6 +85,10 @@ public class VideoGame implements Comparable<VideoGame> {
         this.consoles = consoles;
     }
 
+    public int getGameId() {
+        return gameId;
+    }
+
     /**
      * Adds new console to the list
      * @param console new console to be added
@@ -104,6 +109,10 @@ public class VideoGame implements Comparable<VideoGame> {
     @Override
     public int compareTo(VideoGame o) {
         return this.gameName.compareTo(o.getGameName());
+    }
+
+    public boolean equals(VideoGame o) {
+        return this.gameId == o.getGameId();
     }
 
     @Override

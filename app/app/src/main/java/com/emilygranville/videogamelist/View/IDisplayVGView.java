@@ -1,5 +1,7 @@
 package com.emilygranville.videogamelist.View;
 
+import com.emilygranville.videogamelist.Model.VideoGame;
+
 public interface IDisplayVGView {
 
     /**
@@ -7,7 +9,10 @@ public interface IDisplayVGView {
      */
     interface Listener {
 
-
-        // public void deleteGame(int i);
+        /**
+         * Deletes a video game from the ConsoleOrganizer
+         * @param videoGame
+         */
+        public void deleteGame(VideoGame videoGame);
     }
 }

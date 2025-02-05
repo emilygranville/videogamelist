@@ -21,9 +21,12 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
 
     List<VideoGame> videoGameList;
     FragmentDisplayVgViewBinding binding;
+    IDisplayVGView.Listener listener;
 
-    public VGDisplayAdapter(List<VideoGame> videoGameList, FragmentDisplayVgViewBinding binding) {
+    public VGDisplayAdapter(List<VideoGame> videoGameList, IDisplayVGView.Listener listener,
+                            FragmentDisplayVgViewBinding binding) {
         this.videoGameList = videoGameList;
+        this.listener = listener;
         this.binding = binding;
     }
 
@@ -89,13 +92,14 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
         holder.gameEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateGame(videoGameList.get(holder.getAdapterPosition()), holder.getAdapterPosition());
+                updateGame(videoGameList.get(holder.getAdapterPosition()).getGameId(), holder.getAdapterPosition());
             }
         });
         holder.gameDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteGame(holder.getAdapterPosition());
+                VGDisplayAdapter.this.listener.deleteGame(videoGameList.get(holder.getAdapterPosition()));
+                //deleteGame(holder.getAdapterPosition());
             }
         });
     }
@@ -112,11 +116,10 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
 
     /**
      * Updates an item in the list to reflect edits
-     * @param videoGame new VideoGame
      * @param position position
      */
-    public void updateGame(VideoGame videoGame, int position) {
-        videoGameList.set(position, videoGame);
+    public void updateGame(int videoGameID, int position) {
+        //videoGameList.set(position, videoGame);
         notifyItemChanged(position);
         Snackbar.make(this.binding.getRoot(), "Update", Snackbar.LENGTH_LONG).show();
     }
@@ -127,8 +130,8 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
      */
     //TODO: see if this can take in the position instead of searching for it
     public void deleteGame(int position) {
-        videoGameList.remove(position);
-        notifyItemChanged(position);
+//        videoGameList.remove(position);
+//        notifyItemChanged(position);
         Snackbar.make(this.binding.getRoot(), "Delete", Snackbar.LENGTH_LONG).show();
     }
 }
