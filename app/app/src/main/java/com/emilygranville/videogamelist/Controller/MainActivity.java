@@ -24,6 +24,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements IMainView.Listener, IDisplayVGView.Listener {
 
     private IMainView mainView;
+    private ConsoleOrganizer consoleOrganizer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +40,36 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.mainView = new MainView(this,this);
         setContentView(this.mainView.getRootView());
 
+        this.consoleOrganizer = makeTestConsoleOrganizer();
+
+        // TODO: fix this to be related to an actual key in the ConsoleOrganizer
+        Fragment vgView = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole("switch"));
+        this.mainView.displayFragment(vgView, false, "display");
+
+    }
+
+    private ConsoleOrganizer makeTestConsoleOrganizer() {
+        ConsoleOrganizer testConsoleOrganizer = new ConsoleOrganizer();
         List<VideoGame> videoGameList = new ArrayList<>();
-        videoGameList.add(new VideoGame("Game1", "switch"));
-        videoGameList.add(new VideoGame("Game2", "switch"));
-        videoGameList.add(new VideoGame("Game3", "switch"));
+
+        VideoGame vg = new VideoGame("Game1", "switch");
+        vg.addConsole("xbox");
+        videoGameList.add(vg);
+        VideoGame vg1 = new VideoGame("Game2", "switch");
+        vg1.addConsole("xbox");
+        videoGameList.add(vg1);
+        VideoGame vg2 = new VideoGame("Game3", "switch");
+        vg2.addConsole("xbox");
+        videoGameList.add(vg2);
         videoGameList.add(new VideoGame("Game4", "switch"));
         videoGameList.add(new VideoGame("Game5", "switch"));
         videoGameList.add(new VideoGame("Game6", "switch"));
         videoGameList.add(new VideoGame("Game7", "switch"));
         videoGameList.add(new VideoGame("Game8", "switch"));
 
-        // TODO: fix this to be related to the ConsoleOrganizer
-        Fragment vgView = new DisplayVGView(this, videoGameList);
-        this.mainView.displayFragment(vgView, false, "display");
+        testConsoleOrganizer.setupConsoleOrganizer(videoGameList);
 
+        return testConsoleOrganizer;
     }
 
 }
