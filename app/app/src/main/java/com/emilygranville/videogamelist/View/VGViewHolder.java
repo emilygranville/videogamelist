@@ -14,7 +14,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class VGViewHolder extends RecyclerView.ViewHolder {
 
-    private FragmentDisplayVgViewBinding binding;
+    //private FragmentDisplayVgViewBinding binding;
     private IDisplayVGView.Listener listener;
 
     private VideoGame videoGame;
@@ -23,10 +23,10 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
     private Button gameEditBtn;
     private Button gameDeleteBtn;
 
-    public VGViewHolder(@NonNull View itemView, FragmentDisplayVgViewBinding binding, IDisplayVGView.Listener listener) {
+    public VGViewHolder(@NonNull View itemView, IDisplayVGView.Listener listener) {
         super(itemView);
 
-        this.binding = binding;
+        //this.binding = binding;
         this.listener = listener;
 
         gameEditBtn = itemView.findViewById(R.id.vg_edit_btn);

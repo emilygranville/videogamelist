@@ -61,7 +61,7 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
 //            }
 //        });
 
-        return new VGViewHolder(itemView, this.binding, this.listener);
+        return new VGViewHolder(itemView, this.listener);
     }
 
     /**
