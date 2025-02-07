@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -85,9 +86,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         HashMap<String, List<VideoGame>> consoleMap = this.consoleOrganizer.getConsoleMap();
         for (String console : consoles) {
             List<VideoGame> gameList = consoleMap.get(console);
-            if (gameList.contains(videoGame)) {
-                gameList.remove(videoGame);
-            }
+            gameList.remove(videoGame);
         }
         Log.i("vgl", "delete");
     }

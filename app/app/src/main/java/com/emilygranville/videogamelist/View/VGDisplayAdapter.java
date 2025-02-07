@@ -33,11 +33,9 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
     /**
      * Called when RecyclerView needs a new {@link VGViewHolder} of the given type to represent
      * an item.
-     * <p>
      * This new ViewHolder should be constructed with a new View that can represent the items
      * of the given type. You can either create a new View manually or inflate it from an XML
      * layout file.
-     * <p>
      * The new ViewHolder will be used to display items of the adapter using
      * {@link #onBindViewHolder(VGViewHolder, int, List)}. Since it will be re-used to display
      * different items in the data set, it is a good idea to cache references to sub views of
@@ -56,14 +54,14 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.videogame_card, parent, false);
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "clicked item", Snackbar.LENGTH_LONG).show();
-            }
-        });
+//        itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "clicked item", Snackbar.LENGTH_LONG).show();
+//            }
+//        });
 
-        return new VGViewHolder(itemView, this.binding);
+        return new VGViewHolder(itemView, this.binding, this.listener);
     }
 
     /**
@@ -88,20 +86,21 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
      */
     @Override
     public void onBindViewHolder(@NonNull VGViewHolder holder, int position) {
-        holder.gameName.setText(videoGameList.get(position).getGameName());
-        holder.gameEditBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateGame(videoGameList.get(holder.getAdapterPosition()).getGameId(), holder.getAdapterPosition());
-            }
-        });
-        holder.gameDeleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                VGDisplayAdapter.this.listener.deleteGame(videoGameList.get(holder.getAdapterPosition()));
-                //deleteGame(holder.getAdapterPosition());
-            }
-        });
+        holder.setVideoGame(videoGameList.get(holder.getAdapterPosition()));
+//        holder.gameName.setText(videoGameList.get(position).getGameName());
+//        holder.gameEditBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                updateGame(videoGameList.get(holder.getAdapterPosition()).getGameId(), holder.getAdapterPosition());
+//            }
+//        });
+//        holder.gameDeleteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                VGDisplayAdapter.this.listener.deleteGame(videoGameList.get(holder.getAdapterPosition()));
+//                //deleteGame(holder.getAdapterPosition());
+//            }
+//        });
     }
 
     /**
@@ -123,15 +122,15 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
         notifyItemChanged(position);
         Snackbar.make(this.binding.getRoot(), "Update", Snackbar.LENGTH_LONG).show();
     }
-
-    /**
-     * Updates an item in the list to reflect edits
-     * @param position position of game to delete
-     */
-    //TODO: see if this can take in the position instead of searching for it
-    public void deleteGame(int position) {
-//        videoGameList.remove(position);
-//        notifyItemChanged(position);
-        Snackbar.make(this.binding.getRoot(), "Delete", Snackbar.LENGTH_LONG).show();
-    }
+//
+//    /**
+//     * Updates an item in the list to reflect edits
+//     * @param position position of game to delete
+//     */
+//    //: see if this can take in the position instead of searching for it
+//    public void deleteGame(int position) {
+////        videoGameList.remove(position);
+////        notifyItemChanged(position);
+//        Snackbar.make(this.binding.getRoot(), "Delete", Snackbar.LENGTH_LONG).show();
+//    }
 }

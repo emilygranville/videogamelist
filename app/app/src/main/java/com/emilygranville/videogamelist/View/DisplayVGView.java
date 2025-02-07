@@ -14,18 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.emilygranville.videogamelist.Model.VideoGame;
-import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class DisplayVGView extends Fragment implements IDisplayVGView {
 
-    FragmentDisplayVgViewBinding binding;
-    Listener listener;
-    List<VideoGame> videoGameList;
+    private FragmentDisplayVgViewBinding binding;
+    private Listener listener;
+    private List<VideoGame> videoGameList;
 
     /**
      * Required empty constructor
