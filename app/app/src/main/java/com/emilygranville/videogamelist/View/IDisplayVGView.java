@@ -12,8 +12,9 @@ public interface IDisplayVGView {
         /**
          * Alerts listener to the video game needing deleting
          * @param videoGame that needs to be deleted
+         * @param curConsole current displayed console list
          */
-        public void deleteGame(VideoGame videoGame);
+        public void deleteGame(VideoGame videoGame, String curConsole);
 
         /**
          * Alerts listener to the video game needing editing
@@ -21,4 +22,6 @@ public interface IDisplayVGView {
          */
         public void editGame(VideoGame videoGame);
     }
+
+    public void updateDeletedItem(int index);
 }

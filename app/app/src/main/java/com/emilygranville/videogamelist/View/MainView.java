@@ -12,8 +12,8 @@ import com.emilygranville.videogamelist.databinding.ActivityMainBinding;
 public class MainView implements IMainView {
 
     FragmentManager fragmentManager;
-    ActivityMainBinding binding;
-    Listener listener;
+    private ActivityMainBinding binding;
+    private Listener listener;
 
     /**
      * MainView constructor

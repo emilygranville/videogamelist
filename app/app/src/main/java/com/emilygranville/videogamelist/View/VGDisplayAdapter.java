@@ -19,13 +19,16 @@ import java.util.List;
 
 public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
 
-    List<VideoGame> videoGameList;
-    FragmentDisplayVgViewBinding binding;
-    IDisplayVGView.Listener listener;
+    private String curConsole;
+    private List<VideoGame> videoGameList;
+    private FragmentDisplayVgViewBinding binding;
+    private IDisplayVGView.Listener listener;
 
-    public VGDisplayAdapter(List<VideoGame> videoGameList, IDisplayVGView.Listener listener,
+    public VGDisplayAdapter(List<VideoGame> videoGameList, String curConsole,
+                            IDisplayVGView.Listener listener,
                             FragmentDisplayVgViewBinding binding) {
         this.videoGameList = videoGameList;
+        this.curConsole = curConsole;
         this.listener = listener;
         this.binding = binding;
     }
@@ -86,7 +89,7 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
      */
     @Override
     public void onBindViewHolder(@NonNull VGViewHolder holder, int position) {
-        holder.setVideoGame(videoGameList.get(holder.getAdapterPosition()));
+        holder.setValues(videoGameList.get(holder.getAdapterPosition()), this.curConsole);
 //        holder.gameName.setText(videoGameList.get(position).getGameName());
 //        holder.gameEditBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override

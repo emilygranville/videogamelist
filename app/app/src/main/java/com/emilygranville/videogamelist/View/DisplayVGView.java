@@ -24,6 +24,9 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     private FragmentDisplayVgViewBinding binding;
     private Listener listener;
     private List<VideoGame> videoGameList;
+    private String curConsole;
+
+    private RecyclerView.Adapter<VGViewHolder> itemAdapter;
 
     /**
      * Required empty constructor
@@ -36,9 +39,10 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
      * Constructor for display view
      * @param listener listens for edit and delete buttons
      */
-    public DisplayVGView(Listener listener, List<VideoGame> videoGameList) {
+    public DisplayVGView(Listener listener, List<VideoGame> videoGameList, String curConsole) {
         this.listener = listener;
         this.videoGameList = videoGameList;
+        this.curConsole = curConsole;
     }
 
     @Override
@@ -62,7 +66,7 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView.Adapter<VGViewHolder> itemAdapter = new VGDisplayAdapter(this.videoGameList, this.listener, this.binding);
+        this.itemAdapter = new VGDisplayAdapter(this.videoGameList, this.curConsole, this.listener, this.binding);
 
         RecyclerView recyclerView = binding.displayRecyclerView;
         recyclerView.hasFixedSize();
@@ -71,4 +75,8 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         recyclerView.setAdapter(itemAdapter);
     }
 
+
+    public void updateDeletedItem(int index) {
+        this.itemAdapter.notifyItemRemoved(index);
+    }
 }

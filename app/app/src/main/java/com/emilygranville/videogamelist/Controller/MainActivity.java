@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     private IMainView mainView;
     private ConsoleOrganizer consoleOrganizer;
+    private Fragment currentFragement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +47,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.consoleOrganizer = makeTestConsoleOrganizer();
 
         // TODO: fix this to be related to an actual key in the ConsoleOrganizer
-        Fragment vgView = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole("switch"));
-        this.mainView.displayFragment(vgView, false, "display");
+        this.currentFragement = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole("switch"), "switch");
+        this.mainView.displayFragment(currentFragement, false, "display");
 
     }
 
@@ -80,14 +81,16 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param videoGame that needs to be deleted
      */
     @Override
-    public void deleteGame(VideoGame videoGame) {
+    public void deleteGame(VideoGame videoGame, String curConsole) {
         List<String> consoles = videoGame.getConsoles();
         HashMap<String, List<VideoGame>> consoleMap = this.consoleOrganizer.getConsoleMap();
+        int index = consoleMap.get(curConsole).indexOf(videoGame);
         for (String console : consoles) {
             List<VideoGame> gameList = consoleMap.get(console);
             gameList.remove(videoGame);
         }
         Log.i("vgl", "delete");
+        ((IDisplayVGView) this.currentFragement).updateDeletedItem(index);
     }
 
     /**

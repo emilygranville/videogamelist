@@ -18,6 +18,7 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
     private IDisplayVGView.Listener listener;
 
     private VideoGame videoGame;
+    private String curConsole;
 
     private TextView gameName;
     private Button gameEditBtn;
@@ -43,13 +44,14 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
         gameDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                VGViewHolder.this.listener.deleteGame(VGViewHolder.this.videoGame);
+                VGViewHolder.this.listener.deleteGame(VGViewHolder.this.videoGame, VGViewHolder.this.curConsole);
             }
         });
     }
 
-    public void setVideoGame(VideoGame videoGame) {
+    public void setValues(VideoGame videoGame, String curConsole) {
         this.videoGame = videoGame;
         gameName.setText(videoGame.getGameName());
+        this.curConsole = curConsole;
     }
 }
