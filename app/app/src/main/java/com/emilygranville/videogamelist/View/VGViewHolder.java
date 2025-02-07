@@ -33,7 +33,13 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
         gameDeleteBtn = itemView.findViewById(R.id.vg_delete_btn);
 
         gameName = itemView.findViewById(R.id.videogame_name);
-        
+
+        gameEditBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                VGViewHolder.this.listener.editGame(VGViewHolder.this.videoGame);
+            }
+        });
         gameDeleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

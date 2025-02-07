@@ -76,9 +76,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     }
 
     /**
-     * Deletes a video game from the ConsoleOrganizer
-     *
-     * @param videoGame
+     * Deletes the video game from the ConsoleOrganizer
+     * @param videoGame that needs to be deleted
      */
     @Override
     public void deleteGame(VideoGame videoGame) {
@@ -89,5 +88,14 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
             gameList.remove(videoGame);
         }
         Log.i("vgl", "delete");
+    }
+
+    /**
+     * Passes the video game to the edit menu
+     * @param videoGame that needs to be updated
+     */
+    @Override
+    public void editGame(VideoGame videoGame) {
+        Log.i("vgl", "edit");
     }
 }

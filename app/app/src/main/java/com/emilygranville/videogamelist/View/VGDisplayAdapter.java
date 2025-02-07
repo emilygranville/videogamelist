@@ -113,15 +113,15 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
         return videoGameList.size();
     }
 
-    /**
-     * Updates an item in the list to reflect edits
-     * @param position position
-     */
-    public void updateGame(int videoGameID, int position) {
-        //videoGameList.set(position, videoGame);
-        notifyItemChanged(position);
-        Snackbar.make(this.binding.getRoot(), "Update", Snackbar.LENGTH_LONG).show();
-    }
+//    /**
+//     * Updates an item in the list to reflect edits
+//     * @param position position
+//     */
+//    public void updateGame(int videoGameID, int position) {
+//        //videoGameList.set(position, videoGame);
+//        notifyItemChanged(position);
+//        Snackbar.make(this.binding.getRoot(), "Update", Snackbar.LENGTH_LONG).show();
+//    }
 //
 //    /**
 //     * Updates an item in the list to reflect edits

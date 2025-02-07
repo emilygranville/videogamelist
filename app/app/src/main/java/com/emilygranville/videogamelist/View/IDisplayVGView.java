@@ -10,9 +10,15 @@ public interface IDisplayVGView {
     interface Listener {
 
         /**
-         * Deletes a video game from the ConsoleOrganizer
-         * @param videoGame
+         * Alerts listener to the video game needing deleting
+         * @param videoGame that needs to be deleted
          */
         public void deleteGame(VideoGame videoGame);
+
+        /**
+         * Alerts listener to the video game needing editing
+         * @param videoGame that needs to be updated
+         */
+        public void editGame(VideoGame videoGame);
     }
 }
