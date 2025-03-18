@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -18,17 +17,17 @@ import com.emilygranville.videogamelist.View.DisplayVGView;
 import com.emilygranville.videogamelist.View.IDisplayVGView;
 import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.MainView;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener, IDisplayVGView.Listener {
 
     private IMainView mainView;
     private ConsoleOrganizer consoleOrganizer;
-    private Fragment currentFragement;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +46,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.consoleOrganizer = makeTestConsoleOrganizer();
 
         // TODO: fix this to be related to an actual key in the ConsoleOrganizer
-        this.currentFragement = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole("switch"), "switch");
-        this.mainView.displayFragment(currentFragement, false, "display");
-
+        this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole("switch"), "switch");
+        this.mainView.displayFragment(currentFragment, false, "display");
     }
 
     private ConsoleOrganizer makeTestConsoleOrganizer() {
@@ -84,13 +82,13 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     public void deleteGame(VideoGame videoGame, String curConsole) {
         List<String> consoles = videoGame.getConsoles();
         HashMap<String, List<VideoGame>> consoleMap = this.consoleOrganizer.getConsoleMap();
-        int index = consoleMap.get(curConsole).indexOf(videoGame);
+        int index = Objects.requireNonNull(consoleMap.get(curConsole)).indexOf(videoGame);
         for (String console : consoles) {
             List<VideoGame> gameList = consoleMap.get(console);
-            gameList.remove(videoGame);
+            Objects.requireNonNull(gameList).remove(videoGame);
         }
         Log.i("vgl", "delete");
-        ((IDisplayVGView) this.currentFragement).updateDeletedItem(index);
+        ((IDisplayVGView) this.currentFragment).updateDeletedItem(index);
     }
 
     /**
