@@ -1,6 +1,5 @@
 package com.emilygranville.videogamelist.View;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
@@ -57,13 +54,6 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.videogame_card, parent, false);
 
-//        itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "clicked item", Snackbar.LENGTH_LONG).show();
-//            }
-//        });
-
         return new VGViewHolder(itemView, this.listener);
     }
 
@@ -90,20 +80,6 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull VGViewHolder holder, int position) {
         holder.setValues(videoGameList.get(holder.getAdapterPosition()), this.curConsole);
-//        holder.gameName.setText(videoGameList.get(position).getGameName());
-//        holder.gameEditBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                updateGame(videoGameList.get(holder.getAdapterPosition()).getGameId(), holder.getAdapterPosition());
-//            }
-//        });
-//        holder.gameDeleteBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                VGDisplayAdapter.this.listener.deleteGame(videoGameList.get(holder.getAdapterPosition()));
-//                //deleteGame(holder.getAdapterPosition());
-//            }
-//        });
     }
 
     /**
@@ -116,24 +92,4 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
         return videoGameList.size();
     }
 
-//    /**
-//     * Updates an item in the list to reflect edits
-//     * @param position position
-//     */
-//    public void updateGame(int videoGameID, int position) {
-//        //videoGameList.set(position, videoGame);
-//        notifyItemChanged(position);
-//        Snackbar.make(this.binding.getRoot(), "Update", Snackbar.LENGTH_LONG).show();
-//    }
-//
-//    /**
-//     * Updates an item in the list to reflect edits
-//     * @param position position of game to delete
-//     */
-//    //: see if this can take in the position instead of searching for it
-//    public void deleteGame(int position) {
-////        videoGameList.remove(position);
-////        notifyItemChanged(position);
-//        Snackbar.make(this.binding.getRoot(), "Delete", Snackbar.LENGTH_LONG).show();
-//    }
 }
