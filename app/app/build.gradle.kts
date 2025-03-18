@@ -9,11 +9,12 @@ android {
     defaultConfig {
         applicationId = "com.emilygranville.videogamelist"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -36,7 +37,9 @@ android {
     tasks.withType<Test> {
         useJUnitPlatform()
     }
-
+    testOptions {
+        animationsDisabled = true
+    }
 }
 
 dependencies {
@@ -48,15 +51,15 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.junit.jupiter)
     androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
 
     testRuntimeOnly(libs.junit.platform.launcher)
-    //testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
-    //androidTestImplementation("androidx.test.ext:junit:1.2.1")
-//
-//    testImplementation(libs.junit.v5114)
-//    androidTestImplementation(libs.junit.v5114)
 
+    // adds card view
     implementation(libs.cardview)
+
+    // espresso
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.runner)
+    androidTestImplementation(libs.rules)
 
 }
