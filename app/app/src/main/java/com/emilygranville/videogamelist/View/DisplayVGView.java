@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +65,7 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.itemAdapter = new VGDisplayAdapter(this.videoGameList, this.curConsole, this.listener, this.binding);
+        this.itemAdapter = new VGDisplayAdapter(this.videoGameList, this.curConsole, this.listener);
 
         RecyclerView recyclerView = binding.displayRecyclerView;
         recyclerView.hasFixedSize();

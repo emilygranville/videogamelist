@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.R;
-import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
 
 import java.util.List;
 
@@ -18,16 +17,13 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
 
     private String curConsole;
     private List<VideoGame> videoGameList;
-    private FragmentDisplayVgViewBinding binding;
-    private IDisplayVGView.Listener listener;
+    private final IDisplayVGView.Listener listener;
 
     public VGDisplayAdapter(List<VideoGame> videoGameList, String curConsole,
-                            IDisplayVGView.Listener listener,
-                            FragmentDisplayVgViewBinding binding) {
+                            IDisplayVGView.Listener listener) {
         this.videoGameList = videoGameList;
         this.curConsole = curConsole;
         this.listener = listener;
-        this.binding = binding;
     }
 
     /**
@@ -91,5 +87,4 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
     public int getItemCount() {
         return videoGameList.size();
     }
-
 }
