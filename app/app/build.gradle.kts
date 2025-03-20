@@ -62,4 +62,7 @@ dependencies {
     androidTestImplementation(libs.runner)
     androidTestImplementation(libs.rules)
 
+    // espresso for recyclerview
+    androidTestImplementation(libs.espresso.contrib)
+
 }
