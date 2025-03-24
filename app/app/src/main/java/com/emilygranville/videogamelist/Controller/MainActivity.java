@@ -104,6 +104,9 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     @Override
     public void switchConsole(String console) {
-        Log.i("vgl", "switch console");
+        //Log.i("vgl", "switch console to " + console);
+        this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole(console),
+                this.consoleOrganizer.getConsoleList(), console);
+        this.mainView.displayFragment(currentFragment, true, DISPLAY_FRAG_NAME);
     }
 }
