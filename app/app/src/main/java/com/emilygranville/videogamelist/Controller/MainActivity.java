@@ -25,6 +25,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener, IDisplayVGView.Listener {
 
+    public static final String DISPLAY_FRAG_NAME = "display";
     private IMainView mainView;
     private ConsoleOrganizer consoleOrganizer;
     private Fragment currentFragment;
@@ -46,8 +47,9 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.consoleOrganizer = makeTestConsoleOrganizer();
 
         // TODO: fix this to be related to an actual key in the ConsoleOrganizer
-        this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole("switch"), "switch");
-        this.mainView.displayFragment(currentFragment, false, "display");
+        this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole("switch"),
+                this.consoleOrganizer.getConsoleList(), "switch");
+        this.mainView.displayFragment(currentFragment, false, DISPLAY_FRAG_NAME);
     }
 
     private ConsoleOrganizer makeTestConsoleOrganizer() {

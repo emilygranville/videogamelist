@@ -16,16 +16,17 @@ import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
 
 import java.util.List;
-
+import java.util.Set;
 
 public class DisplayVGView extends Fragment implements IDisplayVGView {
 
     private FragmentDisplayVgViewBinding binding;
     private Listener listener;
     private List<VideoGame> videoGameList;
+    private Set<String> consoleList;
     private String curConsole;
 
-    private RecyclerView.Adapter<VGViewHolder> itemAdapter;
+    private RecyclerView.Adapter<VGViewHolder> vgItemAdapter;
 
     /**
      * Required empty constructor
@@ -38,9 +39,11 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
      * Constructor for display view
      * @param listener listens for edit and delete buttons
      */
-    public DisplayVGView(Listener listener, List<VideoGame> videoGameList, String curConsole) {
+    public DisplayVGView(Listener listener, List<VideoGame> videoGameList,
+                         Set<String> consoleList, String curConsole) {
         this.listener = listener;
         this.videoGameList = videoGameList;
+        this.consoleList = consoleList;
         this.curConsole = curConsole;
     }
 
@@ -65,17 +68,15 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.itemAdapter = new VGDisplayAdapter(this.videoGameList, this.curConsole, this.listener);
-
+        this.vgItemAdapter = new VGDisplayAdapter(this.videoGameList, this.curConsole, this.listener);
         RecyclerView recyclerView = binding.vgListRv;
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        recyclerView.setAdapter(itemAdapter);
+        recyclerView.setAdapter(vgItemAdapter);
     }
 
 
     public void updateDeletedItem(int index) {
-        this.itemAdapter.notifyItemRemoved(index);
+        this.vgItemAdapter.notifyItemRemoved(index);
     }
 }
