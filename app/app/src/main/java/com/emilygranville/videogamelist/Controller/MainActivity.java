@@ -62,10 +62,10 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         VideoGame vg1 = new VideoGame("Game2", "switch");
         vg1.addConsole("xbox");
         videoGameList.add(vg1);
-        VideoGame vg2 = new VideoGame("Game3", "switch");
+        videoGameList.add(new VideoGame("Game3", "switch"));
+        VideoGame vg2 = new VideoGame("Game4", "switch");
         vg2.addConsole("xbox");
         videoGameList.add(vg2);
-        videoGameList.add(new VideoGame("Game4", "switch"));
         videoGameList.add(new VideoGame("Game5", "switch"));
         videoGameList.add(new VideoGame("Game6", "switch"));
         videoGameList.add(new VideoGame("Game7", "switch"));

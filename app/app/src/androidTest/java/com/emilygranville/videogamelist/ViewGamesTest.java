@@ -1,6 +1,7 @@
 package com.emilygranville.videogamelist;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
@@ -78,6 +79,38 @@ public class ViewGamesTest {
         rv.check(matches(hasDescendant(withText("Game5"))));
         // checks that Game6 is gone
         onView(withText("Game6")).check(doesNotExist());
+    }
+
+    @org.junit.Test
+    public void switchConsole() {
+        ViewInteraction rv = onView(withId(R.id.vg_list_rv));
+
+        // is the recycler view showing anything
+        rv.check(matches(isDisplayed()));
+        // does it have 4 children
+        // based on shown items only
+        rv.check(matches(hasMinimumChildCount(4)));
+        // checks that Game1 is currently displayed
+        rv.check(matches(hasDescendant(withText("Game1"))));
+        rv.check(matches(hasDescendant(withText("Game2"))));
+        rv.check(matches(hasDescendant(withText("Game3"))));
+        rv.check(matches(hasDescendant(withText("Game4"))));
+
+
+        ViewInteraction xbox = onView((withText("XBOX")));
+        xbox.perform(click());
+
+        // is the recycler view showing anything
+        rv.check(matches(isDisplayed()));
+        // does it have 3 children
+        // based on shown items only
+        rv.check(matches(hasMinimumChildCount(3)));
+        // checks that Game1 is currently displayed
+        rv.check(matches(hasDescendant(withText("Game1"))));
+        rv.check(matches(hasDescendant(withText("Game2"))));
+        onView(withText("Game3")).check(doesNotExist());
+        rv.check(matches(hasDescendant(withText("Game4"))));
+        onView(withText("Game5")).check(doesNotExist());
     }
 
     /**
