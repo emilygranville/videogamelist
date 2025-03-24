@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -96,7 +97,7 @@ class ConsoleOrganizerTest {
     }
 
     @Test
-    void addVideoGame() {
+    void testAddVideoGame() {
         setUp();
 
         assertEquals(3, consoleOrganizer.getConsoleMap().get("1").size());
@@ -142,7 +143,7 @@ class ConsoleOrganizerTest {
 
 
     @Test
-    void getGamesForConsole() {
+    void testGetGamesForConsole() {
         setUp();
 
         assertEquals(3, consoleOrganizer.getGamesForConsole("1").size());
@@ -182,6 +183,22 @@ class ConsoleOrganizerTest {
         assertEquals(6, consoleOrganizer.getGamesForConsole("1").size());
         assertEquals(3, consoleOrganizer.getGamesForConsole("3").size());
         assertEquals(expectedOrder, consoleOrganizer.getGamesForConsole("1"));
+    }
+
+    @Test
+    void testGetConsoleList() {
+        setUp();
+
+        List<String> consoleList = this.consoleOrganizer.getConsoleList();
+
+        assertEquals(2, consoleList.size());
+        assertEquals(Arrays.asList("1", "2"), consoleList);
+
+        this.consoleOrganizer.addVideoGame(new VideoGame("H", "3"));
+        consoleList = this.consoleOrganizer.getConsoleList();
+
+        assertEquals(3, consoleList.size());
+        assertEquals(Arrays.asList("1", "2", "3"), consoleList);
     }
 
     @Test
