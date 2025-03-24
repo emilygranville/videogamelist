@@ -67,7 +67,7 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
 
         this.itemAdapter = new VGDisplayAdapter(this.videoGameList, this.curConsole, this.listener);
 
-        RecyclerView recyclerView = binding.displayRecyclerView;
+        RecyclerView recyclerView = binding.vgListRv;
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

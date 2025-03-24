@@ -29,7 +29,7 @@ public class ViewGamesTest {
 
     @org.junit.Test
     public void viewGames() {
-        ViewInteraction rv = onView(withId(R.id.displayRecyclerView));
+        ViewInteraction rv = onView(withId(R.id.vg_list_rv));
 
         // is the recycler view showing anything
         rv.check(matches(isDisplayed()));
@@ -47,7 +47,7 @@ public class ViewGamesTest {
 
     @org.junit.Test
     public void deleteGame() {
-        ViewInteraction rv = onView(withId(R.id.displayRecyclerView));
+        ViewInteraction rv = onView(withId(R.id.vg_list_rv));
 
         // is the recycler view showing anything
         rv.check(matches(isDisplayed()));
