@@ -1,16 +1,20 @@
 package com.emilygranville.videogamelist.Model;
 
+import androidx.annotation.NonNull;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Represents organization of the consoles and games with in it
  */
 public class ConsoleOrganizer {
 
-    private HashMap<String, List<VideoGame>> consoleMap;
+    private final HashMap<String, List<VideoGame>> consoleMap;
 
 
     /**
@@ -42,6 +46,7 @@ public class ConsoleOrganizer {
                     consoleMap.put(consoleKey, consoleList);
                 } else {
                     List<VideoGame> consoleList = consoleMap.get(consoleKey);
+                    assert consoleList != null;
                     Iterator<VideoGame> it = consoleList.iterator();
                     int index = 0;
 
@@ -70,6 +75,7 @@ public class ConsoleOrganizer {
                 consoleMap.put(consoles, consoleList);
             } else {
                 List<VideoGame> consoleList = consoleMap.get(consoles);
+                assert consoleList != null;
                 Iterator<VideoGame> it = consoleList.iterator();
                 int index = 0;
 
@@ -96,16 +102,25 @@ public class ConsoleOrganizer {
     }
 
     /**
+     * Gives the list of the consoles
+     * @return the keys for the console map
+     */
+    public Set<String> getConsoleList() {
+        return consoleMap.keySet();
+    }
+
+    /**
      * String representation of ConsoleOrganizer
      * @return the string representation of ConsoleOrganizer
      */
+    @NonNull
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder("ConsoleOrganizer:\nMap Keys: " + consoleMap.keySet() + "\n");
 
         for (String key: consoleMap.keySet()) {
             result.append("Console Name: ").append(key).append("\n").append("Games:\n");
-            for (VideoGame game : consoleMap.get(key)) {
+            for (VideoGame game : Objects.requireNonNull(consoleMap.get(key))) {
                     result.append(game.getGameName()).append("\n");
             }
         }
