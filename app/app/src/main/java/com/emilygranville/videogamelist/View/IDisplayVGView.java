@@ -21,7 +21,10 @@ public interface IDisplayVGView {
          * @param videoGame that needs to be updated
          */
         public void editGame(VideoGame videoGame);
+
+        public void switchConsole(String console);
     }
 
     public void updateDeletedItem(int index);
+
 }

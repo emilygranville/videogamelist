@@ -2,6 +2,7 @@ package com.emilygranville.videogamelist.Model;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -105,8 +106,8 @@ public class ConsoleOrganizer {
      * Gives the list of the consoles
      * @return the keys for the console map
      */
-    public Set<String> getConsoleList() {
-        return consoleMap.keySet();
+    public List<String> getConsoleList() {
+        return new ArrayList<String>(consoleMap.keySet());
     }
 
     /**

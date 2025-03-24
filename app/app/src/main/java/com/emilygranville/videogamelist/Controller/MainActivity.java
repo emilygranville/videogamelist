@@ -101,4 +101,9 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     public void editGame(VideoGame videoGame) {
         Log.i("vgl", "edit");
     }
+
+    @Override
+    public void switchConsole(String console) {
+        Log.i("vgl", "switch console");
+    }
 }
