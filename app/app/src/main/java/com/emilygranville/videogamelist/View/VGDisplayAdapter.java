@@ -48,7 +48,8 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
     @Override
     public VGViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.videogame_card, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.videogame_card,
+                parent, false);
 
         return new VGViewHolder(itemView, this.listener);
     }
