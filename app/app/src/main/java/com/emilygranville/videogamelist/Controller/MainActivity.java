@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.emilygranville.videogamelist.EditVGView;
 import com.emilygranville.videogamelist.Model.ConsoleOrganizer;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.R;
@@ -26,6 +27,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements IMainView.Listener, IDisplayVGView.Listener {
 
     public static final String DISPLAY_FRAG_NAME = "display";
+    public static final String EDIT_FRAG_NAME = "edit";
     private IMainView mainView;
     private ConsoleOrganizer consoleOrganizer;
     private Fragment currentFragment;
@@ -47,9 +49,12 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.consoleOrganizer = makeTestConsoleOrganizer();
 
         // TODO: fix this to be related to an actual key in the ConsoleOrganizer
-        this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole("switch"),
-                this.consoleOrganizer.getConsoleList(), "switch");
-        this.mainView.displayFragment(currentFragment, false, DISPLAY_FRAG_NAME);
+//        this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole("switch"),
+//                this.consoleOrganizer.getConsoleList(), "switch");
+//        this.mainView.displayFragment(currentFragment, false, DISPLAY_FRAG_NAME);
+
+        this.currentFragment = new EditVGView();
+        this.mainView.displayFragment(currentFragment, false, EDIT_FRAG_NAME);
     }
 
     private ConsoleOrganizer makeTestConsoleOrganizer() {

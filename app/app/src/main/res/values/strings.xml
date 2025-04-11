@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">VideoGameList</string>
-    <string name="edit_btn_text">Edit</string>
-    <string name="delete_btn_text">Delete</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="display_edit_btn_text">Edit</string>
+    <string name="display_delete_btn_text">Delete</string>
+    <string name="edit_frag_title_text">New Game</string>
+    <string name="edit_name_label">Video Game Name</string>
+    <string name="edit_name_hint">Game Name</string>
+    <string name="edit_price_label">Game Price</string>
+    <string name="edit_price_hint">19.99</string>
 </resources>
