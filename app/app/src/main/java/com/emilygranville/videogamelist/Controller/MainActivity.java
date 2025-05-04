@@ -16,6 +16,7 @@ import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.View.DisplayVGView;
 import com.emilygranville.videogamelist.View.IDisplayVGView;
+import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.MainView;
 
@@ -24,7 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements IMainView.Listener, IDisplayVGView.Listener {
+public class MainActivity extends AppCompatActivity implements IMainView.Listener,
+        IDisplayVGView.Listener, IEditVVGView.Listener {
 
     public static final String DISPLAY_FRAG_NAME = "display";
     public static final String EDIT_FRAG_NAME = "edit";
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 //                this.consoleOrganizer.getConsoleList(), "switch");
 //        this.mainView.displayFragment(currentFragment, false, DISPLAY_FRAG_NAME);
 
-        this.currentFragment = new EditVGView();
+        this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
         this.mainView.displayFragment(currentFragment, false, EDIT_FRAG_NAME);
     }
 
@@ -113,5 +115,13 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole(console),
                 this.consoleOrganizer.getConsoleList(), console);
         this.mainView.displayFragment(currentFragment, true, DISPLAY_FRAG_NAME);
+    }
+
+    /**
+     * Alerts listener to submitting the video game
+     */
+    @Override
+    public void submitGame() {
+        Log.i("vgl", "submitted");
     }
 }

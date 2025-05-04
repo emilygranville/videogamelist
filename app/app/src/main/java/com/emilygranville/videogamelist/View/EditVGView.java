@@ -2,65 +2,69 @@ package com.emilygranville.videogamelist.View;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.emilygranville.videogamelist.R;
+import com.emilygranville.videogamelist.databinding.FragmentEditVgViewBinding;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EditVGView#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class EditVGView extends Fragment {
+import java.util.List;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class EditVGView extends Fragment implements IEditVVGView {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FragmentEditVgViewBinding binding;
+    private IEditVVGView.Listener listener;
+    private List<String> consoleOptions;
 
     public EditVGView() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EditVGView.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EditVGView newInstance(String param1, String param2) {
-        EditVGView fragment = new EditVGView();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public EditVGView(Listener listener, List<String> consoleOptions) {
+        this.listener = listener;
+        this.consoleOptions = consoleOptions;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_vg_view, container, false);
+        this.binding = FragmentEditVgViewBinding.inflate(inflater);
+        return this.binding.getRoot();
+    }
+
+    @Override
+    public void
+    onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ChipGroup consoleChipGroup = this.binding.consoleChipGroup;
+        for (String console : this.consoleOptions) {
+            Log.i("vgl", console);
+            Chip consoleChip = new Chip(this.getContext());
+            consoleChip.setText(console);
+            consoleChipGroup.addView(consoleChip);
+        }
+
+        this.binding.submitVideoGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditVGView.this.listener.submitGame();
+            }
+        });
     }
 }
