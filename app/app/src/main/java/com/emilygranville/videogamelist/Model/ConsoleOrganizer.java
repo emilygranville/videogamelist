@@ -110,6 +110,16 @@ public class ConsoleOrganizer {
         return new ArrayList<String>(consoleMap.keySet());
     }
 
+    public int deleteGame(VideoGame videoGame, String curConsole) {
+        List<String> consoles = videoGame.getConsoles();
+        int index = Objects.requireNonNull(this.consoleMap.get(curConsole)).indexOf(videoGame);
+        for (String console : consoles) {
+            List<VideoGame> gameList = this.consoleMap.get(console);
+            Objects.requireNonNull(gameList).remove(videoGame);
+        }
+        return index;
+    }
+
     /**
      * String representation of ConsoleOrganizer
      * @return the string representation of ConsoleOrganizer

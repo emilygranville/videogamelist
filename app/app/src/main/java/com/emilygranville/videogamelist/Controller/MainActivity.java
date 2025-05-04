@@ -89,13 +89,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     @Override
     public void deleteGame(VideoGame videoGame, String curConsole) {
-        List<String> consoles = videoGame.getConsoles();
-        HashMap<String, List<VideoGame>> consoleMap = this.consoleOrganizer.getConsoleMap();
-        int index = Objects.requireNonNull(consoleMap.get(curConsole)).indexOf(videoGame);
-        for (String console : consoles) {
-            List<VideoGame> gameList = consoleMap.get(console);
-            Objects.requireNonNull(gameList).remove(videoGame);
-        }
+        int index = this.consoleOrganizer.deleteGame(videoGame, curConsole);
         Log.i("vgl", "delete");
         ((IDisplayVGView) this.currentFragment).updateDeletedItem(index);
     }
