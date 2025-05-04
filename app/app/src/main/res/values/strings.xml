@@ -7,4 +7,6 @@
     <string name="edit_name_hint">Game Name</string>
     <string name="edit_price_label">Game Price</string>
     <string name="edit_price_hint">19.99</string>
+    <string name="add_console">Add Console</string>
+    <string name="select_consoles">Select Consoles</string>
 </resources>
