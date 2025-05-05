@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class VideoGame implements Comparable<VideoGame> {
 
+    private static int NEXT_ID;
     private int gameId;
     private String gameName;
     private double price;
@@ -22,12 +23,14 @@ public class VideoGame implements Comparable<VideoGame> {
     public VideoGame(String gameName) {
         this.gameName = gameName;
         createConsoleList();
+        this.gameId = ++NEXT_ID;
     }
 
     public VideoGame(String gameName, String console) {
         this.gameName = gameName;
         createConsoleList();
         addConsole(console);
+        this.gameId = ++NEXT_ID;
     }
 
     public VideoGame(String gameName, double price, String console) {
@@ -35,18 +38,29 @@ public class VideoGame implements Comparable<VideoGame> {
         this.price = price;
         createConsoleList();
         addConsole(console);
+        this.gameId = ++NEXT_ID;
     }
 
     public VideoGame(String gameName, List<String> consoles) {
         this.gameName = gameName;
         this.consoles = consoles;
+        this.gameId = ++NEXT_ID;
     }
 
     public VideoGame(String gameName, double price, List<String> consoles) {
         this.gameName = gameName;
         this.price = price;
         this.consoles = consoles;
+        this.gameId = ++NEXT_ID;
     }
+
+    public VideoGame(String gameName, double price, List<String> consoles, int gameId) {
+        this.gameName = gameName;
+        this.price = price;
+        this.consoles = consoles;
+        this.gameId = gameId;
+    }
+
 
     /**
      * Creates a separate function to set up from a null list

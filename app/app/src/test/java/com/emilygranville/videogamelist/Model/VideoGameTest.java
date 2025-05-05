@@ -44,7 +44,7 @@ class VideoGameTest {
     }
 
     @Test
-    void addConsole() {
+    void testAddConsole() {
         setUp();
 
         List<String> c1Copy = new ArrayList<String>();
@@ -74,7 +74,7 @@ class VideoGameTest {
     }
 
     @Test
-    void compareTo() {
+    void testCompareTo() {
         setUp();
 
         assertTrue(0 > v1.compareTo(v2));
@@ -96,6 +96,28 @@ class VideoGameTest {
         assertEquals(0, v1.compareTo(v1Copy));
         assertEquals(0, v2.compareTo(v2Copy));
         assertEquals(0, v3.compareTo(v3Copy));
+    }
+
+    @Test
+    void testEquals() {
+        setUp();
+
+        assertEquals(0, v1.getGameId());
+        assertEquals(1, v2.getGameId());
+        assertEquals(2, v3.getGameId());
+        assertEquals(3, v4.getGameId());
+
+        assertFalse(v1.equals(v2));
+        assertFalse(v1.equals(v3));
+        assertFalse(v2.equals(v3));
+
+        assertFalse(v2.equals(v1));
+        assertFalse(v3.equals(v2));
+        assertFalse(v3.equals(v1));
+
+        assertTrue(v1.equals(v1));
+        assertTrue(v2.equals(v2));
+        assertTrue(v3.equals(v3));
     }
 
     @Test
