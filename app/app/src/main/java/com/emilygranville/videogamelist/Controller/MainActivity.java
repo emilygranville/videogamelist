@@ -37,13 +37,13 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+//        EdgeToEdge.enable(this);
+//        setContentView(R.layout.activity_main);
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+//            return insets;
+//        });
 
         this.mainView = new MainView(this,this);
         setContentView(this.mainView.getRootView());
@@ -51,12 +51,12 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.consoleOrganizer = makeTestConsoleOrganizer();
 
         // TODO: fix this to be related to an actual key in the ConsoleOrganizer
-//        this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole("switch"),
-//                this.consoleOrganizer.getConsoleList(), "switch");
-//        this.mainView.displayFragment(currentFragment, false, DISPLAY_FRAG_NAME);
+        this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole("switch"),
+                this.consoleOrganizer.getConsoleList(), "switch");
+        this.mainView.displayFragment(currentFragment, false, DISPLAY_FRAG_NAME);
 
-        this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
-        this.mainView.displayFragment(currentFragment, false, EDIT_FRAG_NAME);
+//        this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
+//        this.mainView.displayFragment(currentFragment, false, EDIT_FRAG_NAME);
     }
 
     private ConsoleOrganizer makeTestConsoleOrganizer() {
@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     @Override
     public void deleteGame(VideoGame videoGame, String curConsole) {
-        int index = this.consoleOrganizer.deleteGame(videoGame, curConsole);
+        int index = this.consoleOrganizer.getGameIndex(videoGame, curConsole);
+        this.consoleOrganizer.deleteGame(videoGame);
         Log.i("vgl", "delete");
         ((IDisplayVGView) this.currentFragment).updateDeletedItem(index);
     }

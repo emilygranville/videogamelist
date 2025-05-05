@@ -202,6 +202,30 @@ class ConsoleOrganizerTest {
     }
 
     @Test
+    void testGetGameIndex() {
+        setUp();
+        assertEquals(0, consoleOrganizer.getGameIndex(v1, "1"));
+        assertEquals(1, consoleOrganizer.getGameIndex(v2, "1"));
+        assertEquals(2, consoleOrganizer.getGameIndex(v3, "1"));
+
+        assertEquals(0, consoleOrganizer.getGameIndex(v2, "2"));
+    }
+
+    @Test
+    void testDeleteGame() {
+        setUp();
+        this.consoleOrganizer.deleteGame(v2);
+
+        assertTrue(consoleOrganizer.getConsoleMap().get("1").contains(v1));
+        assertFalse(consoleOrganizer.getConsoleMap().get("1").contains(v2));
+        assertFalse(consoleOrganizer.getConsoleMap().get("2").contains(v2));
+        assertTrue(consoleOrganizer.getConsoleMap().get("1").contains(v3));
+
+        this.consoleOrganizer.deleteGame(v3);
+        assertFalse(consoleOrganizer.getConsoleMap().get("1").contains(v3));
+    }
+
+    @Test
     void testToString() {
         setUp();
 

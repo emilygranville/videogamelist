@@ -25,11 +25,9 @@ public class ConsoleOrganizer {
         this.consoleMap = new HashMap<String, List<VideoGame>>();
     }
 
-
     /**
      * Getters and setters
      */
-
     public HashMap<String, List<VideoGame>> getConsoleMap() {
         return consoleMap;
     }
@@ -110,14 +108,27 @@ public class ConsoleOrganizer {
         return new ArrayList<String>(consoleMap.keySet());
     }
 
-    public int deleteGame(VideoGame videoGame, String curConsole) {
+    /**
+     * Gives the index of the game for the given console
+     * @param videoGame VideoGame
+     * @param console String
+     * @return int
+     */
+    public int getGameIndex(VideoGame videoGame, String console) {
+        return this.consoleMap.get(console).indexOf(videoGame);
+    }
+
+    /**
+     * Deletes the given game from every console
+     * @param videoGame VideoGame
+     */
+    public void deleteGame(VideoGame videoGame) {
         List<String> consoles = videoGame.getConsoles();
-        int index = Objects.requireNonNull(this.consoleMap.get(curConsole)).indexOf(videoGame);
+
         for (String console : consoles) {
             List<VideoGame> gameList = this.consoleMap.get(console);
             Objects.requireNonNull(gameList).remove(videoGame);
         }
-        return index;
     }
 
     /**
