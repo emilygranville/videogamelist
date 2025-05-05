@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Represents organization of the consoles and games with in it
@@ -124,11 +123,29 @@ public class ConsoleOrganizer {
      */
     public void deleteGame(VideoGame videoGame) {
         List<String> consoles = videoGame.getConsoles();
-
         for (String console : consoles) {
             List<VideoGame> gameList = this.consoleMap.get(console);
             Objects.requireNonNull(gameList).remove(videoGame);
         }
+    }
+
+    public void deleteGame(int videoGameID) {
+        List<String> consoles = getConsoleList();
+        for (String console : consoles) {
+            List<VideoGame> gameList = this.consoleMap.get(console);
+            Iterator<VideoGame> it = gameList.iterator();
+            while(it.hasNext()) {
+                VideoGame game = (VideoGame) it.next();
+                if (game.getGameId() == videoGameID) {
+                    it.remove();
+                }
+            }
+        }
+    }
+
+    public void editGame(VideoGame videoGame) {
+        deleteGame(videoGame.getGameId());
+        addVideoGame(videoGame);
     }
 
     /**

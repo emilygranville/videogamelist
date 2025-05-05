@@ -61,6 +61,13 @@ public class VideoGame implements Comparable<VideoGame> {
         this.gameId = gameId;
     }
 
+    public VideoGame(String gameName, List<String> consoles, int gameId) {
+        this.gameName = gameName;
+        this.price = price;
+        this.consoles = consoles;
+        this.gameId = gameId;
+    }
+
 
     /**
      * Creates a separate function to set up from a null list
@@ -101,6 +108,10 @@ public class VideoGame implements Comparable<VideoGame> {
 
     public int getGameId() {
         return gameId;
+    }
+
+    public static void resetNextID() {
+        NEXT_ID = 0;
     }
 
     /**

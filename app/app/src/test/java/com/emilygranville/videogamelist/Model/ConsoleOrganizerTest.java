@@ -20,6 +20,9 @@ class ConsoleOrganizerTest {
     ConsoleOrganizer consoleOrganizer = new ConsoleOrganizer();
 
     void setUp() {
+
+        VideoGame.resetNextID();
+
         List<String> c1 = new ArrayList<String>();
         List<String> c2 = new ArrayList<String>();
         List<String> c3 = new ArrayList<String>();
@@ -212,7 +215,7 @@ class ConsoleOrganizerTest {
     }
 
     @Test
-    void testDeleteGame() {
+    void testDeleteGame1() {
         setUp();
         this.consoleOrganizer.deleteGame(v2);
 
@@ -223,6 +226,38 @@ class ConsoleOrganizerTest {
 
         this.consoleOrganizer.deleteGame(v3);
         assertFalse(consoleOrganizer.getConsoleMap().get("1").contains(v3));
+    }
+
+    @Test
+    void testDeleteGame2() {
+        setUp();
+        this.consoleOrganizer.deleteGame(v2.getGameId());
+
+        assertTrue(consoleOrganizer.getConsoleMap().get("1").contains(v1));
+        assertFalse(consoleOrganizer.getConsoleMap().get("1").contains(v2));
+        assertFalse(consoleOrganizer.getConsoleMap().get("2").contains(v2));
+        assertTrue(consoleOrganizer.getConsoleMap().get("1").contains(v3));
+
+        this.consoleOrganizer.deleteGame(v3.getGameId());
+        assertFalse(consoleOrganizer.getConsoleMap().get("1").contains(v3));
+    }
+
+    @Test
+    void testEditGame() {
+        setUp();
+
+        List<String> v1CloneConsoleList = new ArrayList<>();
+        v1CloneConsoleList.add("1");
+        VideoGame v1Clone = new VideoGame("B", v1CloneConsoleList, 1);
+
+        assertTrue(v1.equals(v1Clone));
+
+        v1Clone.setConsoles(new ArrayList<>());
+
+        this.consoleOrganizer.editGame(v1Clone);
+        this.consoleOrganizer.getConsoleList();
+
+        assertFalse(this.consoleOrganizer.getConsoleMap().get("1").contains(v1Clone));
     }
 
     @Test
