@@ -51,12 +51,12 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.consoleOrganizer = makeTestConsoleOrganizer();
 
         // TODO: fix this to be related to an actual key in the ConsoleOrganizer
-        this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole("switch"),
-                this.consoleOrganizer.getConsoleList(), "switch");
-        this.mainView.displayFragment(currentFragment, false, DISPLAY_FRAG_NAME);
+//        this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole("switch"),
+//                this.consoleOrganizer.getConsoleList(), "switch");
+//        this.mainView.displayFragment(currentFragment, false, DISPLAY_FRAG_NAME);
 
-//        this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
-//        this.mainView.displayFragment(currentFragment, false, EDIT_FRAG_NAME);
+        this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
+        this.mainView.displayFragment(currentFragment, false, EDIT_FRAG_NAME);
     }
 
     private ConsoleOrganizer makeTestConsoleOrganizer() {
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * Alerts listener to submitting the video game
      */
     @Override
-    public void submitGame() {
+    public void submitGame(VideoGame videoGame) {
         Log.i("vgl", "submitted");
     }
 }

@@ -11,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.databinding.FragmentEditVgViewBinding;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditVGView extends Fragment implements IEditVVGView {
@@ -22,6 +24,8 @@ public class EditVGView extends Fragment implements IEditVVGView {
     private FragmentEditVgViewBinding binding;
     private IEditVVGView.Listener listener;
     private List<String> consoleOptions;
+    private boolean isEdited;
+    private VideoGame videoGame;
 
     public EditVGView() {
         // Required empty public constructor
@@ -30,6 +34,14 @@ public class EditVGView extends Fragment implements IEditVVGView {
     public EditVGView(Listener listener, List<String> consoleOptions) {
         this.listener = listener;
         this.consoleOptions = consoleOptions;
+        this.isEdited = false;
+    }
+
+    public EditVGView(Listener listener, List<String> consoleOptions, VideoGame videoGame) {
+        this.listener = listener;
+        this.consoleOptions = consoleOptions;
+        this.videoGame = videoGame;
+        this.isEdited = true;
     }
 
     @Override
@@ -53,9 +65,12 @@ public class EditVGView extends Fragment implements IEditVVGView {
         super.onViewCreated(view, savedInstanceState);
 
         ChipGroup consoleChipGroup = this.binding.consoleChipGroup;
-        for (String console : this.consoleOptions) {
+        for (int i = 0; i < this.consoleOptions.size(); i++) {
+            String console = this.consoleOptions.get(i);
             Log.i("vgl", console);
             Chip consoleChip = new Chip(this.getContext());
+            //consoleChip.setCloseIconVisible(true);
+            consoleChip.setCheckable(true);
             consoleChip.setText(console);
             consoleChipGroup.addView(consoleChip);
         }
@@ -63,7 +78,28 @@ public class EditVGView extends Fragment implements IEditVVGView {
         this.binding.submitVideoGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditVGView.this.listener.submitGame();
+                String gameName = EditVGView.this.binding.editNameInput.getText().toString();
+                double price;
+                try {
+                    price = Double.parseDouble(EditVGView.this.binding.editPriceInput.getText().toString());
+                } catch (NumberFormatException e) {
+                    Log.e("vgl", e.toString());
+                    price = 0;
+                }
+
+                Log.i("vgl", String.valueOf(price));
+                List<Integer> selectedIndices = EditVGView.this.binding.consoleChipGroup.getCheckedChipIds();
+                List<String> selectedConsoles = new ArrayList<>();
+                for (int index : selectedIndices) {
+                    selectedConsoles.add(EditVGView.this.consoleOptions.get(index));
+                }
+                VideoGame newGame;
+                if (isEdited) {
+                    newGame = new VideoGame(gameName, price, selectedConsoles, EditVGView.this.videoGame.getGameId());
+                } else {
+                    newGame = new VideoGame(gameName, price, selectedConsoles);
+                }
+                EditVGView.this.listener.submitGame(newGame);
             }
         });
     }
