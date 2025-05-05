@@ -22,6 +22,9 @@ class VideoGameTest {
      * Sets up the above variables for the tests
      */
     void setUp() {
+
+        VideoGame.resetNextID();
+
         v1 = new VideoGame();
 
         v2 = new VideoGame("B");
