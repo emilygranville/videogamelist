@@ -1,6 +1,11 @@
 package com.emilygranville.videogamelist.View;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,6 +23,7 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
     private String curConsole;
 
     private final TextView gameName;
+    private final TextView consolesDisplay;
 
     /**
      * Constructor for VGViewHolder
@@ -32,8 +38,20 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
         Button gameEditBtn = itemView.findViewById(R.id.vg_edit_btn);
         Button gameDeleteBtn = itemView.findViewById(R.id.vg_delete_btn);
 
-        gameName = itemView.findViewById(R.id.videogame_name);
+        this.gameName = itemView.findViewById(R.id.videogame_name);
+        this.consolesDisplay = itemView.findViewById(R.id.consoles_txt);
 
+        this.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int vis = VGViewHolder.this.consolesDisplay.getVisibility();
+                if (vis == GONE) {
+                    VGViewHolder.this.consolesDisplay.setVisibility(VISIBLE);
+                } else {
+                    VGViewHolder.this.consolesDisplay.setVisibility(GONE);
+                }
+            }
+        });
         gameEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,7 +73,13 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
      */
     public void setValues(VideoGame videoGame, String curConsole) {
         this.videoGame = videoGame;
-        gameName.setText(videoGame.getGameName());
+        this.gameName.setText(videoGame.getGameName());
         this.curConsole = curConsole;
+        String consoleText = "Consoles:\n";
+        for(String consoles : videoGame.getConsoles()) {
+            consoleText += "\u2022 Bullet " + consoles + "\n";
+        }
+        consoleText = consoleText.substring(0, consoleText.length()-1);
+        this.consolesDisplay.setText(consoleText);
     }
 }

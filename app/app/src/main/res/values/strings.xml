@@ -9,4 +9,5 @@
     <string name="edit_price_hint">19.99</string>
     <string name="add_console">Add Console</string>
     <string name="select_consoles">Select Consoles</string>
+    <string name="console_list_label_text">Consoles:</string>
 </resources>
