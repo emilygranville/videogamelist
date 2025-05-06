@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.consoleOrganizer = makeTestConsoleOrganizer();
 
         // TODO: fix this to be related to an actual key in the ConsoleOrganizer
-        //showDisplayFrag("switch");
-        showEditFrag();
+        showDisplayFrag("SWITCH");
+        //showEditFrag();
     }
 
     private ConsoleOrganizer makeTestConsoleOrganizer() {
@@ -54,6 +54,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
         VideoGame vg = new VideoGame("Game1", "SWITCH");
         vg.addConsole("XBOX");
+        vg.addConsole("1");
+        vg.addConsole("2");
+        vg.addConsole("3");
+        vg.addConsole("4");
+        vg.addConsole("5");
         videoGameList.add(vg);
         VideoGame vg1 = new VideoGame("Game2", "SWITCH");
         vg1.addConsole("XBOX");

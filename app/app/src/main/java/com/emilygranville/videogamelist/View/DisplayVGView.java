@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.Button;
 
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
+import com.google.android.material.chip.Chip;
 
 import java.util.Collections;
 import java.util.List;
@@ -82,18 +84,25 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     }
 
     private void displayConsoleList() {
+        Log.i("vgl", "curConsole: "+curConsole);
         for (int i = 0; i < this.consoleList.size(); i++) {
-            Button button = new Button(this.getContext());
-
-            button.setId(i);
-            button.setText(this.consoleList.get(i));
-            button.setOnClickListener(new View.OnClickListener() {
+            String consoleName = this.consoleList.get(i);
+            Chip consoleNameChip = new Chip(this.getContext());
+            consoleNameChip.setId(i);
+            consoleNameChip.setText(consoleName);
+            consoleNameChip.setCheckable(true);
+            Log.i("vgl", "consoleName: " + consoleName);
+            if (this.curConsole.equals(consoleName)) {
+                Log.i("vgl", "is curConsole");
+                consoleNameChip.setChecked(true);
+            }
+            consoleNameChip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    DisplayVGView.this.listener.switchConsole(button.getText().toString());
+                    DisplayVGView.this.listener.switchConsole(consoleNameChip.getText().toString());
                 }
             });
-            this.binding.consoleListLl.addView(button);
+            this.binding.consoleListChipgroup.addView(consoleNameChip);
         }
     }
 
