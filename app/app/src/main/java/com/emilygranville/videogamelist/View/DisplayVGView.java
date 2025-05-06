@@ -27,6 +27,7 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     private List<VideoGame> videoGameList;
     private List<String> consoleList;
     private String curConsole;
+    private int scrollLeft;
 
     private RecyclerView.Adapter<VGViewHolder> vgItemAdapter;
 
@@ -37,10 +38,6 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         // Required empty public constructor
     }
 
-    /**
-     * Constructor for display view
-     * @param listener listens for edit and delete buttons
-     */
     public DisplayVGView(Listener listener, List<VideoGame> videoGameList,
                          List<String> consoleList, String curConsole) {
         this.listener = listener;
@@ -48,6 +45,17 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         Collections.sort(consoleList);
         this.consoleList = consoleList;
         this.curConsole = curConsole;
+        this.scrollLeft = 0;
+    }
+
+    public DisplayVGView(Listener listener, List<VideoGame> videoGameList,
+                         List<String> consoleList, String curConsole, int scrollLeft) {
+        this.listener = listener;
+        this.videoGameList = videoGameList;
+        Collections.sort(consoleList);
+        this.consoleList = consoleList;
+        this.curConsole = curConsole;
+        this.scrollLeft = scrollLeft;
     }
 
     @Override
@@ -76,9 +84,17 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(vgItemAdapter);
-
         if (consoleList != null) {
             displayConsoleList();
+        }
+        if (scrollLeft > 0) {
+            this.binding.consoleListScroll.post(new Runnable() {
+                @Override
+                public void run() {
+                    DisplayVGView.this.binding.consoleListScroll.scrollTo(
+                            DisplayVGView.this.scrollLeft, 0);
+                }
+            });
         }
     }
 
@@ -86,22 +102,21 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
      * From the list of consoles, displays the consoles
      */
     private void displayConsoleList() {
-        Log.i("vgl", "curConsole: "+curConsole);
+        //this.binding.consoleListScroll.setX(this.xPosition);
         for (int i = 0; i < this.consoleList.size(); i++) {
             String consoleName = this.consoleList.get(i);
             Chip consoleNameChip = new Chip(this.getContext());
             consoleNameChip.setId(i);
             consoleNameChip.setText(consoleName);
             consoleNameChip.setCheckable(true);
-            Log.i("vgl", "consoleName: " + consoleName);
             if (this.curConsole.equals(consoleName)) {
-                Log.i("vgl", "is curConsole");
                 consoleNameChip.setChecked(true);
             }
             consoleNameChip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    DisplayVGView.this.listener.switchConsole(consoleNameChip.getText().toString());
+                    int x = consoleNameChip.getLeft();
+                    DisplayVGView.this.listener.switchConsole(consoleNameChip.getText().toString(), x);
                 }
             });
             this.binding.consoleListChipgroup.addView(consoleNameChip);

@@ -63,6 +63,12 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
         VideoGame vg = new VideoGame("Game1", "SWITCH");
         vg.addConsole("XBOX");
+//        vg.addConsole("z");
+//        vg.addConsole("z1");
+//        vg.addConsole("z2");
+//        vg.addConsole("z3");
+//        vg.addConsole("z4");
+//        vg.addConsole("z5");
         videoGameList.add(vg);
         VideoGame vg1 = new VideoGame("Game2", "SWITCH");
         vg1.addConsole("XBOX");
@@ -108,11 +114,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param console name of the console to display
      */
     @Override
-    public void switchConsole(String console) {
-        //Log.i("vgl", "switch console to " + console);
-        this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole(console),
-                this.consoleOrganizer.getConsoleList(), console);
-        this.mainView.displayFragment(currentFragment, true, DISPLAY_FRAG_NAME);
+    public void switchConsole(String console, int scrollLeft) {
+        showDisplayFrag(console, scrollLeft);
     }
 
     /**
@@ -130,8 +133,16 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param console name of the console to display
      */
     private void showDisplayFrag(String console) {
+        showDisplayFrag(console, 0);
+    }
+
+    /**
+     * Shows the Display page
+     * @param console name of the console to display
+     */
+    private void showDisplayFrag(String console, int scrollLeft) {
         this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole(console),
-                this.consoleOrganizer.getConsoleList(), console);
+                this.consoleOrganizer.getConsoleList(), console, scrollLeft);
         this.mainView.displayFragment(currentFragment, false, DISPLAY_FRAG_NAME);
     }
 
