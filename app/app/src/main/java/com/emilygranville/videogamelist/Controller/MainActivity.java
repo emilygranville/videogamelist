@@ -52,20 +52,20 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         ConsoleOrganizer testConsoleOrganizer = new ConsoleOrganizer();
         List<VideoGame> videoGameList = new ArrayList<>();
 
-        VideoGame vg = new VideoGame("Game1", "switch");
-        vg.addConsole("xbox");
+        VideoGame vg = new VideoGame("Game1", "SWITCH");
+        vg.addConsole("XBOX");
         videoGameList.add(vg);
-        VideoGame vg1 = new VideoGame("Game2", "switch");
-        vg1.addConsole("xbox");
+        VideoGame vg1 = new VideoGame("Game2", "SWITCH");
+        vg1.addConsole("XBOX");
         videoGameList.add(vg1);
-        videoGameList.add(new VideoGame("Game3", "switch"));
-        VideoGame vg2 = new VideoGame("Game4", "switch");
-        vg2.addConsole("xbox");
+        videoGameList.add(new VideoGame("Game3", "SWITCH"));
+        VideoGame vg2 = new VideoGame("Game4", "SWITCH");
+        vg2.addConsole("XBOX");
         videoGameList.add(vg2);
-        videoGameList.add(new VideoGame("Game5", "switch"));
-        videoGameList.add(new VideoGame("Game6", "switch"));
-        videoGameList.add(new VideoGame("Game7", "switch"));
-        videoGameList.add(new VideoGame("Game8", "switch"));
+        videoGameList.add(new VideoGame("Game5", "SWITCH"));
+        videoGameList.add(new VideoGame("Game6", "SWITCH"));
+        videoGameList.add(new VideoGame("Game7", "SWITCH"));
+        videoGameList.add(new VideoGame("Game8", "SWITCH"));
 
         testConsoleOrganizer.setupConsoleOrganizer(videoGameList);
 

@@ -123,7 +123,7 @@ public class VideoGame implements Comparable<VideoGame> {
             createConsoleList();
         }
         //makes the consoles lower case and removes whitespace
-        this.consoles.add(console.toLowerCase().replaceAll("\\s", ""));
+        this.consoles.add(console.toUpperCase().replaceAll("\\s", ""));
     }
 
     /**

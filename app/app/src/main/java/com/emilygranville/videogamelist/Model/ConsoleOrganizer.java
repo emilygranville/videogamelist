@@ -95,7 +95,7 @@ public class ConsoleOrganizer {
      * @return the list of games for the console
      */
     public List<VideoGame> getGamesForConsole(String console) {
-        String consoleKey = console.toLowerCase().replaceAll("\\s", "");
+        String consoleKey = console.toUpperCase().replaceAll("\\s", "");
         return consoleMap.get(consoleKey);
     }
 
