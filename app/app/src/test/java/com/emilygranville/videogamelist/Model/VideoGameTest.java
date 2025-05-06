@@ -29,8 +29,8 @@ class VideoGameTest {
 
         v2 = new VideoGame("B");
 
-        c3.add("switch");
-        c3.add("xbox");
+        c3.add("SWITCH");
+        c3.add("XBOX");
         v3 = new VideoGame("C", c3);
 
         assertNull(v1.getGameName());
@@ -41,7 +41,7 @@ class VideoGameTest {
 
         assertEquals("A", v1.getGameName());
 
-        v4 = new VideoGame("D", "gamecube");
+        v4 = new VideoGame("D", "GAMECUBE");
 
         assertEquals("D", v4.getGameName());
     }
@@ -56,19 +56,19 @@ class VideoGameTest {
 
         assertNull(v1.getConsoles());
 
-        c3Copy.add("switch");
-        c3Copy.add("xbox");
+        c3Copy.add("SWITCH");
+        c3Copy.add("XBOX");
 
         assertEquals(c2Copy, v2.getConsoles());
         assertEquals(c3Copy, v3.getConsoles());
 
-        c1Copy.add("gamecube");
-        c2Copy.add("gamecube");
-        c3Copy.add("gamecube");
+        c1Copy.add("GAMECUBE");
+        c2Copy.add("GAMECUBE");
+        c3Copy.add("GAMECUBE");
 
-        v1.addConsole("gamecube");
-        v2.addConsole("gamecube");
-        v3.addConsole("gamecube");
+        v1.addConsole("GAMECUBE");
+        v2.addConsole("GAMECUBE");
+        v3.addConsole("GAMECUBE");
 
         assertEquals(c1Copy, v1.getConsoles());
         assertEquals(c2Copy, v2.getConsoles());
@@ -129,7 +129,7 @@ class VideoGameTest {
 
         assertEquals("VideoGame{gameName='A', price=0.0, consoles=NULL}", v1.toString());
         assertEquals("VideoGame{gameName='B', price=0.0, consoles=[]}", v2.toString());
-        assertEquals("VideoGame{gameName='C', price=0.0, consoles=[switch, xbox]}", v3.toString());
+        assertEquals("VideoGame{gameName='C', price=0.0, consoles=[SWITCH, XBOX]}", v3.toString());
     }
 
 //  intentional fail test--just for testing how to make the workflow
