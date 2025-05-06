@@ -67,11 +67,11 @@ public class EditVGView extends Fragment implements IEditVVGView {
         ChipGroup consoleChipGroup = this.binding.consoleChipGroup;
         for (int i = 0; i < this.consoleOptions.size(); i++) {
             String console = this.consoleOptions.get(i);
-            Log.i("vgl", console);
             Chip consoleChip = new Chip(this.getContext());
             //consoleChip.setCloseIconVisible(true);
             consoleChip.setCheckable(true);
             consoleChip.setText(console);
+            consoleChip.setId(i);
             consoleChipGroup.addView(consoleChip);
         }
 
@@ -86,8 +86,6 @@ public class EditVGView extends Fragment implements IEditVVGView {
                     Log.e("vgl", e.toString());
                     price = 0;
                 }
-
-                Log.i("vgl", String.valueOf(price));
                 List<Integer> selectedIndices = EditVGView.this.binding.consoleChipGroup.getCheckedChipIds();
                 List<String> selectedConsoles = new ArrayList<>();
                 for (int index : selectedIndices) {

@@ -3,17 +3,12 @@ package com.emilygranville.videogamelist.Controller;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.emilygranville.videogamelist.View.EditVGView;
 import com.emilygranville.videogamelist.Model.ConsoleOrganizer;
 import com.emilygranville.videogamelist.Model.VideoGame;
-import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.View.DisplayVGView;
 import com.emilygranville.videogamelist.View.IDisplayVGView;
 import com.emilygranville.videogamelist.View.IEditVVGView;
@@ -21,9 +16,7 @@ import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.MainView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener,
         IDisplayVGView.Listener, IEditVVGView.Listener {
@@ -51,12 +44,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.consoleOrganizer = makeTestConsoleOrganizer();
 
         // TODO: fix this to be related to an actual key in the ConsoleOrganizer
-//        this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole("switch"),
-//                this.consoleOrganizer.getConsoleList(), "switch");
-//        this.mainView.displayFragment(currentFragment, false, DISPLAY_FRAG_NAME);
-
-        this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
-        this.mainView.displayFragment(currentFragment, false, EDIT_FRAG_NAME);
+        //showDisplayFrag("switch");
+        showEditFrag();
     }
 
     private ConsoleOrganizer makeTestConsoleOrganizer() {
@@ -117,6 +106,24 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     @Override
     public void submitGame(VideoGame videoGame) {
+        this.consoleOrganizer.editGame(videoGame);
         Log.i("vgl", "submitted");
+        showDisplayFrag(videoGame.getConsoles().get(0));
+    }
+
+    private void showDisplayFrag(String console) {
+        this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole(console),
+                this.consoleOrganizer.getConsoleList(), console);
+        this.mainView.displayFragment(currentFragment, false, DISPLAY_FRAG_NAME);
+    }
+
+    private void showEditFrag(){
+        this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
+        this.mainView.displayFragment(currentFragment, false, EDIT_FRAG_NAME);
+    }
+
+    private void showEditFrag(VideoGame videoGame){
+        this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList(), videoGame);
+        this.mainView.displayFragment(currentFragment, false, EDIT_FRAG_NAME);
     }
 }
