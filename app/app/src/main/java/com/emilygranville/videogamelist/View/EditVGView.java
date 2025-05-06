@@ -27,6 +27,9 @@ public class EditVGView extends Fragment implements IEditVVGView {
     private boolean isEdited;
     private VideoGame videoGame;
 
+    /**
+     * Constructors for EditVGView
+     */
     public EditVGView() {
         // Required empty public constructor
     }

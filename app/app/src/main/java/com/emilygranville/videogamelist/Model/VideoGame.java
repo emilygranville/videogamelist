@@ -140,6 +140,10 @@ public class VideoGame implements Comparable<VideoGame> {
         return this.gameId == o.getGameId();
     }
 
+    /**
+     * String representation of VideoGame
+     * @return the string representation of VideoGame
+     */
     @Override
     public String toString() {
         return "VideoGame{" +

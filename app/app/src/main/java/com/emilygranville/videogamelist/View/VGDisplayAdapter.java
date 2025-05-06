@@ -19,6 +19,12 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
     private List<VideoGame> videoGameList;
     private final IDisplayVGView.Listener listener;
 
+    /**
+     * Constructor for VGDisplayAdapter
+     * @param videoGameList the list of games to display
+     * @param curConsole the console being displayed
+     * @param listener the listener for changes to the video games
+     */
     public VGDisplayAdapter(List<VideoGame> videoGameList, String curConsole,
                             IDisplayVGView.Listener listener) {
         this.videoGameList = videoGameList;

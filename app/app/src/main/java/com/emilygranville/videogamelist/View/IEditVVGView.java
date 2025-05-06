@@ -11,6 +11,6 @@ public interface IEditVVGView {
         /**
          * Alerts listener to submitting the video game
          */
-        public void submitGame(VideoGame videoGame);
+        void submitGame(VideoGame videoGame);
     }
 }

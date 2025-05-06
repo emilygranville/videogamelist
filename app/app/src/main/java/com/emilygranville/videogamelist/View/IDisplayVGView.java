@@ -14,17 +14,17 @@ public interface IDisplayVGView {
          * @param videoGame that needs to be deleted
          * @param curConsole current displayed console list
          */
-        public void deleteGame(VideoGame videoGame, String curConsole);
+        void deleteGame(VideoGame videoGame, String curConsole);
 
         /**
          * Alerts listener to the video game needing editing
          * @param videoGame that needs to be updated
          */
-        public void editGame(VideoGame videoGame);
+        void editGame(VideoGame videoGame);
 
-        public void switchConsole(String console);
+        void switchConsole(String console);
     }
 
-    public void updateDeletedItem(int index);
+    void updateDeletedItem(int index);
 
 }

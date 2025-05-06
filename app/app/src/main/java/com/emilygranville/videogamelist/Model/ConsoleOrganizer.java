@@ -109,8 +109,8 @@ public class ConsoleOrganizer {
 
     /**
      * Gives the index of the game for the given console
-     * @param videoGame VideoGame
-     * @param console String
+     * @param videoGame the video game to get the index of
+     * @param console the console where the video game is in
      * @return int
      */
     public int getGameIndex(VideoGame videoGame, String console) {
@@ -119,7 +119,7 @@ public class ConsoleOrganizer {
 
     /**
      * Deletes the given game from every console
-     * @param videoGame VideoGame
+     * @param videoGame the video game to delete
      */
     public void deleteGame(VideoGame videoGame) {
         List<String> consoles = videoGame.getConsoles();
@@ -129,6 +129,10 @@ public class ConsoleOrganizer {
         }
     }
 
+    /**
+     * Deletes the given game from every console based on game ID
+     * @param videoGameID the ID of the game to delete
+     */
     public void deleteGame(int videoGameID) {
         List<String> consoles = getConsoleList();
         for (String console : consoles) {
@@ -143,6 +147,11 @@ public class ConsoleOrganizer {
         }
     }
 
+    /**
+     * Edits a game by deleting the original version
+     * (if there is one) and adding the new version
+     * @param videoGame the video game to edit
+     */
     public void editGame(VideoGame videoGame) {
         deleteGame(videoGame.getGameId());
         addVideoGame(videoGame);

@@ -19,6 +19,11 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
 
     private final TextView gameName;
 
+    /**
+     * Constructor for VGViewHolder
+     * @param itemView the item to display
+     * @param listener the listener for changes to the item
+     */
     public VGViewHolder(@NonNull View itemView, IDisplayVGView.Listener listener) {
         super(itemView);
 
@@ -43,6 +48,11 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
+    /**
+     * Sets the values to the VGViewHolder
+     * @param videoGame the game to display
+     * @param curConsole the current console to display
+     */
     public void setValues(VideoGame videoGame, String curConsole) {
         this.videoGame = videoGame;
         gameName.setText(videoGame.getGameName());

@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
@@ -83,6 +82,9 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         }
     }
 
+    /**
+     * From the list of consoles, displays the consoles
+     */
     private void displayConsoleList() {
         Log.i("vgl", "curConsole: "+curConsole);
         for (int i = 0; i < this.consoleList.size(); i++) {
@@ -106,6 +108,10 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         }
     }
 
+    /**
+     * Notifies the adapter to items being removed from list
+     * @param index position of removed item
+     */
     public void updateDeletedItem(int index) {
         this.vgItemAdapter.notifyItemRemoved(index);
     }

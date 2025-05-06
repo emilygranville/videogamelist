@@ -35,9 +35,9 @@ public class MainView implements IMainView {
 
     /**
      * Displays the fragment
-     * @param fragment
+     * @param fragment the fragment to show
      * @param allowBack whether back button can return to fragment
-     * @param name
+     * @param name the name of the fragment
      */
     @Override
     public void displayFragment(Fragment fragment, boolean allowBack, String name) {

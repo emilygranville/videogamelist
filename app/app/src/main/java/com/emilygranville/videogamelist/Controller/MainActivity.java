@@ -27,6 +27,10 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     private ConsoleOrganizer consoleOrganizer;
     private Fragment currentFragment;
 
+    /**
+     * Sets up the app
+     * @param savedInstanceState saved information when app reloads
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,17 +52,17 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         //showEditFrag();
     }
 
+    /**
+     * Creates a test console organizer so I can see
+     * what stuff looks like with dummy data
+     * @return sample consoleOrganizer
+     */
     private ConsoleOrganizer makeTestConsoleOrganizer() {
         ConsoleOrganizer testConsoleOrganizer = new ConsoleOrganizer();
         List<VideoGame> videoGameList = new ArrayList<>();
 
         VideoGame vg = new VideoGame("Game1", "SWITCH");
         vg.addConsole("XBOX");
-        vg.addConsole("1");
-        vg.addConsole("2");
-        vg.addConsole("3");
-        vg.addConsole("4");
-        vg.addConsole("5");
         videoGameList.add(vg);
         VideoGame vg1 = new VideoGame("Game2", "SWITCH");
         vg1.addConsole("XBOX");
@@ -98,6 +102,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         showEditFrag(videoGame);
     }
 
+    /**
+     * Switches from one console to the next
+     * in the display page
+     * @param console name of the console to display
+     */
     @Override
     public void switchConsole(String console) {
         //Log.i("vgl", "switch console to " + console);
@@ -116,17 +125,28 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         showDisplayFrag(videoGame.getConsoles().get(0));
     }
 
+    /**
+     * Shows the Display page
+     * @param console name of the console to display
+     */
     private void showDisplayFrag(String console) {
         this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole(console),
                 this.consoleOrganizer.getConsoleList(), console);
         this.mainView.displayFragment(currentFragment, false, DISPLAY_FRAG_NAME);
     }
 
+    /**
+     * Shows the Edit page
+     */
     private void showEditFrag(){
         this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
         this.mainView.displayFragment(currentFragment, false, EDIT_FRAG_NAME);
     }
 
+    /**
+     * Shows the Edit page
+     * @param videoGame VideoGame to edit
+     */
     private void showEditFrag(VideoGame videoGame){
         this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList(), videoGame);
         this.mainView.displayFragment(currentFragment, false, EDIT_FRAG_NAME);
