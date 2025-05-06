@@ -16,6 +16,7 @@ import android.widget.Button;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
 
+import java.util.Collections;
 import java.util.List;
 
 public class DisplayVGView extends Fragment implements IDisplayVGView {
@@ -43,6 +44,7 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
                          List<String> consoleList, String curConsole) {
         this.listener = listener;
         this.videoGameList = videoGameList;
+        Collections.sort(consoleList);
         this.consoleList = consoleList;
         this.curConsole = curConsole;
     }
