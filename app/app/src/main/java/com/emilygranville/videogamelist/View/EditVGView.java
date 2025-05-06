@@ -75,6 +75,21 @@ public class EditVGView extends Fragment implements IEditVVGView {
             consoleChipGroup.addView(consoleChip);
         }
 
+        if(isEdited) {
+            this.binding.editNameInput.setText(videoGame.getGameName());
+            double price = videoGame.getPrice();
+            if (price != 0) {
+                this.binding.editPriceInput.setText(String.valueOf(price));
+            }
+            int numChips = this.binding.consoleChipGroup.getChildCount();
+            for (int i = 0; i < numChips; i++) {
+                Chip chip = (Chip) this.binding.consoleChipGroup.getChildAt(i);
+                if (videoGame.getConsoles().contains(chip.getText())) {
+                    chip.setChecked(true);
+                }
+            }
+        }
+
         this.binding.submitVideoGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

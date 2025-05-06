@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     @Override
     public void editGame(VideoGame videoGame) {
-        Log.i("vgl", "edit");
+        showEditFrag(videoGame);
     }
 
     @Override
