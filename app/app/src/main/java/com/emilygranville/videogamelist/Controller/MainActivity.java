@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.consoleOrganizer = makeTestConsoleOrganizer();
 
         // TODO: fix this to be related to an actual key in the ConsoleOrganizer
-        showDisplayFrag("SWITCH");
-        //showEditFrag();
+        //showDisplayFrag("SWITCH");
+        showEditFrag();
     }
 
     /**

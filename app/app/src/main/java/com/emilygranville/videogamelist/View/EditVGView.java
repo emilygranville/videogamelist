@@ -93,6 +93,14 @@ public class EditVGView extends Fragment implements IEditVVGView {
             }
         }
 
+        this.binding.addConsoleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentAddConsoleDialog dialogFragment = new FragmentAddConsoleDialog();
+                dialogFragment.show(getParentFragmentManager(),"My  Fragment");
+            }
+        });
+
         this.binding.submitVideoGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

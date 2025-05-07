@@ -22,13 +22,14 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import com.emilygranville.videogamelist.Controller.MainActivity;
 
 import org.hamcrest.Matcher;
+import org.junit.Test;
 
 public class ViewGamesTest {
 
     @org.junit.Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule = new ActivityScenarioRule<>(MainActivity.class);
 
-    @org.junit.Test
+    @Test
     public void viewGames() {
         ViewInteraction rv = onView(withId(R.id.vg_list_rv));
 
@@ -46,7 +47,7 @@ public class ViewGamesTest {
                 .check(matches(hasDescendant(withText("Game6"))));
     }
 
-    @org.junit.Test
+    @Test
     public void deleteGame() {
         ViewInteraction rv = onView(withId(R.id.vg_list_rv));
 
@@ -81,7 +82,7 @@ public class ViewGamesTest {
         onView(withText("Game6")).check(doesNotExist());
     }
 
-    @org.junit.Test
+    @Test
     public void switchConsole() {
         ViewInteraction rv = onView(withId(R.id.vg_list_rv));
 
