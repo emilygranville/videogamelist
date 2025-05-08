@@ -13,9 +13,9 @@ public interface IMainView {
 
     /**
      * Displays the fragment
-     * @param fragment
+     * @param fragment the fragment to display
      * @param allowBack whether back button can return to fragment
-     * @param name
+     * @param name the name of the fragment
      */
     void displayFragment(Fragment fragment, boolean allowBack, String name);
 

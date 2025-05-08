@@ -51,6 +51,11 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
         this.isEdited = true;
     }
 
+    /**
+     *
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +64,18 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
         }
     }
 
+    /**
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return the root of the binding
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -66,6 +83,12 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
         return this.binding.getRoot();
     }
 
+    /**
+     *
+     * @param view The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
     @Override
     public void
     onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -75,7 +98,6 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
         for (int i = 0; i < this.consoleOptions.size(); i++) {
             String console = this.consoleOptions.get(i);
             Chip consoleChip = new Chip(this.getContext());
-            //consoleChip.setCloseIconVisible(true);
             consoleChip.setCheckable(true);
             consoleChip.setText(console);
             consoleChip.setId(i);
@@ -140,7 +162,6 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
 
     /**
      * Alerts listener to submitting the video game
-     *
      * @param consoleName name of the new console
      */
     @Override

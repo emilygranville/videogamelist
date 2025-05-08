@@ -3,9 +3,7 @@ package com.emilygranville.videogamelist.View;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 

@@ -33,20 +33,10 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     private RecyclerView.Adapter<VGViewHolder> vgItemAdapter;
 
     /**
-     * Required empty constructor
+     * Constructors for DisplayVGView
      */
     public DisplayVGView() {
         // Required empty public constructor
-    }
-
-    public DisplayVGView(Listener listener, List<VideoGame> videoGameList,
-                         List<String> consoleList, String curConsole) {
-        this.listener = listener;
-        this.videoGameList = videoGameList;
-        Collections.sort(consoleList);
-        this.consoleList = consoleList;
-        this.curConsole = curConsole;
-        this.scrollLeft = 0;
     }
 
     public DisplayVGView(Listener listener, List<VideoGame> videoGameList,
@@ -59,6 +49,11 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         this.scrollLeft = scrollLeft;
     }
 
+    /**
+     *
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +62,18 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         }
     }
 
+    /**
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return the root of the binding
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,6 +82,12 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         return this.binding.getRoot();
     }
 
+    /**
+     *
+     * @param view The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
     @Override
     public void
     onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -132,8 +145,8 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     }
 
     /**
-     * Notifies the adapter to items being removed from list
-     * @param index position of removed item
+     * Updates the view for the deleted item
+     * @param index index the item had been
      */
     public void updateDeletedItem(int index) {
         this.vgItemAdapter.notifyItemRemoved(index);

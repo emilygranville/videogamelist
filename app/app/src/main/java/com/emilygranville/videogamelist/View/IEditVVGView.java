@@ -10,6 +10,7 @@ public interface IEditVVGView {
 
         /**
          * Alerts listener to submitting the video game
+         * @param videoGame the video game to edit/create
          */
         void submitGame(VideoGame videoGame);
     }

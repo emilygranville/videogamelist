@@ -136,6 +136,11 @@ public class VideoGame implements Comparable<VideoGame> {
         return this.gameName.compareTo(o.getGameName());
     }
 
+    /**
+     * Checks if two games are equal based on ID
+     * @param o second VideoGame to compare to first
+     * @return whether or not they're the same
+     */
     public boolean equals(VideoGame o) {
         return this.gameId == o.getGameId();
     }

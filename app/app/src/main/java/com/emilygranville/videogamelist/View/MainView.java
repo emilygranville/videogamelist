@@ -26,7 +26,8 @@ public class MainView implements IMainView {
     }
 
     /**
-     * Returns highest root view of the screen
+     * Gets the highest root view of the screen
+     * @return highest root view of the screen
      */
     @Override
     public View getRootView() {
@@ -35,7 +36,7 @@ public class MainView implements IMainView {
 
     /**
      * Displays the fragment
-     * @param fragment the fragment to show
+     * @param fragment the fragment to display
      * @param allowBack whether back button can return to fragment
      * @param name the name of the fragment
      */

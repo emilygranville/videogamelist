@@ -85,8 +85,9 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     }
 
     /**
-     * Deletes the video game from the ConsoleOrganizer
+     * Alerts listener to the video game needing deleting
      * @param videoGame that needs to be deleted
+     * @param curConsole current displayed console list
      */
     @Override
     public void deleteGame(VideoGame videoGame, String curConsole) {
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     }
 
     /**
-     * Passes the video game to the edit menu
+     * Alerts listener to the video game needing editing
      * @param videoGame that needs to be updated
      */
     @Override
@@ -106,15 +107,18 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     }
 
     /**
-     * Switches from one console to the next
-     * in the display page
-     * @param console name of the console to display
+     * Alerts listener to wanting to switch console viewed
+     * @param console new console to view
+     * @param scrollLeft position in scroll of the console
      */
     @Override
     public void switchConsole(String console, int scrollLeft) {
         showDisplayFrag(console, scrollLeft);
     }
 
+    /**
+     * Alerts listener to adding a new game
+     */
     @Override
     public void addNewGame() {
         showEditFrag();
@@ -122,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to submitting the video game
+     * @param videoGame the video game to edit/create
      */
     @Override
     public void submitGame(VideoGame videoGame) {

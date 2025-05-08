@@ -22,11 +22,23 @@ public interface IDisplayVGView {
          */
         void editGame(VideoGame videoGame);
 
+        /**
+         * Alerts listener to wanting to switch console viewed
+         * @param console new console to view
+         * @param scrollLeft position in scroll of the console
+         */
         void switchConsole(String console, int scrollLeft);
 
+        /**
+         * Alerts listener to adding a new game
+         */
         void addNewGame();
     }
 
+    /**
+     * Updates the view for the deleted item
+     * @param index index the item had been
+     */
     void updateDeletedItem(int index);
 
 }
