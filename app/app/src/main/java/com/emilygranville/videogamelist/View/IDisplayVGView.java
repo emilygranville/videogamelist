@@ -23,6 +23,8 @@ public interface IDisplayVGView {
         void editGame(VideoGame videoGame);
 
         void switchConsole(String console, int scrollLeft);
+
+        void addNewGame();
     }
 
     void updateDeletedItem(int index);

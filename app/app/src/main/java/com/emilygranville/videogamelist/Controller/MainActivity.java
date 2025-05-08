@@ -45,9 +45,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
         this.consoleOrganizer = makeTestConsoleOrganizer();
 
-        // TODO: fix this to be related to an actual key in the ConsoleOrganizer
-        //showDisplayFrag("SWITCH");
-        showEditFrag();
+        showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
+        //showEditFrag();
     }
 
     /**
@@ -114,6 +113,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     @Override
     public void switchConsole(String console, int scrollLeft) {
         showDisplayFrag(console, scrollLeft);
+    }
+
+    @Override
+    public void addNewGame() {
+        showEditFrag();
     }
 
     /**

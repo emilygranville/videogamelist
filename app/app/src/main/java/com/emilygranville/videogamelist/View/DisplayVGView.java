@@ -23,7 +23,6 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
 
     public static final String FRAG_NAME = "display";
 
-
     private FragmentDisplayVgViewBinding binding;
     private Listener listener;
     private List<VideoGame> videoGameList;
@@ -89,6 +88,7 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         if (consoleList != null) {
             displayConsoleList();
         }
+
         if (scrollLeft > 0) {
             this.binding.consoleListScroll.post(new Runnable() {
                 @Override
@@ -98,13 +98,19 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
                 }
             });
         }
+
+        this.binding.addNewGameBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DisplayVGView.this.listener.addNewGame();
+            }
+        });
     }
 
     /**
      * From the list of consoles, displays the consoles
      */
     private void displayConsoleList() {
-        //this.binding.consoleListScroll.setX(this.xPosition);
         for (int i = 0; i < this.consoleList.size(); i++) {
             String consoleName = this.consoleList.get(i);
             Chip consoleNameChip = new Chip(this.getContext());
