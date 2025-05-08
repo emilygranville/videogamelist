@@ -21,8 +21,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements IMainView.Listener,
         IDisplayVGView.Listener, IEditVVGView.Listener {
 
-    public static final String DISPLAY_FRAG_NAME = "display";
-    public static final String EDIT_FRAG_NAME = "edit";
     private IMainView mainView;
     private ConsoleOrganizer consoleOrganizer;
     private Fragment currentFragment;
@@ -143,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     private void showDisplayFrag(String console, int scrollLeft) {
         this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole(console),
                 this.consoleOrganizer.getConsoleList(), console, scrollLeft);
-        this.mainView.displayFragment(currentFragment, false, DISPLAY_FRAG_NAME);
+        this.mainView.displayFragment(currentFragment, false, DisplayVGView.FRAG_NAME);
     }
 
     /**
@@ -151,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     private void showEditFrag(){
         this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
-        this.mainView.displayFragment(currentFragment, false, EDIT_FRAG_NAME);
+        this.mainView.displayFragment(currentFragment, false, EditVGView.FRAG_NAME);
     }
 
     /**
@@ -160,6 +158,6 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     private void showEditFrag(VideoGame videoGame){
         this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList(), videoGame);
-        this.mainView.displayFragment(currentFragment, false, EDIT_FRAG_NAME);
+        this.mainView.displayFragment(currentFragment, false, EditVGView.FRAG_NAME);
     }
 }
