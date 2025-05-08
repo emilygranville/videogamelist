@@ -77,7 +77,7 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
         this.curConsole = curConsole;
         String consoleText = "Consoles:\n";
         for(String consoles : videoGame.getConsoles()) {
-            consoleText += "\u2022 Bullet " + consoles + "\n";
+            consoleText += "\u2022 " + consoles + "\n";
         }
         consoleText = consoleText.substring(0, consoleText.length()-1);
         this.consolesDisplay.setText(consoleText);
