@@ -16,4 +16,6 @@
     <string name="add_console_hint">Console</string>
     <string name="add_console_instructions">Please add consoles one at a time.</string>
     <string name="add_console_title">Add a Console</string>
+    <string name="not_valid_new_console">Please enter a valid console name</string>
+    <string name="not_valid_new_game">Please ensure that you have a name and at least one console selected before submitting</string>
 </resources>

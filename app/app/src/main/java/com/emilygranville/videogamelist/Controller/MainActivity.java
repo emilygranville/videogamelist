@@ -122,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     @Override
     public void submitGame(VideoGame videoGame) {
         this.consoleOrganizer.editGame(videoGame);
-        Log.i("vgl", "submitted");
         showDisplayFrag(videoGame.getConsoles().get(0));
     }
 

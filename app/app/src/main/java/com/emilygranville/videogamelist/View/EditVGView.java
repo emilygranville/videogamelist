@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.emilygranville.videogamelist.Model.VideoGame;
+import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.databinding.FragmentEditVgViewBinding;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,13 +121,19 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
                 for (int index : selectedIndices) {
                     selectedConsoles.add(EditVGView.this.consoleOptions.get(index));
                 }
-                VideoGame newGame;
-                if (isEdited) {
-                    newGame = new VideoGame(gameName, price, selectedConsoles, EditVGView.this.videoGame.getGameId());
+                if(!gameName.equals("") && !selectedConsoles.isEmpty()) {
+                    VideoGame newGame;
+                    if (isEdited) {
+                        newGame = new VideoGame(gameName, price, selectedConsoles, EditVGView.this.videoGame.getGameId());
+                    } else {
+                        newGame = new VideoGame(gameName, price, selectedConsoles);
+                    }
+                    EditVGView.this.listener.submitGame(newGame);
                 } else {
-                    newGame = new VideoGame(gameName, price, selectedConsoles);
+                    Snackbar.make(EditVGView.this.binding.getRoot(),
+                            getString(R.string.not_valid_new_game),
+                            Snackbar.LENGTH_LONG).show();
                 }
-                EditVGView.this.listener.submitGame(newGame);
             }
         });
     }

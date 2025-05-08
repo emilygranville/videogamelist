@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.databinding.FragmentAddConsoleDialogBinding;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -88,7 +89,7 @@ public class AddConsoleDialog extends DialogFragment implements IAddConsoleDialo
                     AddConsoleDialog.this.dismiss();
                 } else {
                     Snackbar.make(AddConsoleDialog.this.binding.getRoot(),
-                                    "Please enter a valid console name", Snackbar.LENGTH_LONG).show();
+                            getString(R.string.not_valid_new_console), Snackbar.LENGTH_LONG).show();
                 }
             }
         });
