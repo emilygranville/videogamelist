@@ -19,7 +19,9 @@ import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditVGView extends Fragment implements IEditVVGView {
+public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDialog.Listener {
+
+    public static final String FRAG_NAME = "edit";
 
     private FragmentEditVgViewBinding binding;
     private IEditVVGView.Listener listener;
@@ -96,8 +98,8 @@ public class EditVGView extends Fragment implements IEditVVGView {
         this.binding.addConsoleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentAddConsoleDialog dialogFragment = new FragmentAddConsoleDialog();
-                dialogFragment.show(getParentFragmentManager(),"My  Fragment");
+                AddConsoleDialog dialogFragment = new AddConsoleDialog(EditVGView.this);
+                dialogFragment.show(getParentFragmentManager(), AddConsoleDialog.FRAG_NAME);
             }
         });
 
@@ -126,5 +128,25 @@ public class EditVGView extends Fragment implements IEditVVGView {
                 EditVGView.this.listener.submitGame(newGame);
             }
         });
+    }
+
+    /**
+     * Alerts listener to submitting the video game
+     *
+     * @param consoleName name of the new console
+     */
+    @Override
+    public void submitNewConsole(String consoleName) {
+        String upperConsoleName = consoleName.toUpperCase();
+        int newIndex = this.consoleOptions.size();
+        this.consoleOptions.add(upperConsoleName);
+
+        ChipGroup consoleChipGroup = this.binding.consoleChipGroup;
+        Chip consoleChip = new Chip(this.getContext());
+        consoleChip.setCheckable(true);
+        consoleChip.setText(upperConsoleName);
+        consoleChip.setId(newIndex);
+        consoleChip.setChecked(true);
+        consoleChipGroup.addView(consoleChip);
     }
 }
