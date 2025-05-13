@@ -3,6 +3,7 @@ package com.emilygranville.videogamelist.Controller;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -15,11 +16,22 @@ import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.MainView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener,
         IDisplayVGView.Listener, IEditVVGView.Listener {
+
+    private static final String CONSOLE_ORGANIZER_KEY = "console organizer";
+    private static final String IN_PROGRESS_KEY = "in progress";
+    public static final String VIDEO_GAME_KEY = "video game";
+    public static final String CONSOLE_LIST_KEY = "console list";
+    public static final String GAMES_FOR_CONSOLE = "games for console";
+    public static final String CONSOLE_NAME_KEY = "console name";
+    public static final String SCROLL_LEFT_KEY = "scroll left";
+
+    public static final String VGL = "vgl";
 
     private IMainView mainView;
     private ConsoleOrganizer consoleOrganizer;
@@ -32,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportFragmentManager().
+                setFragmentFactory(new VGLFragmentFactory(this));
+
 //        EdgeToEdge.enable(this);
 //        setContentView(R.layout.activity_main);
 //        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -40,13 +55,41 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 //            return insets;
 //        });
 
+
+        if (savedInstanceState != null) {
+            this.consoleOrganizer = (ConsoleOrganizer) savedInstanceState.getSerializable(CONSOLE_ORGANIZER_KEY);
+        } else {
+            this.consoleOrganizer = makeTestConsoleOrganizer();
+        }
+
         this.mainView = new MainView(this,this);
         setContentView(this.mainView.getRootView());
 
-        this.consoleOrganizer = makeTestConsoleOrganizer();
+        //showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
+        showEditFrag();
+    }
 
-        showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
-        //showEditFrag();
+    /**
+     *  Saves progress when resource constraints are destroyed
+     * @param outState what saves the information
+     */
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(IN_PROGRESS_KEY, true);
+        outState.putSerializable(CONSOLE_ORGANIZER_KEY, consoleOrganizer);
+    }
+
+    /**
+     * Restores the MainActivity
+     * @param savedInstanceState
+     */
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            this.consoleOrganizer = (ConsoleOrganizer) savedInstanceState.getSerializable(CONSOLE_ORGANIZER_KEY);
+        }
     }
 
     /**
@@ -147,8 +190,15 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param console name of the console to display
      */
     private void showDisplayFrag(String console, int scrollLeft) {
-        this.currentFragment = new DisplayVGView(this, this.consoleOrganizer.getGamesForConsole(console),
-                this.consoleOrganizer.getConsoleList(), console, scrollLeft);
+        List<VideoGame> gamesForConsole = this.consoleOrganizer.getGamesForConsole(console);
+        List<String> consoleList = this.consoleOrganizer.getConsoleList();
+        Bundle fragArgs = new Bundle();
+        fragArgs.putSerializable(GAMES_FOR_CONSOLE, (Serializable) gamesForConsole);
+        fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) consoleList);
+        fragArgs.putString(CONSOLE_NAME_KEY, console);
+        fragArgs.putInt(SCROLL_LEFT_KEY, scrollLeft);
+        this.currentFragment = new DisplayVGView(this, gamesForConsole,
+                consoleList, console, scrollLeft);
         this.mainView.displayFragment(currentFragment, false, DisplayVGView.FRAG_NAME);
     }
 
@@ -156,7 +206,10 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * Shows the Edit page
      */
     private void showEditFrag(){
+        Bundle fragArgs = new Bundle();
+        fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) this.consoleOrganizer.getConsoleList());
         this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
+        currentFragment.setArguments(fragArgs);
         this.mainView.displayFragment(currentFragment, false, EditVGView.FRAG_NAME);
     }
 
@@ -165,7 +218,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param videoGame VideoGame to edit
      */
     private void showEditFrag(VideoGame videoGame){
+        Bundle fragArgs = new Bundle();
+        fragArgs.putSerializable(VIDEO_GAME_KEY, videoGame);
+        fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) this.consoleOrganizer.getConsoleList());
         this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList(), videoGame);
+        currentFragment.setArguments(fragArgs);
         this.mainView.displayFragment(currentFragment, false, EditVGView.FRAG_NAME);
     }
 }

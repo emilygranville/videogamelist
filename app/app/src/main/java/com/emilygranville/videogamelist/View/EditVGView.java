@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.emilygranville.videogamelist.Controller.MainActivity;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.databinding.FragmentEditVgViewBinding;
@@ -18,30 +19,34 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDialog.Listener {
 
     public static final String FRAG_NAME = "edit";
+    public static final String IS_EDITED_KEY = "is edited";
 
     private FragmentEditVgViewBinding binding;
     private IEditVVGView.Listener listener;
     private List<String> consoleOptions;
     private boolean isEdited;
     private VideoGame videoGame;
+    private boolean hasInitInfo;
 
     /**
      * Constructors for EditVGView
      */
     public EditVGView() {
-        // Required empty public constructor
+        this.hasInitInfo = false;
     }
 
     public EditVGView(Listener listener, List<String> consoleOptions) {
         this.listener = listener;
         this.consoleOptions = consoleOptions;
         this.isEdited = false;
+        this.hasInitInfo = true;
     }
 
     public EditVGView(Listener listener, List<String> consoleOptions, VideoGame videoGame) {
@@ -49,19 +54,7 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
         this.consoleOptions = consoleOptions;
         this.videoGame = videoGame;
         this.isEdited = true;
-    }
-
-    /**
-     *
-     * @param savedInstanceState If the fragment is being re-created from
-     * a previous saved state, this is the state.
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
+        this.hasInitInfo = true;
     }
 
     /**
@@ -93,6 +86,16 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
     public void
     onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (getArguments() != null && !hasInitInfo) {
+            this.consoleOptions = (List<String>) savedInstanceState.getSerializable(MainActivity.CONSOLE_LIST_KEY);
+            try {
+                this.videoGame = (VideoGame) savedInstanceState.getSerializable(MainActivity.VIDEO_GAME_KEY);
+            } catch (NullPointerException e) {
+                Log.e("vgl", e.toString());
+            }
+            this.isEdited = savedInstanceState.getBoolean(IS_EDITED_KEY);
+        }
 
         ChipGroup consoleChipGroup = this.binding.consoleChipGroup;
         for (int i = 0; i < this.consoleOptions.size(); i++) {
@@ -158,6 +161,37 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
                 }
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i("vgl", "saved!");
+        outState.putSerializable(MainActivity.CONSOLE_LIST_KEY, (Serializable) this.consoleOptions);
+        if (videoGame != null) {
+            outState.putSerializable(MainActivity.VIDEO_GAME_KEY, this.videoGame);
+        }
+        outState.putBoolean(IS_EDITED_KEY, this.isEdited);
+    }
+
+    /**
+     * Restores the View
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        Log.i("vgl", "restored!");
+        if (savedInstanceState != null) {
+            this.consoleOptions = (List<String>) savedInstanceState.getSerializable(MainActivity.CONSOLE_LIST_KEY);
+            try {
+                this.videoGame = (VideoGame) savedInstanceState.getSerializable(MainActivity.VIDEO_GAME_KEY);
+            } catch (NullPointerException e) {
+                Log.e("vgl", e.toString());
+            }
+            this.isEdited = savedInstanceState.getBoolean(IS_EDITED_KEY);
+        }
     }
 
     /**

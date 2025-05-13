@@ -1,12 +1,13 @@
 package com.emilygranville.videogamelist.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents a single video game and the consoles it is on
  */
-public class VideoGame implements Comparable<VideoGame> {
+public class VideoGame implements Comparable<VideoGame>, Serializable {
 
     private static int NEXT_ID;
     private int gameId;

@@ -2,6 +2,7 @@ package com.emilygranville.videogamelist.Model;
 
 import androidx.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,7 +13,7 @@ import java.util.Objects;
 /**
  * Represents organization of the consoles and games with in it
  */
-public class ConsoleOrganizer {
+public class ConsoleOrganizer implements Serializable {
 
     private final HashMap<String, List<VideoGame>> consoleMap;
 
