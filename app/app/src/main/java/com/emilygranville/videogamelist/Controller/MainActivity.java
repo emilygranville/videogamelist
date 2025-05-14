@@ -11,6 +11,7 @@ import com.emilygranville.videogamelist.View.EditVGView;
 import com.emilygranville.videogamelist.Model.ConsoleOrganizer;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.View.DisplayVGView;
+import com.emilygranville.videogamelist.View.IAddConsoleDialog;
 import com.emilygranville.videogamelist.View.IDisplayVGView;
 import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener,
-        IDisplayVGView.Listener, IEditVVGView.Listener {
+        IDisplayVGView.Listener, IEditVVGView.Listener, IAddConsoleDialog.Listener {
 
     private static final String CONSOLE_ORGANIZER_KEY = "console organizer";
     private static final String IN_PROGRESS_KEY = "in progress";
@@ -168,6 +169,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         showEditFrag();
     }
 
+    @Override
+    public void restoreDisplayFragment(Fragment curFragment) {
+        this.currentFragment = curFragment;
+    }
+
     /**
      * Alerts listener to submitting the video game
      * @param videoGame the video game to edit/create
@@ -176,6 +182,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     public void submitGame(VideoGame videoGame) {
         this.consoleOrganizer.editGame(videoGame);
         showDisplayFrag(videoGame.getConsoles().get(0));
+    }
+
+    @Override
+    public void restoreEditFragment(Fragment curFragment) {
+        this.currentFragment = curFragment;
     }
 
     /**
@@ -227,5 +238,17 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList(), videoGame);
         currentFragment.setArguments(fragArgs);
         this.mainView.displayFragment(currentFragment, false, EditVGView.FRAG_NAME);
+    }
+
+    /**
+     * Alerts listener to submitting the video game
+     *
+     * @param consoleName name of the new console
+     */
+    @Override
+    public void submitNewConsole(String consoleName) {
+
+        String upperConsoleName = consoleName.toUpperCase();
+        ((IEditVVGView) this.currentFragment).submitNewConsole(upperConsoleName);
     }
 }

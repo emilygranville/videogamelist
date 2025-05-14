@@ -23,10 +23,6 @@ public class AddConsoleDialog extends DialogFragment implements IAddConsoleDialo
     private FragmentAddConsoleDialogBinding binding;
     private IAddConsoleDialog.Listener listener;
 
-    public AddConsoleDialog() {
-        // Required empty public constructor
-    }
-
     public AddConsoleDialog(Listener listener) {
         this.listener = listener;
     }

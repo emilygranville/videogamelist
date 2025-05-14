@@ -1,5 +1,7 @@
 package com.emilygranville.videogamelist.View;
 
+import androidx.fragment.app.Fragment;
+
 import com.emilygranville.videogamelist.Model.VideoGame;
 
 public interface IDisplayVGView {
@@ -33,6 +35,9 @@ public interface IDisplayVGView {
          * Alerts listener to adding a new game
          */
         void addNewGame();
+
+        void restoreDisplayFragment(Fragment curFragment);
+
     }
 
     /**

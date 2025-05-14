@@ -23,7 +23,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDialog.Listener {
+public class EditVGView extends Fragment implements IEditVVGView {
 
     public static final String FRAG_NAME = "edit";
     public static final String IS_EDITED_KEY = "is edited";
@@ -126,7 +126,7 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
         this.binding.addConsoleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddConsoleDialog dialogFragment = new AddConsoleDialog(EditVGView.this);
+                AddConsoleDialog dialogFragment = new AddConsoleDialog((IAddConsoleDialog.Listener) EditVGView.this.listener);
                 dialogFragment.show(getParentFragmentManager(), AddConsoleDialog.FRAG_NAME);
             }
         });
@@ -167,7 +167,6 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.i("vgl", "saved!");
         outState.putSerializable(MainActivity.CONSOLE_LIST_KEY, (Serializable) this.consoleOptions);
         if (videoGame != null) {
             outState.putSerializable(MainActivity.VIDEO_GAME_KEY, this.videoGame);
@@ -183,7 +182,6 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        Log.i("vgl", "restored!");
         if (savedInstanceState != null) {
             this.consoleOptions = (List<String>) savedInstanceState.getSerializable(MainActivity.CONSOLE_LIST_KEY);
             try {
@@ -192,6 +190,7 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
                 Log.e("vgl", e.toString());
             }
             this.isEdited = savedInstanceState.getBoolean(IS_EDITED_KEY);
+            this.listener.restoreEditFragment(this);
         }
     }
 
@@ -199,16 +198,14 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
      * Alerts listener to submitting the video game
      * @param consoleName name of the new console
      */
-    @Override
     public void submitNewConsole(String consoleName) {
-        String upperConsoleName = consoleName.toUpperCase();
         int newIndex = this.consoleOptions.size();
-        this.consoleOptions.add(upperConsoleName);
+        this.consoleOptions.add(consoleName);
 
         ChipGroup consoleChipGroup = this.binding.consoleChipGroup;
         Chip consoleChip = new Chip(this.getContext());
         consoleChip.setCheckable(true);
-        consoleChip.setText(upperConsoleName);
+        consoleChip.setText(consoleName);
         consoleChip.setId(newIndex);
         consoleChip.setChecked(true);
         consoleChipGroup.addView(consoleChip);

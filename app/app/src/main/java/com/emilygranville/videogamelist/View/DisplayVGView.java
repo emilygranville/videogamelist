@@ -146,7 +146,10 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
             this.scrollLeft = savedInstanceState.getInt(MainActivity.SCROLL_LEFT_KEY);
 
             displayFragment();
+            this.listener.restoreDisplayFragment(this);
         }
+
+
     }
 
     /**

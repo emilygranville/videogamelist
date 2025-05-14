@@ -1,5 +1,7 @@
 package com.emilygranville.videogamelist.View;
 
+import androidx.fragment.app.Fragment;
+
 import com.emilygranville.videogamelist.Model.VideoGame;
 
 public interface IEditVVGView {
@@ -13,5 +15,8 @@ public interface IEditVVGView {
          * @param videoGame the video game to edit/create
          */
         void submitGame(VideoGame videoGame);
+
+        void restoreEditFragment(Fragment curFragment);
     }
+    public void submitNewConsole(String consoleName);
 }
