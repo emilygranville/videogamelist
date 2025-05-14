@@ -43,9 +43,12 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
         getSupportFragmentManager().
                 setFragmentFactory(new VGLFragmentFactory(this));
+
+        super.onCreate(savedInstanceState);
+
 
 //        EdgeToEdge.enable(this);
 //        setContentView(R.layout.activity_main);
@@ -55,18 +58,16 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 //            return insets;
 //        });
 
+        this.mainView = new MainView(this,this);
+        setContentView(this.mainView.getRootView());
 
         if (savedInstanceState != null) {
             this.consoleOrganizer = (ConsoleOrganizer) savedInstanceState.getSerializable(CONSOLE_ORGANIZER_KEY);
         } else {
             this.consoleOrganizer = makeTestConsoleOrganizer();
+            showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
+            //showEditFrag();
         }
-
-        this.mainView = new MainView(this,this);
-        setContentView(this.mainView.getRootView());
-
-        //showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
-        showEditFrag();
     }
 
     /**
@@ -206,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * Shows the Edit page
      */
     private void showEditFrag(){
+        Log.i(MainActivity.VGL, "not video game");
         Bundle fragArgs = new Bundle();
         fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) this.consoleOrganizer.getConsoleList());
         this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
@@ -218,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param videoGame VideoGame to edit
      */
     private void showEditFrag(VideoGame videoGame){
+        Log.i(MainActivity.VGL, "video game");
         Bundle fragArgs = new Bundle();
         fragArgs.putSerializable(VIDEO_GAME_KEY, videoGame);
         fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) this.consoleOrganizer.getConsoleList());

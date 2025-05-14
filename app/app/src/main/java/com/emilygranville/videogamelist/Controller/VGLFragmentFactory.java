@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class VGLFragmentFactory extends FragmentFactory {
 
-    private static final String PACKAGE_NAME = "com.emilygranville.videogamelist.view";
+    private static final String PACKAGE_NAME = "com.emilygranville.videogamelist.View";
     private MainActivity controller;
 
     public VGLFragmentFactory(MainActivity controller) {

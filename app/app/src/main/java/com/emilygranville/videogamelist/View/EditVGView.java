@@ -38,7 +38,8 @@ public class EditVGView extends Fragment implements IEditVVGView, IAddConsoleDia
     /**
      * Constructors for EditVGView
      */
-    public EditVGView() {
+    public EditVGView(Listener listener) {
+        this.listener = listener;
         this.hasInitInfo = false;
     }
 

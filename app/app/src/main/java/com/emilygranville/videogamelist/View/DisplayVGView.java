@@ -12,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.emilygranville.videogamelist.Controller.MainActivity;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
 import com.google.android.material.chip.Chip;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,14 +31,16 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     private List<String> consoleList;
     private String curConsole;
     private int scrollLeft;
+    private boolean hasInitInfo;
 
     private RecyclerView.Adapter<VGViewHolder> vgItemAdapter;
 
     /**
      * Constructors for DisplayVGView
      */
-    public DisplayVGView() {
-        // Required empty public constructor
+    public DisplayVGView(Listener listener) {
+        this.listener = listener;
+        this.hasInitInfo = false;
     }
 
     public DisplayVGView(Listener listener, List<VideoGame> videoGameList,
@@ -47,19 +51,7 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         this.consoleList = consoleList;
         this.curConsole = curConsole;
         this.scrollLeft = scrollLeft;
-    }
-
-    /**
-     *
-     * @param savedInstanceState If the fragment is being re-created from
-     * a previous saved state, this is the state.
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
+        this.hasInitInfo = true;
     }
 
     /**
@@ -93,11 +85,20 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        this.vgItemAdapter = new VGDisplayAdapter(this.videoGameList, this.curConsole, this.listener);
-        RecyclerView recyclerView = binding.vgListRv;
-        recyclerView.hasFixedSize();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(vgItemAdapter);
+        if (getArguments() != null && !hasInitInfo) {
+            this.videoGameList = (List<VideoGame>) savedInstanceState.getSerializable(MainActivity.GAMES_FOR_CONSOLE);
+            this.consoleList = (List<String>) savedInstanceState.getSerializable(MainActivity.CONSOLE_LIST_KEY);
+            this.curConsole = savedInstanceState.getString(MainActivity.CONSOLE_NAME_KEY);
+            this.scrollLeft = savedInstanceState.getInt(MainActivity.SCROLL_LEFT_KEY);
+
+        }
+
+        displayFragment();
+    }
+
+    private void displayFragment() {
+        displayVideoGameList();
+
         if (consoleList != null) {
             displayConsoleList();
         }
@@ -118,6 +119,45 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
                 DisplayVGView.this.listener.addNewGame();
             }
         });
+    }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(MainActivity.GAMES_FOR_CONSOLE, (Serializable) this.videoGameList);
+        outState.putSerializable(MainActivity.CONSOLE_LIST_KEY, (Serializable) this.consoleList);
+        outState.putString(MainActivity.CONSOLE_NAME_KEY, this.curConsole);
+        outState.putInt(MainActivity.SCROLL_LEFT_KEY, this.scrollLeft);
+
+        // https://stackoverflow.com/a/43547156
+//        Parcelable listState = binding.vgListRv.getLayoutManager().onSaveInstanceState();
+//        outState.putParcelable("list state", listState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            this.videoGameList = (List<VideoGame>) savedInstanceState.getSerializable(MainActivity.GAMES_FOR_CONSOLE);
+            this.consoleList = (List<String>) savedInstanceState.getSerializable(MainActivity.CONSOLE_LIST_KEY);
+            this.curConsole = savedInstanceState.getString(MainActivity.CONSOLE_NAME_KEY);
+            this.scrollLeft = savedInstanceState.getInt(MainActivity.SCROLL_LEFT_KEY);
+
+            displayFragment();
+        }
+    }
+
+    /**
+     * From the list of video games, displays the games
+     */
+    private void displayVideoGameList() {
+        this.vgItemAdapter = new VGDisplayAdapter(this.videoGameList, this.curConsole, this.listener);
+        RecyclerView recyclerView = binding.vgListRv;
+        recyclerView.hasFixedSize();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(vgItemAdapter);
     }
 
     /**
