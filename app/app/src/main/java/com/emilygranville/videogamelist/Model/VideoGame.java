@@ -14,6 +14,7 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
     private String gameName;
     private double price;
     private List<String> consoles;
+    private boolean isFavorite;
 
     /**
      * Constructors for VideoGame
@@ -25,6 +26,7 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         this.gameName = gameName;
         createConsoleList();
         this.gameId = ++NEXT_ID;
+        this.isFavorite = false;
     }
 
     public VideoGame(String gameName, String console) {
@@ -32,6 +34,7 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         createConsoleList();
         addConsole(console);
         this.gameId = ++NEXT_ID;
+        this.isFavorite = false;
     }
 
     public VideoGame(String gameName, double price, String console) {
@@ -40,12 +43,14 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         createConsoleList();
         addConsole(console);
         this.gameId = ++NEXT_ID;
+        this.isFavorite = false;
     }
 
     public VideoGame(String gameName, List<String> consoles) {
         this.gameName = gameName;
         this.consoles = consoles;
         this.gameId = ++NEXT_ID;
+        this.isFavorite = false;
     }
 
     public VideoGame(String gameName, double price, List<String> consoles) {
@@ -53,6 +58,7 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         this.price = price;
         this.consoles = consoles;
         this.gameId = ++NEXT_ID;
+        this.isFavorite = false;
     }
 
     public VideoGame(String gameName, double price, List<String> consoles, int gameId) {
@@ -60,13 +66,36 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         this.price = price;
         this.consoles = consoles;
         this.gameId = gameId;
+        this.isFavorite = false;
     }
 
     public VideoGame(String gameName, List<String> consoles, int gameId) {
         this.gameName = gameName;
-        this.price = price;
         this.consoles = consoles;
         this.gameId = gameId;
+        this.isFavorite = false;
+    }
+
+    public VideoGame(String gameName, List<String> consoles, boolean isFavorite) {
+        this.gameName = gameName;
+        this.consoles = consoles;
+        this.gameId = ++NEXT_ID;
+        this.isFavorite = isFavorite;
+    }
+
+    public VideoGame(String gameName, List<String> consoles, int gameId, boolean isFavorite) {
+        this.gameName = gameName;
+        this.consoles = consoles;
+        this.gameId = gameId;
+        this.isFavorite = isFavorite;
+    }
+
+    public VideoGame(String gameName, double price, List<String> consoles, boolean isFavorite) {
+        this.gameName = gameName;
+        this.price = price;
+        this.consoles = consoles;
+        this.gameId = ++NEXT_ID;
+        this.isFavorite = isFavorite;
     }
 
 
@@ -113,6 +142,14 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
 
     public static void resetNextID() {
         NEXT_ID = 0;
+    }
+
+    public boolean getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 
     /**

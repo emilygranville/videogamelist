@@ -16,13 +16,14 @@ import java.util.Objects;
 public class ConsoleOrganizer implements Serializable {
 
     private final HashMap<String, List<VideoGame>> consoleMap;
-
+    private final List<VideoGame> favorites;
 
     /**
      * Constructor
      */
     public ConsoleOrganizer() {
         this.consoleMap = new HashMap<String, List<VideoGame>>();
+        this.favorites = new LinkedList<VideoGame>();
     }
 
     /**
@@ -32,33 +33,37 @@ public class ConsoleOrganizer implements Serializable {
         return consoleMap;
     }
 
+    public List<VideoGame> getFavorites() {
+        return this.favorites;
+    }
+
+    /**
+     * Adds a game to the given list in alphabetical order
+     * @param videoGame game to add to the list
+     * @param list the list to add the game to
+     */
+    private static void addGameToAlphaList(VideoGame videoGame, List<VideoGame> list) {
+        assert list != null;
+        Iterator<VideoGame> it = list.iterator();
+        int index = 0;
+
+        while(it.hasNext()) {
+            VideoGame next = it.next();
+            if(videoGame.compareTo(next) <= 0) {
+                break;
+            }
+            index++;
+        }
+        list.add(index, videoGame);
+    }
+
     /**
      * From a list of VideoGame objects, sets up the map
      * @param videoGameList list of the VideoGame objects
      */
     public void setupConsoleOrganizer(List<VideoGame> videoGameList) {
         for (VideoGame videoGame : videoGameList) {
-            for (String consoleKey : videoGame.getConsoles()) {
-                if (!consoleMap.containsKey(consoleKey)) {
-                    List<VideoGame> consoleList = new LinkedList<VideoGame>();
-                    consoleList.add(videoGame);
-                    consoleMap.put(consoleKey, consoleList);
-                } else {
-                    List<VideoGame> consoleList = consoleMap.get(consoleKey);
-                    assert consoleList != null;
-                    Iterator<VideoGame> it = consoleList.iterator();
-                    int index = 0;
-
-                    while(it.hasNext()) {
-                        VideoGame next = it.next();
-                        if(videoGame.compareTo(next) <= 0) {
-                            break;
-                        }
-                        index++;
-                    }
-                    consoleList.add(index, videoGame);
-                }
-            }
+            addVideoGame(videoGame);
         }
     }
 
@@ -73,21 +78,10 @@ public class ConsoleOrganizer implements Serializable {
                 consoleList.add(videoGame);
                 consoleMap.put(consoles, consoleList);
             } else {
-                List<VideoGame> consoleList = consoleMap.get(consoles);
-                assert consoleList != null;
-                Iterator<VideoGame> it = consoleList.iterator();
-                int index = 0;
-
-                while(it.hasNext()) {
-                    VideoGame next = it.next();
-                    if(videoGame.compareTo(next) <= 0) {
-                        break;
-                    }
-                    index++;
-                }
-                consoleList.add(index, videoGame);
+                addGameToAlphaList(videoGame, consoleMap.get(consoles));
             }
         }
+        addToFavorites(videoGame);
     }
 
     /**
@@ -156,6 +150,25 @@ public class ConsoleOrganizer implements Serializable {
     public void editGame(VideoGame videoGame) {
         deleteGame(videoGame.getGameId());
         addVideoGame(videoGame);
+    }
+
+    /**
+     * Adds the video game to favorite list
+     * @param videoGame video game to add to favorites
+     */
+    public void addToFavorites(VideoGame videoGame) {
+        if (videoGame.getIsFavorite()) {
+            removeFromFavorites(videoGame);
+            addGameToAlphaList(videoGame, this.favorites);
+        }
+    }
+
+    /**
+     * Removes a potential duplicate game from the list of favorites
+     * @param videoGame game to remove
+     */
+    private void removeFromFavorites(VideoGame videoGame) {
+        this.favorites.removeIf(game -> game.getGameId() == videoGame.getGameId());
     }
 
     /**

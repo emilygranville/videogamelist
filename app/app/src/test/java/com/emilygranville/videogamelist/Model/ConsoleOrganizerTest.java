@@ -261,6 +261,35 @@ class ConsoleOrganizerTest {
     }
 
     @Test
+    void testAddToFavorites() {
+        setUp();
+        this.consoleOrganizer.addToFavorites(v2);
+        assertEquals(0, this.consoleOrganizer.getFavorites().size());
+        this.consoleOrganizer.addToFavorites(v1);
+        assertEquals(0, this.consoleOrganizer.getFavorites().size());
+
+        v1.setFavorite(true);
+        v2.setFavorite(true);
+        this.consoleOrganizer.addToFavorites(v2);
+        assertEquals("C", this.consoleOrganizer.getFavorites().get(0).getGameName());
+        assertEquals(1, this.consoleOrganizer.getFavorites().size());
+
+        this.consoleOrganizer.addToFavorites(v1);
+        assertEquals("B", this.consoleOrganizer.getFavorites().get(0).getGameName());
+        assertEquals("C", this.consoleOrganizer.getFavorites().get(1).getGameName());
+        assertEquals(2, this.consoleOrganizer.getFavorites().size());
+
+
+        List<String> c1 = new ArrayList<String>();
+        c1.add("1");
+        VideoGame videoGame = new VideoGame("A", c1, 1, true);
+        this.consoleOrganizer.addToFavorites(videoGame);
+        assertEquals("A", this.consoleOrganizer.getFavorites().get(0).getGameName());
+        assertEquals("C", this.consoleOrganizer.getFavorites().get(1).getGameName());
+        assertEquals(2, this.consoleOrganizer.getFavorites().size());
+    }
+
+    @Test
     void testToString() {
         setUp();
 
