@@ -19,4 +19,6 @@
     <string name="not_valid_new_console">Please enter a valid console name</string>
     <string name="not_valid_new_game">Please ensure that you have a name and at least one console selected before submitting</string>
     <string name="add_new_game_btn_txt">Add New Game</string>
+    <string name="no_games_text">No games here</string>
+    <string name="favorites_chip_text">Favorites</string>
 </resources>

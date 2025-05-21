@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.View.EditVGView;
 import com.emilygranville.videogamelist.Model.ConsoleOrganizer;
 import com.emilygranville.videogamelist.Model.VideoGame;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     public static final String SCROLL_LEFT_KEY = "scroll left";
 
     public static final String VGL = "vgl";
+
+    public static final String FAVORITES_KEY = "Favorites";
 
     private IMainView mainView;
     private ConsoleOrganizer consoleOrganizer;
@@ -105,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
         VideoGame vg = new VideoGame("Game1", "SWITCH");
         vg.addConsole("XBOX");
+        vg.setFavorite(true);
 //        vg.addConsole("z");
 //        vg.addConsole("z1");
 //        vg.addConsole("z2");
@@ -202,7 +206,13 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param console name of the console to display
      */
     private void showDisplayFrag(String console, int scrollLeft) {
-        List<VideoGame> gamesForConsole = this.consoleOrganizer.getGamesForConsole(console);
+        List<VideoGame> gamesForConsole;
+        if (!console.equals(MainActivity.FAVORITES_KEY)) {
+            gamesForConsole = this.consoleOrganizer.getGamesForConsole(console);
+        } else {
+            gamesForConsole = this.consoleOrganizer.getFavorites();
+        }
+
         List<String> consoleList = this.consoleOrganizer.getConsoleList();
         Bundle fragArgs = new Bundle();
         fragArgs.putSerializable(GAMES_FOR_CONSOLE, (Serializable) gamesForConsole);

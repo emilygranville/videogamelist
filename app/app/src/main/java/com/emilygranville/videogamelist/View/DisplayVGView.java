@@ -1,5 +1,7 @@
 package com.emilygranville.videogamelist.View;
 
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.emilygranville.videogamelist.Controller.MainActivity;
 import com.emilygranville.videogamelist.Model.VideoGame;
+import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
 import com.google.android.material.chip.Chip;
 
@@ -29,6 +32,7 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     private Listener listener;
     private List<VideoGame> videoGameList;
     private List<String> consoleList;
+    // either a valid console or MainActivity.FAVORITES_KEY
     private String curConsole;
     private int scrollLeft;
     private boolean hasInitInfo;
@@ -97,7 +101,11 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     }
 
     private void displayFragment() {
-        displayVideoGameList();
+        if (this.videoGameList != null && !this.videoGameList.isEmpty()) {
+            displayVideoGameList();
+        } else {
+            this.binding.noGamesTextview.setVisibility(VISIBLE);
+        }
 
         if (consoleList != null) {
             displayConsoleList();
@@ -148,8 +156,6 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
             displayFragment();
             this.listener.restoreDisplayFragment(this);
         }
-
-
     }
 
     /**
@@ -167,15 +173,21 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
      * From the list of consoles, displays the consoles
      */
     private void displayConsoleList() {
+        Chip favChip = createConsoleChip(getResources().getString(R.string.favorites_chip_text));
+        favChip.setId(-1);
+        favChip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int x = favChip.getLeft();
+                DisplayVGView.this.listener.switchConsole(MainActivity.FAVORITES_KEY, x);
+            }
+        });
+        this.binding.consoleListChipgroup.addView(favChip);
+
         for (int i = 0; i < this.consoleList.size(); i++) {
             String consoleName = this.consoleList.get(i);
-            Chip consoleNameChip = new Chip(this.getContext());
+            Chip consoleNameChip = createConsoleChip(consoleName);
             consoleNameChip.setId(i);
-            consoleNameChip.setText(consoleName);
-            consoleNameChip.setCheckable(true);
-            if (this.curConsole.equals(consoleName)) {
-                consoleNameChip.setChecked(true);
-            }
             consoleNameChip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -185,6 +197,16 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
             });
             this.binding.consoleListChipgroup.addView(consoleNameChip);
         }
+    }
+
+    private Chip createConsoleChip(String consoleName) {
+        Chip consoleNameChip = new Chip(this.getContext());
+        consoleNameChip.setText(consoleName);
+        consoleNameChip.setCheckable(true);
+        if (this.curConsole.equals(consoleName)) {
+            consoleNameChip.setChecked(true);
+        }
+        return consoleNameChip;
     }
 
     /**
