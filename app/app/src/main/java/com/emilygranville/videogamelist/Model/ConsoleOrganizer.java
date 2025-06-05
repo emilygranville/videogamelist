@@ -71,7 +71,7 @@ public class ConsoleOrganizer implements Serializable {
      * Adds a single video game to the console map
      * @param videoGame the video game to add
      */
-    public void addVideoGame(VideoGame videoGame) {
+    protected void addVideoGame(VideoGame videoGame) {
         for (String consoles : videoGame.getConsoles()) {
             if (!consoleMap.containsKey(consoles)) {
                 List<VideoGame> consoleList = new LinkedList<VideoGame>();
@@ -156,7 +156,7 @@ public class ConsoleOrganizer implements Serializable {
      * Adds the video game to favorite list
      * @param videoGame video game to add to favorites
      */
-    public void addToFavorites(VideoGame videoGame) {
+    protected void addToFavorites(VideoGame videoGame) {
         if (videoGame.getIsFavorite()) {
             removeFromFavorites(videoGame);
             addGameToAlphaList(videoGame, this.favorites);
@@ -168,7 +168,17 @@ public class ConsoleOrganizer implements Serializable {
      * @param videoGame game to remove
      */
     private void removeFromFavorites(VideoGame videoGame) {
-        this.favorites.removeIf(game -> game.getGameId() == videoGame.getGameId());
+        int index = -1;
+        for (int i = 0; i < this.favorites.size(); i++) {
+            if (videoGame.getGameId() == this.favorites.get(i).getGameId()) {
+                index = i;
+                break;
+            }
+        }
+        if (index >= 0) {
+            this.favorites.remove(index);
+        }
+        //this.favorites.removeIf(game -> game.getGameId() == videoGame.getGameId());
     }
 
     /**

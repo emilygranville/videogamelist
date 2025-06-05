@@ -21,7 +21,7 @@
             android:paddingBottom="16dp">
 
             <LinearLayout
-                android:id="@+id/horizontal"
+                android:id="@+id/card_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -64,7 +64,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/vg_delete_btn"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/horizontal" />
+                app:layout_constraintTop_toBottomOf="@+id/card_horizontal" />
 
             <Button
                 android:id="@+id/vg_delete_btn"
@@ -78,7 +78,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/vg_edit_btn"
-                app:layout_constraintTop_toBottomOf="@+id/horizontal" />
+                app:layout_constraintTop_toBottomOf="@+id/card_horizontal" />
 
             <TextView
                 android:id="@+id/consoles_txt"

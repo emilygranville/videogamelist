@@ -152,6 +152,10 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         isFavorite = favorite;
     }
 
+    public void switchFavorite() {
+        isFavorite = !isFavorite;
+    }
+
     /**
      * Adds new console to the list
      * @param console new console to be added

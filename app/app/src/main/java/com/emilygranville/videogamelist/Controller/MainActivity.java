@@ -179,6 +179,17 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     }
 
     /**
+     * Alerts listener to toggling favorite
+     *
+     * @param videoGame game to change favorite
+     */
+    @Override
+    public void favorite(VideoGame videoGame) {
+        videoGame.switchFavorite();
+        this.consoleOrganizer.editGame(videoGame);
+    }
+
+    /**
      * Alerts listener to submitting the video game
      * @param videoGame the video game to edit/create
      */

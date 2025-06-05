@@ -38,6 +38,11 @@ public interface IDisplayVGView {
 
         void restoreDisplayFragment(Fragment curFragment);
 
+        /**
+         * Alerts listener to toggling favorite
+         * @param videoGame game to change favorite
+         */
+        void favorite(VideoGame videoGame);
     }
 
     /**
