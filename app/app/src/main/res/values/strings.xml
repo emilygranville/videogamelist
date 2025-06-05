@@ -21,4 +21,5 @@
     <string name="add_new_game_btn_txt">Add New Game</string>
     <string name="no_games_text">No games here</string>
     <string name="favorites_chip_text">Favorites</string>
+    <string name="favorite_button_alt_text">favorite button</string>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
@@ -15,19 +16,41 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingTop="16dp"
             android:paddingBottom="16dp">
 
-            <TextView
-                android:id="@+id/videogame_name"
+            <LinearLayout
+                android:id="@+id/horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/videogame_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <CheckBox
+                    android:id="@+id/favorite_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:adjustViewBounds="true"
+                    android:background="#00FFFFFF"
+                    android:contentDescription="@string/favorite_button_alt_text"
+                    android:scaleType="centerInside"
+                    app:layout_constraintVertical_bias="1.0"
+                    android:button="@android:drawable/btn_star_big_off" />
+            </LinearLayout>
+
+
 
             <Button
                 android:id="@+id/vg_edit_btn"
@@ -36,10 +59,12 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/display_edit_btn_text"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/vg_delete_btn"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/videogame_name" />
+                app:layout_constraintTop_toBottomOf="@+id/horizontal" />
 
             <Button
                 android:id="@+id/vg_delete_btn"
@@ -48,10 +73,12 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/display_delete_btn_text"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/vg_edit_btn"
-                app:layout_constraintTop_toBottomOf="@+id/videogame_name" />
+                app:layout_constraintTop_toBottomOf="@+id/horizontal" />
 
             <TextView
                 android:id="@+id/consoles_txt"
