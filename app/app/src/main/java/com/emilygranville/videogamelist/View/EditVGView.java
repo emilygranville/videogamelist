@@ -89,9 +89,11 @@ public class EditVGView extends Fragment implements IEditVVGView {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null && !hasInitInfo) {
-            this.consoleOptions = (List<String>) savedInstanceState.getSerializable(MainActivity.CONSOLE_LIST_KEY);
+            this.consoleOptions = (List<String>) savedInstanceState.getSerializable(MainActivity
+                    .CONSOLE_LIST_KEY);
             try {
-                this.videoGame = (VideoGame) savedInstanceState.getSerializable(MainActivity.VIDEO_GAME_KEY);
+                this.videoGame = (VideoGame) savedInstanceState.getSerializable(MainActivity
+                        .VIDEO_GAME_KEY);
             } catch (NullPointerException e) {
                 Log.e("vgl", e.toString());
             }
@@ -114,6 +116,7 @@ public class EditVGView extends Fragment implements IEditVVGView {
             if (price != 0) {
                 this.binding.editPriceInput.setText(String.valueOf(price));
             }
+            this.binding.editFavoriteBtn.setChecked(videoGame.getIsFavorite());
             int numChips = this.binding.consoleChipGroup.getChildCount();
             for (int i = 0; i < numChips; i++) {
                 Chip chip = (Chip) this.binding.consoleChipGroup.getChildAt(i);
@@ -126,7 +129,8 @@ public class EditVGView extends Fragment implements IEditVVGView {
         this.binding.addConsoleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddConsoleDialog dialogFragment = new AddConsoleDialog((IAddConsoleDialog.Listener) EditVGView.this.listener);
+                AddConsoleDialog dialogFragment = new AddConsoleDialog((IAddConsoleDialog.Listener)
+                        EditVGView.this.listener);
                 dialogFragment.show(getParentFragmentManager(), AddConsoleDialog.FRAG_NAME);
             }
         });
@@ -137,12 +141,15 @@ public class EditVGView extends Fragment implements IEditVVGView {
                 String gameName = EditVGView.this.binding.editNameInput.getText().toString();
                 double price;
                 try {
-                    price = Double.parseDouble(EditVGView.this.binding.editPriceInput.getText().toString());
+                    price = Double.parseDouble(EditVGView.this.binding.editPriceInput
+                            .getText().toString());
                 } catch (NumberFormatException e) {
                     Log.e("vgl", e.toString());
                     price = 0;
                 }
-                List<Integer> selectedIndices = EditVGView.this.binding.consoleChipGroup.getCheckedChipIds();
+                boolean isFav = EditVGView.this.binding.editFavoriteBtn.isChecked();
+                List<Integer> selectedIndices = EditVGView.this.binding.consoleChipGroup
+                        .getCheckedChipIds();
                 List<String> selectedConsoles = new ArrayList<>();
                 for (int index : selectedIndices) {
                     selectedConsoles.add(EditVGView.this.consoleOptions.get(index));
@@ -150,9 +157,10 @@ public class EditVGView extends Fragment implements IEditVVGView {
                 if(!gameName.equals("") && !selectedConsoles.isEmpty()) {
                     VideoGame newGame;
                     if (isEdited) {
-                        newGame = new VideoGame(gameName, price, selectedConsoles, EditVGView.this.videoGame.getGameId());
+                        newGame = new VideoGame(gameName, price, selectedConsoles, isFav,
+                                EditVGView.this.videoGame.getGameId());
                     } else {
-                        newGame = new VideoGame(gameName, price, selectedConsoles);
+                        newGame = new VideoGame(gameName, price, selectedConsoles, isFav);
                     }
                     EditVGView.this.listener.submitGame(newGame);
                 } else {
@@ -183,9 +191,11 @@ public class EditVGView extends Fragment implements IEditVVGView {
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null) {
-            this.consoleOptions = (List<String>) savedInstanceState.getSerializable(MainActivity.CONSOLE_LIST_KEY);
+            this.consoleOptions = (List<String>) savedInstanceState.getSerializable(MainActivity
+                    .CONSOLE_LIST_KEY);
             try {
-                this.videoGame = (VideoGame) savedInstanceState.getSerializable(MainActivity.VIDEO_GAME_KEY);
+                this.videoGame = (VideoGame) savedInstanceState.getSerializable(MainActivity
+                        .VIDEO_GAME_KEY);
             } catch (NullPointerException e) {
                 Log.e("vgl", e.toString());
             }

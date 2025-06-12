@@ -98,6 +98,14 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         this.isFavorite = isFavorite;
     }
 
+    public VideoGame(String gameName, double price, List<String> consoles, boolean isFavorite, int gameId) {
+        this.gameName = gameName;
+        this.price = price;
+        this.consoles = consoles;
+        this.gameId = gameId;
+        this.isFavorite = isFavorite;
+    }
+
 
     /**
      * Creates a separate function to set up from a null list
