@@ -59,6 +59,20 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <CheckBox
+        android:id="@+id/edit_favorite_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
+        android:background="#00FFFFFF"
+        android:button="@android:drawable/btn_star_big_off"
+        android:scaleType="centerInside"
+        android:text="@string/edit_favorite_btn_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_price_layout" />
+
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/console_chip_group"
         android:layout_width="match_parent"
@@ -67,8 +81,9 @@
         android:layout_weight="1"
         android:hint="@string/select_consoles"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_price_layout">
+        app:layout_constraintTop_toBottomOf="@+id/edit_favorite_btn">
 
     </com.google.android.material.chip.ChipGroup>
 
@@ -79,6 +94,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/add_console"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/console_chip_group" />
 
