@@ -3,7 +3,6 @@ package com.emilygranville.videogamelist.View;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.emilygranville.videogamelist.Controller.MainActivity;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.R;
 
@@ -42,7 +40,7 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
 
         this.gameName = itemView.findViewById(R.id.videogame_name);
         this.consolesDisplay = itemView.findViewById(R.id.consoles_txt);
-        this.favoriteButton = itemView.findViewById(R.id.favorite_btn);
+        this.favoriteButton = itemView.findViewById(R.id.card_favorite_btn);
 
         this.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

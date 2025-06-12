@@ -39,12 +39,12 @@
                     />
 
                 <CheckBox
-                    android:id="@+id/favorite_btn"
+                    android:id="@+id/card_favorite_btn"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:adjustViewBounds="true"
                     android:background="#00FFFFFF"
-                    android:contentDescription="@string/favorite_button_alt_text"
+                    android:contentDescription="@string/display_favorite_button_alt_text"
                     android:scaleType="centerInside"
                     app:layout_constraintVertical_bias="1.0"
                     android:button="@android:drawable/btn_star_big_off" />
