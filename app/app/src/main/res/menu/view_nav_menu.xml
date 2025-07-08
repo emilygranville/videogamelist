@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/add_new_game_item"
+        android:title="@string/add_new_game_item_txt" />
+    <item
+        android:id="@+id/save_device_item"
+        android:title="@string/save_to_device_item_txt" />
+    <item
+        android:id="@+id/save_cloud_item"
+        android:title="@string/save_to_cloud_item_txt" />
+    <item
+        android:id="@+id/about_page_item"
+        android:title="@string/about_page_item_txt" />
+</menu>

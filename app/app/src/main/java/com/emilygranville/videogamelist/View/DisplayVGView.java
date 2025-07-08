@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.emilygranville.videogamelist.Controller.MainActivity;
 import com.emilygranville.videogamelist.Model.VideoGame;
@@ -122,10 +124,10 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
             });
         }
 
-        this.binding.addNewGameBtn.setOnClickListener(new View.OnClickListener() {
+        this.binding.displayMenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DisplayVGView.this.listener.addNewGame();
+                DisplayVGView.this.displayMenu();
             }
         });
     }
@@ -217,4 +219,35 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     public void updateDeletedItem(int index) {
         this.vgItemAdapter.notifyItemRemoved(index);
     }
+
+    public void displayMenu() {
+        PopupMenu popupMenu = new PopupMenu(this.binding.getRoot().getContext(),
+                this.binding.displayMenuBtn);
+
+        popupMenu.getMenuInflater().inflate(R.menu.view_nav_menu, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                int itemId = menuItem.getItemId();
+                if (itemId == R.id.add_new_game_item) {
+                    DisplayVGView.this.listener.addNewGame();
+                    return true;
+                } else if (itemId == R.id.save_device_item) {
+                    Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Save to device", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (itemId == R.id.save_cloud_item) {
+                    Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Save to cloud", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (itemId == R.id.about_page_item) {
+                    Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "About page", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        popupMenu.show();
+    }
+
 }
