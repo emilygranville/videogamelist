@@ -134,77 +134,6 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     }
 
     /**
-     * Alerts listener to the video game needing deleting
-     * @param videoGame that needs to be deleted
-     * @param curConsole current displayed console list
-     */
-    @Override
-    public void deleteGame(VideoGame videoGame, String curConsole) {
-        int index = this.consoleOrganizer.getGameIndex(videoGame, curConsole);
-        this.consoleOrganizer.deleteGame(videoGame);
-        Log.i("vgl", "delete");
-        ((IDisplayVGView) this.currentFragment).updateDeletedItem(index);
-    }
-
-    /**
-     * Alerts listener to the video game needing editing
-     * @param videoGame that needs to be updated
-     */
-    @Override
-    public void editGame(VideoGame videoGame) {
-        showEditFrag(videoGame);
-    }
-
-    /**
-     * Alerts listener to wanting to switch console viewed
-     * @param console new console to view
-     * @param scrollLeft position in scroll of the console
-     */
-    @Override
-    public void switchConsole(String console, int scrollLeft) {
-        showDisplayFrag(console, scrollLeft);
-    }
-
-    /**
-     * Alerts listener to adding a new game
-     */
-    @Override
-    public void addNewGame() {
-        showEditFrag();
-    }
-
-    @Override
-    public void restoreDisplayFragment(Fragment curFragment) {
-        this.currentFragment = curFragment;
-    }
-
-    /**
-     * Alerts listener to toggling favorite
-     *
-     * @param videoGame game to change favorite
-     */
-    @Override
-    public void favorite(VideoGame videoGame) {
-        videoGame.switchFavorite();
-        this.consoleOrganizer.editGame(videoGame);
-    }
-
-    /**
-     * Alerts listener to submitting the video game
-     * @param videoGame the video game to edit/create
-     */
-    @Override
-    public void submitGame(VideoGame videoGame) {
-        this.consoleOrganizer.editGame(videoGame);
-        showDisplayFrag(videoGame.getConsoles().get(0));
-    }
-
-    @Override
-    public void restoreEditFragment(Fragment curFragment) {
-        this.currentFragment = curFragment;
-    }
-
-    /**
      * Shows the Display page
      * @param console name of the console to display
      */
@@ -259,6 +188,85 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList(), videoGame);
         currentFragment.setArguments(fragArgs);
         this.mainView.displayFragment(currentFragment, false, EditVGView.FRAG_NAME);
+    }
+
+    /**
+     * Restores the fragment in MainActivity
+     * @param curFragment fragment to restore
+     */
+    @Override
+    public void restoreDisplayFragment(Fragment curFragment) {
+        this.currentFragment = curFragment;
+    }
+
+    /**
+     * Restores the fragment in MainActivity
+     * @param curFragment fragment to restore
+     */
+    @Override
+    public void restoreEditFragment(Fragment curFragment) {
+        this.currentFragment = curFragment;
+    }
+
+    /**
+     * Alerts listener to wanting to switch console viewed
+     * @param console new console to view
+     * @param scrollLeft position in scroll of the console
+     */
+    @Override
+    public void switchConsole(String console, int scrollLeft) {
+        showDisplayFrag(console, scrollLeft);
+    }
+
+    /**
+     * Alerts listener to toggling favorite
+     *
+     * @param videoGame game to change favorite
+     */
+    @Override
+    public void favorite(VideoGame videoGame) {
+        videoGame.switchFavorite();
+        this.consoleOrganizer.editGame(videoGame);
+    }
+
+    /**
+     * Alerts listener to the video game needing editing
+     * @param videoGame that needs to be updated
+     */
+    @Override
+    public void editGame(VideoGame videoGame) {
+        showEditFrag(videoGame);
+    }
+
+    /**
+     * Alerts listener to the video game needing deleting
+     * @param videoGame that needs to be deleted
+     * @param curConsole current displayed console list
+     */
+    @Override
+    public void deleteGame(VideoGame videoGame, String curConsole) {
+        int index = this.consoleOrganizer.getGameIndex(videoGame, curConsole);
+        this.consoleOrganizer.deleteGame(videoGame);
+        Log.i("vgl", "delete");
+        ((IDisplayVGView) this.currentFragment).updateDeletedItem(index);
+    }
+
+    /**
+     * Alerts listener to adding a new game
+     */
+    @Override
+    public void addNewGame() {
+        showEditFrag();
+    }
+
+    /**
+     * Alerts listener to submitting the video game
+     * @param videoGame the video game to edit/create
+     */
+    @Override
+    public void submitGame(VideoGame videoGame) {
+        this.consoleOrganizer.editGame(videoGame);
+        showDisplayFrag(videoGame.getConsoles().get(0));
     }
 
     /**

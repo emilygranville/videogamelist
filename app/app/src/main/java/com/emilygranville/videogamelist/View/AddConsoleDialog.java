@@ -42,6 +42,11 @@ public class AddConsoleDialog extends DialogFragment implements IAddConsoleDialo
 //        return fragment;
 //    }
 
+    /**
+     * Creates the dialog
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

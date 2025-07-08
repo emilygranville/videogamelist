@@ -16,7 +16,16 @@ public interface IEditVVGView {
          */
         void submitGame(VideoGame videoGame);
 
+        /**
+         * Restores the fragment in MainActivity
+         * @param curFragment fragment to restore
+         */
         void restoreEditFragment(Fragment curFragment);
     }
+
+    /**
+     * Alerts listener to submitting the video game
+     * @param consoleName name of the new console
+     */
     public void submitNewConsole(String consoleName);
 }

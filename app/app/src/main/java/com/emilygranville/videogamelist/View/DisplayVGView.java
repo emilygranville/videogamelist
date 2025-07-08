@@ -103,6 +103,9 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         displayFragment();
     }
 
+    /**
+     * Handles setting up and displaying the fragment
+     */
     private void displayFragment() {
         if (this.videoGameList != null && !this.videoGameList.isEmpty()) {
             displayVideoGameList();
@@ -132,7 +135,11 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         });
     }
 
-
+    /**
+     * Saves information about the fragment before the
+     * fragment is deleted
+     * @param outState Bundle in which to place your saved state.
+     */
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -146,6 +153,11 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
 //        outState.putParcelable("list state", listState);
     }
 
+    /**
+     * Restores the View
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
@@ -202,6 +214,11 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         }
     }
 
+    /**
+     * Creates a chip based on the given console name
+     * @param consoleName name of console for chip
+     * @return new Chip for the console
+     */
     private Chip createConsoleChip(String consoleName) {
         Chip consoleNameChip = new Chip(this.getContext());
         consoleNameChip.setText(consoleName);
@@ -220,6 +237,9 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         this.vgItemAdapter.notifyItemRemoved(index);
     }
 
+    /**
+     * Handles displaying the menu
+     */
     public void displayMenu() {
         PopupMenu popupMenu = new PopupMenu(this.binding.getRoot().getContext(),
                 this.binding.displayMenuBtn);

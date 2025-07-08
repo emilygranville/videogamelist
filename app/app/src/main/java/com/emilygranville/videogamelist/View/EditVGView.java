@@ -172,6 +172,11 @@ public class EditVGView extends Fragment implements IEditVVGView {
         });
     }
 
+    /**
+     * Saves information about the fragment before the
+     * fragment is deleted
+     * @param outState Bundle in which to place your saved state.
+     */
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);

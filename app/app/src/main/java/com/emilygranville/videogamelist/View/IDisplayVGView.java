@@ -36,6 +36,10 @@ public interface IDisplayVGView {
          */
         void addNewGame();
 
+        /**
+         * Restores the fragment in MainActivity
+         * @param curFragment fragment to restore
+         */
         void restoreDisplayFragment(Fragment curFragment);
 
         /**

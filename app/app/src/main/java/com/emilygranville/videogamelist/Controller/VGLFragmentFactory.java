@@ -19,6 +19,12 @@ public class VGLFragmentFactory extends FragmentFactory {
         this.controller = controller;
     }
 
+    /**
+     * Makes instances of the fragments
+     * @param classLoader The default classloader to use for instantiation
+     * @param className The class name of the fragment to instantiate.
+     * @return the new fragment
+     */
     public Fragment instantiate(@NonNull ClassLoader classLoader, @NonNull String className) {
         Class<? extends Fragment> fragmentClass = loadFragmentClass(classLoader, className);
 
