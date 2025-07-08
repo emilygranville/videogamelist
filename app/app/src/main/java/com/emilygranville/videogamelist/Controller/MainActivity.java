@@ -8,10 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.emilygranville.videogamelist.R;
+import com.emilygranville.videogamelist.View.AboutVGView;
 import com.emilygranville.videogamelist.View.EditVGView;
 import com.emilygranville.videogamelist.Model.ConsoleOrganizer;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.View.DisplayVGView;
+import com.emilygranville.videogamelist.View.IAboutVGView;
 import com.emilygranville.videogamelist.View.IAddConsoleDialog;
 import com.emilygranville.videogamelist.View.IDisplayVGView;
 import com.emilygranville.videogamelist.View.IEditVVGView;
@@ -23,7 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener,
-        IDisplayVGView.Listener, IEditVVGView.Listener, IAddConsoleDialog.Listener {
+        IDisplayVGView.Listener, IEditVVGView.Listener, IAddConsoleDialog.Listener,
+        IAboutVGView.Listener {
 
     private static final String CONSOLE_ORGANIZER_KEY = "console organizer";
     private static final String IN_PROGRESS_KEY = "in progress";
@@ -134,6 +137,14 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     }
 
     /**
+     * Shows the About page
+     */
+    private void showAboutFrag() {
+        this.currentFragment = new AboutVGView(this);
+        this.mainView.displayFragment(currentFragment, true, AboutVGView.FRAG_NAME);
+    }
+
+    /**
      * Shows the Display page
      * @param console name of the console to display
      */
@@ -168,12 +179,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * Shows the Edit page
      */
     private void showEditFrag(){
-        Log.i(MainActivity.VGL, "not video game");
         Bundle fragArgs = new Bundle();
         fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) this.consoleOrganizer.getConsoleList());
         this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
         currentFragment.setArguments(fragArgs);
-        this.mainView.displayFragment(currentFragment, false, EditVGView.FRAG_NAME);
+        this.mainView.displayFragment(currentFragment, true, EditVGView.FRAG_NAME);
     }
 
     /**
@@ -195,6 +205,15 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param curFragment fragment to restore
      */
     @Override
+    public void restoreAboutFragment(Fragment curFragment) {
+        this.currentFragment = curFragment;
+    }
+
+    /**
+     * Restores the fragment in MainActivity
+     * @param curFragment fragment to restore
+     */
+    @Override
     public void restoreDisplayFragment(Fragment curFragment) {
         this.currentFragment = curFragment;
     }
@@ -206,6 +225,14 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     @Override
     public void restoreEditFragment(Fragment curFragment) {
         this.currentFragment = curFragment;
+    }
+
+    /**
+     * Alerts listener to return to display fragment
+     */
+    @Override
+    public void returnToDisplayFromAbout() {
+        showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
     }
 
     /**
@@ -257,6 +284,13 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     @Override
     public void addNewGame() {
         showEditFrag();
+    }
+
+    /**
+     * Alerts listener to show the about page
+     */
+    public void displayAboutPage() {
+        showAboutFrag();
     }
 
     /**

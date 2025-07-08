@@ -260,7 +260,7 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
                     Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Save to cloud", Toast.LENGTH_SHORT).show();
                     return true;
                 } else if (itemId == R.id.about_page_item) {
-                    Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "About page", Toast.LENGTH_SHORT).show();
+                    DisplayVGView.this.listener.displayAboutPage();
                     return true;
                 }
                 return false;

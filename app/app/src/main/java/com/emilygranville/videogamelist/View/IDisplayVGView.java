@@ -47,6 +47,11 @@ public interface IDisplayVGView {
          * @param videoGame game to change favorite
          */
         void favorite(VideoGame videoGame);
+
+        /**
+         * Alerts listener to show the about page
+         */
+        void displayAboutPage();
     }
 
     /**

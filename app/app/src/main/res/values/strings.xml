@@ -27,4 +27,8 @@
     <string name="save_to_cloud_item_txt">Save to cloud</string>
     <string name="about_page_item_txt">About page</string>
     <string name="display_menu_txt">Menu</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about_info_txt">Created by Emily Granville</string>
+    <string name="about_return_btn_txt">Return to display page</string>
 </resources>
