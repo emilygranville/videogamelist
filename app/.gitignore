@@ -6,6 +6,8 @@
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
+/.idea/caches/deviceStreaming.xml
+/.idea/caches/deviceStreaming.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
 /build
@@ -14,5 +16,7 @@
 .cxx
 local.properties
 
+/.idea/shelf/
+/.idea/deviceManager.xml
 
 /app/src/androidTest/java/com/emilygranville/videogamelist/ExampleInstrumentedTest.java
