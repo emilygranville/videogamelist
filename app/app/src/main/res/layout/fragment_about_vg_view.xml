@@ -7,25 +7,31 @@
     android:layout_height="match_parent"
     tools:context=".View.AboutVGView">
 
-    <TextView
-        android:id="@+id/about_info"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="@string/about_info_txt"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/about_return_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/about_return_btn_txt"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/about_info" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/about_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_info_txt" />
+
+        <Button
+            android:id="@+id/about_return_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about_return_btn_txt" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
