@@ -48,6 +48,10 @@ public interface IDisplayVGView {
          */
         void favorite(VideoGame videoGame);
 
+        /*
+         * MENUS METHODS
+         */
+
         /**
          * Alerts listener to show the about page
          */
@@ -57,6 +61,11 @@ public interface IDisplayVGView {
          * Alerts listener to saving on device
          */
         void onDeviceSave();
+
+        /**
+         * Alerts listener to loading from device
+         */
+        void onDeviceLoad();
     }
 
     /**

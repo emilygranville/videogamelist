@@ -44,6 +44,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     private ConsoleOrganizer consoleOrganizer;
     private Fragment currentFragment;
 
+
+    /*
+     * ANDROID METHODS
+     */
+
     /**
      * Sets up the app
      * @param savedInstanceState saved information when app reloads
@@ -56,15 +61,6 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
         super.onCreate(savedInstanceState);
 
-
-//        EdgeToEdge.enable(this);
-//        setContentView(R.layout.activity_main);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
-
         this.mainView = new MainView(this,this);
         setContentView(this.mainView.getRootView());
 
@@ -72,18 +68,13 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
             this.consoleOrganizer = (ConsoleOrganizer) savedInstanceState.getSerializable(CONSOLE_ORGANIZER_KEY);
         } else {
 
-            IDataPreservation loadData = new LocalDataPreservation();
-            this.consoleOrganizer = loadData.loadConsoleOrganizer(this);
-            Log.i(MainActivity.VGL, this.consoleOrganizer.toString());
+            loadLocally();
 
-            //this.consoleOrganizer = makeTestConsoleOrganizer();
             if(!this.consoleOrganizer.getConsoleList().isEmpty()) {
                 showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
             } else {
                 showDisplayFrag(null);
             }
-
-            //showEditFrag();
         }
     }
 
@@ -100,50 +91,32 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Restores the MainActivity
-     * @param savedInstanceState
+     * @param savedInstanceState the saved info to restore
      */
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null) {
-            this.consoleOrganizer = (ConsoleOrganizer) savedInstanceState.getSerializable(CONSOLE_ORGANIZER_KEY);
-        }
+        this.consoleOrganizer = (ConsoleOrganizer) savedInstanceState.getSerializable(CONSOLE_ORGANIZER_KEY);
+    }
+
+    /*
+     * NORMAL METHODS
+     */
+
+    /**
+     * Loads the data from the device (locally)
+     */
+    private void loadLocally() {
+        IDataPreservation loadData = new LocalDataPreservation();
+        this.consoleOrganizer = loadData.loadConsoleOrganizer(this);
     }
 
     /**
-     * Creates a test console organizer so I can see
-     * what stuff looks like with dummy data
-     * @return sample consoleOrganizer
+     * Saves data locally to device
      */
-    private ConsoleOrganizer makeTestConsoleOrganizer() {
-        ConsoleOrganizer testConsoleOrganizer = new ConsoleOrganizer();
-        List<VideoGame> videoGameList = new ArrayList<>();
-
-        VideoGame vg = new VideoGame("Game1", "SWITCH");
-        vg.addConsole("XBOX");
-        vg.setFavorite(true);
-//        vg.addConsole("z");
-//        vg.addConsole("z1");
-//        vg.addConsole("z2");
-//        vg.addConsole("z3");
-//        vg.addConsole("z4");
-//        vg.addConsole("z5");
-        videoGameList.add(vg);
-        VideoGame vg1 = new VideoGame("Game2", "SWITCH");
-        vg1.addConsole("XBOX");
-        videoGameList.add(vg1);
-        videoGameList.add(new VideoGame("Game3", "SWITCH"));
-        VideoGame vg2 = new VideoGame("Game4", "SWITCH");
-        vg2.addConsole("XBOX");
-        videoGameList.add(vg2);
-        videoGameList.add(new VideoGame("Game5", "SWITCH"));
-        videoGameList.add(new VideoGame("Game6", "SWITCH"));
-        videoGameList.add(new VideoGame("Game7", "SWITCH"));
-        videoGameList.add(new VideoGame("Game8", "SWITCH"));
-
-        testConsoleOrganizer.setupConsoleOrganizer(videoGameList);
-
-        return testConsoleOrganizer;
+    private void saveLocally() {
+        IDataPreservation saveData = new LocalDataPreservation();
+        saveData.saveConsoleOrganizer(this, this.consoleOrganizer);
     }
 
     /**
@@ -185,8 +158,6 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) consoleList);
         fragArgs.putString(CONSOLE_NAME_KEY, console);
         fragArgs.putInt(SCROLL_LEFT_KEY, scrollLeft);
-//        this.currentFragment = new DisplayVGView(this, gamesForConsole,
-//                consoleList, console, scrollLeft);
         this.currentFragment = new DisplayVGView(this);
         this.currentFragment.setArguments(fragArgs);
         this.mainView.displayFragment(currentFragment, false, DisplayVGView.FRAG_NAME);
@@ -199,7 +170,6 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         Bundle fragArgs = new Bundle();
         fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) this.consoleOrganizer.getConsoleList());
         fragArgs.putBoolean(IS_EDITED_KEY, false);
-        //this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
         this.currentFragment = new EditVGView(this);
         currentFragment.setArguments(fragArgs);
         this.mainView.displayFragment(currentFragment, true, EditVGView.FRAG_NAME);
@@ -214,11 +184,14 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         fragArgs.putSerializable(VIDEO_GAME_KEY, videoGame);
         fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) this.consoleOrganizer.getConsoleList());
         fragArgs.putBoolean(IS_EDITED_KEY, true);
-        //this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList(), videoGame);
         this.currentFragment = new EditVGView(this);
         currentFragment.setArguments(fragArgs);
         this.mainView.displayFragment(currentFragment, false, EditVGView.FRAG_NAME);
     }
+
+    /*
+     * LISTENER METHODS
+     */
 
     /**
      * Restores the fragment in MainActivity
@@ -306,8 +279,6 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         showEditFrag();
     }
 
-
-
     /**
      * Alerts listener to show the about page
      */
@@ -320,9 +291,22 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     @Override
     public void onDeviceSave() {
-        IDataPreservation saveData = new LocalDataPreservation();
-        saveData.saveConsoleOrganizer(this, this.consoleOrganizer);
+        saveLocally();
     }
+
+    /**
+     * Alerts listener to loading from device
+     */
+    @Override
+    public void onDeviceLoad() {
+        loadLocally();
+        if(!this.consoleOrganizer.getConsoleList().isEmpty()) {
+            showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
+        } else {
+            showDisplayFrag(null);
+        }
+    }
+
 
     /**
      * Alerts listener to submitting the video game
@@ -341,7 +325,6 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     @Override
     public void submitNewConsole(String consoleName) {
-
         String upperConsoleName = consoleName.toUpperCase();
         ((IEditVVGView) this.currentFragment).submitNewConsole(upperConsoleName);
     }

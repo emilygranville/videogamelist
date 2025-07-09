@@ -93,13 +93,10 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null && !hasInitInfo) {
-            Log.i(MainActivity.VGL, "please ;-;");
             this.videoGameList = (List<VideoGame>) getArguments().getSerializable(MainActivity.GAMES_FOR_CONSOLE);
             this.consoleList = (List<String>) getArguments().getSerializable(MainActivity.CONSOLE_LIST_KEY);
             this.curConsole = getArguments().getString(MainActivity.CONSOLE_NAME_KEY);
             this.scrollLeft = getArguments().getInt(MainActivity.SCROLL_LEFT_KEY);
-        } else {
-            Log.i(MainActivity.VGL, "please no ;-;");
         }
 
         displayFragment();
@@ -258,8 +255,14 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
                 } else if (itemId == R.id.save_device_item) {
                     DisplayVGView.this.listener.onDeviceSave();
                     return true;
+                } else if (itemId == R.id.load_device_item) {
+                    DisplayVGView.this.listener.onDeviceLoad();
+                    return true;
                 } else if (itemId == R.id.save_cloud_item) {
                     Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Save to cloud", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (itemId == R.id.load_cloud_item) {
+                    Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Load from cloud", Toast.LENGTH_SHORT).show();
                     return true;
                 } else if (itemId == R.id.about_page_item) {
                     DisplayVGView.this.listener.displayAboutPage();
