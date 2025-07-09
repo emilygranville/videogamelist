@@ -24,7 +24,6 @@ import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding
 import com.google.android.material.chip.Chip;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
 public class DisplayVGView extends Fragment implements IDisplayVGView {
@@ -50,16 +49,16 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         this.hasInitInfo = false;
     }
 
-    public DisplayVGView(Listener listener, List<VideoGame> videoGameList,
-                         List<String> consoleList, String curConsole, int scrollLeft) {
-        this.listener = listener;
-        this.videoGameList = videoGameList;
-        Collections.sort(consoleList);
-        this.consoleList = consoleList;
-        this.curConsole = curConsole;
-        this.scrollLeft = scrollLeft;
-        this.hasInitInfo = true;
-    }
+//    public DisplayVGView(Listener listener, List<VideoGame> videoGameList,
+//                         List<String> consoleList, String curConsole, int scrollLeft) {
+//        this.listener = listener;
+//        this.videoGameList = videoGameList;
+//        Collections.sort(consoleList);
+//        this.consoleList = consoleList;
+//        this.curConsole = curConsole;
+//        this.scrollLeft = scrollLeft;
+//        this.hasInitInfo = true;
+//    }
 
     /**
      *
@@ -93,11 +92,10 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null && !hasInitInfo) {
-            this.videoGameList = (List<VideoGame>) savedInstanceState.getSerializable(MainActivity.GAMES_FOR_CONSOLE);
-            this.consoleList = (List<String>) savedInstanceState.getSerializable(MainActivity.CONSOLE_LIST_KEY);
-            this.curConsole = savedInstanceState.getString(MainActivity.CONSOLE_NAME_KEY);
-            this.scrollLeft = savedInstanceState.getInt(MainActivity.SCROLL_LEFT_KEY);
-
+            this.videoGameList = (List<VideoGame>) getArguments().getSerializable(MainActivity.GAMES_FOR_CONSOLE);
+            this.consoleList = (List<String>) getArguments().getSerializable(MainActivity.CONSOLE_LIST_KEY);
+            this.curConsole = getArguments().getString(MainActivity.CONSOLE_NAME_KEY);
+            this.scrollLeft = getArguments().getInt(MainActivity.SCROLL_LEFT_KEY);
         }
 
         displayFragment();

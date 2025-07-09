@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.View.AboutVGView;
 import com.emilygranville.videogamelist.View.EditVGView;
 import com.emilygranville.videogamelist.Model.ConsoleOrganizer;
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     public static final String GAMES_FOR_CONSOLE = "games for console";
     public static final String CONSOLE_NAME_KEY = "console name";
     public static final String SCROLL_LEFT_KEY = "scroll left";
+    public static final String IS_EDITED_KEY = "is edited";
 
     public static final String VGL = "vgl";
 
@@ -170,8 +170,10 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) consoleList);
         fragArgs.putString(CONSOLE_NAME_KEY, console);
         fragArgs.putInt(SCROLL_LEFT_KEY, scrollLeft);
-        this.currentFragment = new DisplayVGView(this, gamesForConsole,
-                consoleList, console, scrollLeft);
+//        this.currentFragment = new DisplayVGView(this, gamesForConsole,
+//                consoleList, console, scrollLeft);
+        this.currentFragment = new DisplayVGView(this);
+        this.currentFragment.setArguments(fragArgs);
         this.mainView.displayFragment(currentFragment, false, DisplayVGView.FRAG_NAME);
     }
 
@@ -181,7 +183,9 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     private void showEditFrag(){
         Bundle fragArgs = new Bundle();
         fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) this.consoleOrganizer.getConsoleList());
-        this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
+        fragArgs.putBoolean(IS_EDITED_KEY, false);
+        //this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList());
+        this.currentFragment = new EditVGView(this);
         currentFragment.setArguments(fragArgs);
         this.mainView.displayFragment(currentFragment, true, EditVGView.FRAG_NAME);
     }
@@ -191,11 +195,12 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param videoGame VideoGame to edit
      */
     private void showEditFrag(VideoGame videoGame){
-        Log.i(MainActivity.VGL, "video game");
         Bundle fragArgs = new Bundle();
         fragArgs.putSerializable(VIDEO_GAME_KEY, videoGame);
         fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) this.consoleOrganizer.getConsoleList());
-        this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList(), videoGame);
+        fragArgs.putBoolean(IS_EDITED_KEY, true);
+        //this.currentFragment = new EditVGView(this, this.consoleOrganizer.getConsoleList(), videoGame);
+        this.currentFragment = new EditVGView(this);
         currentFragment.setArguments(fragArgs);
         this.mainView.displayFragment(currentFragment, false, EditVGView.FRAG_NAME);
     }

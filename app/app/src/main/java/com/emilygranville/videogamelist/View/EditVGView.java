@@ -43,20 +43,20 @@ public class EditVGView extends Fragment implements IEditVVGView {
         this.hasInitInfo = false;
     }
 
-    public EditVGView(Listener listener, List<String> consoleOptions) {
-        this.listener = listener;
-        this.consoleOptions = consoleOptions;
-        this.isEdited = false;
-        this.hasInitInfo = true;
-    }
+//    public EditVGView(Listener listener, List<String> consoleOptions) {
+//        this.listener = listener;
+//        this.consoleOptions = consoleOptions;
+//        this.isEdited = false;
+//        this.hasInitInfo = true;
+//    }
 
-    public EditVGView(Listener listener, List<String> consoleOptions, VideoGame videoGame) {
-        this.listener = listener;
-        this.consoleOptions = consoleOptions;
-        this.videoGame = videoGame;
-        this.isEdited = true;
-        this.hasInitInfo = true;
-    }
+//    public EditVGView(Listener listener, List<String> consoleOptions, VideoGame videoGame) {
+//        this.listener = listener;
+//        this.consoleOptions = consoleOptions;
+//        this.videoGame = videoGame;
+//        this.isEdited = true;
+//        this.hasInitInfo = true;
+//    }
 
     /**
      *
@@ -89,15 +89,16 @@ public class EditVGView extends Fragment implements IEditVVGView {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null && !hasInitInfo) {
-            this.consoleOptions = (List<String>) savedInstanceState.getSerializable(MainActivity
+            this.consoleOptions = (List<String>) getArguments().getSerializable(MainActivity
                     .CONSOLE_LIST_KEY);
+            this.isEdited = getArguments().getBoolean(MainActivity.IS_EDITED_KEY);
             try {
-                this.videoGame = (VideoGame) savedInstanceState.getSerializable(MainActivity
+                this.videoGame = (VideoGame) getArguments().getSerializable(MainActivity
                         .VIDEO_GAME_KEY);
             } catch (NullPointerException e) {
                 Log.e("vgl", e.toString());
             }
-            this.isEdited = savedInstanceState.getBoolean(IS_EDITED_KEY);
+            this.isEdited = getArguments().getBoolean(IS_EDITED_KEY);
         }
 
         ChipGroup consoleChipGroup = this.binding.consoleChipGroup;
