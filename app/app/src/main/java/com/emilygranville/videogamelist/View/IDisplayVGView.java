@@ -16,25 +16,20 @@ public interface IDisplayVGView {
          * @param videoGame that needs to be deleted
          * @param curConsole current displayed console list
          */
-        void deleteGame(VideoGame videoGame, String curConsole);
+        void onDeleteGame(VideoGame videoGame, String curConsole);
 
         /**
          * Alerts listener to the video game needing editing
          * @param videoGame that needs to be updated
          */
-        void editGame(VideoGame videoGame);
+        void onEditGame(VideoGame videoGame);
 
         /**
          * Alerts listener to wanting to switch console viewed
          * @param console new console to view
          * @param scrollLeft position in scroll of the console
          */
-        void switchConsole(String console, int scrollLeft);
-
-        /**
-         * Alerts listener to adding a new game
-         */
-        void addNewGame();
+        void onSwitchConsole(String console, int scrollLeft);
 
         /**
          * Restores the fragment in MainActivity
@@ -46,26 +41,31 @@ public interface IDisplayVGView {
          * Alerts listener to toggling favorite
          * @param videoGame game to change favorite
          */
-        void favorite(VideoGame videoGame);
+        void onFavorite(VideoGame videoGame);
 
         /*
          * MENUS METHODS
          */
 
         /**
-         * Alerts listener to show the about page
+         * Alerts listener to adding a new game
          */
-        void displayAboutPage();
+        void onAddNewGame();
 
         /**
          * Alerts listener to saving on device
          */
-        void onDeviceSave();
+        boolean onDeviceSave();
 
         /**
          * Alerts listener to loading from device
          */
         void onDeviceLoad();
+
+        /**
+         * Alerts listener to show the about page
+         */
+        void onDisplayAboutPage();
     }
 
     /**

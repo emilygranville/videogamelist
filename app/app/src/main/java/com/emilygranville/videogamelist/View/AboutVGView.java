@@ -17,15 +17,13 @@ public class AboutVGView extends Fragment {
     public static final String FRAG_NAME = "about";
 
     private FragmentAboutVgViewBinding binding;
-    private IAboutVGView.Listener listener;
-    private boolean hasInitInfo;
+    private final IAboutVGView.Listener listener;
 
     /**
      * Constructors for AboutVGView
      */
     public AboutVGView(IAboutVGView.Listener listener) {
         this.listener = listener;
-        this.hasInitInfo = false;
     }
 
     @Override
@@ -34,7 +32,7 @@ public class AboutVGView extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.binding = FragmentAboutVgViewBinding.inflate(inflater);
         return this.binding.getRoot();
@@ -67,14 +65,10 @@ public class AboutVGView extends Fragment {
         if (savedInstanceState != null) {
             this.listener.restoreAboutFragment(this);
         }
+        displayFragment();
     }
 
     private void displayFragment() {
-        this.binding.aboutReturnBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AboutVGView.this.listener.returnToDisplayFromAbout();
-            }
-        });
+        this.binding.aboutReturnBtn.setOnClickListener(view -> AboutVGView.this.listener.onReturnToDisplay());
     }
 }

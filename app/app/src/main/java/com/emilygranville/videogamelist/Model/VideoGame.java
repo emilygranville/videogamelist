@@ -1,11 +1,14 @@
 package com.emilygranville.videogamelist.Model;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents a single video game and the consoles it is on
+ * @noinspection Convert2Diamond
  */
 public class VideoGame implements Comparable<VideoGame>, Serializable {
 
@@ -132,10 +135,6 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public List<String> getConsoles() {
         return consoles;
     }
@@ -199,6 +198,7 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
      * String representation of VideoGame
      * @return the string representation of VideoGame
      */
+    @NonNull
     @Override
     public String toString() {
         return "VideoGame{" +

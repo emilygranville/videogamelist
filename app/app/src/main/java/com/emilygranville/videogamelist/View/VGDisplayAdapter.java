@@ -15,8 +15,8 @@ import java.util.List;
 
 public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
 
-    private String curConsole;
-    private List<VideoGame> videoGameList;
+    private final String curConsole;
+    private final List<VideoGame> videoGameList;
     private final IDisplayVGView.Listener listener;
 
     /**

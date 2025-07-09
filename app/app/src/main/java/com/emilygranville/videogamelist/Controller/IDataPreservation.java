@@ -11,12 +11,12 @@ public interface IDataPreservation {
      * @param consoleOrganizer the console organizer to save
      * @return whether it was saved properly
      */
-    public boolean saveConsoleOrganizer(Context context, ConsoleOrganizer consoleOrganizer);
+    boolean saveConsoleOrganizer(Context context, ConsoleOrganizer consoleOrganizer);
 
     /**
      * loads the package from saved
      * @param context context for file directory
      * @return the saved ConsoleOrganizer
      */
-    public ConsoleOrganizer loadConsoleOrganizer(Context context);
+    ConsoleOrganizer loadConsoleOrganizer(Context context);
 }

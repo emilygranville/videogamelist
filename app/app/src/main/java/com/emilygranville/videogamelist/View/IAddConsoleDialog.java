@@ -7,6 +7,6 @@ public interface IAddConsoleDialog {
          * Alerts listener to submitting the video game
          * @param consoleName name of the new console
          */
-        void submitNewConsole(String consoleName);
+        void onSubmitNewConsole(String consoleName);
     }
 }

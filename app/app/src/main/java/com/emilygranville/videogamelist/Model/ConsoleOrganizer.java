@@ -12,6 +12,7 @@ import java.util.Objects;
 
 /**
  * Represents organization of the consoles and games with in it
+ * @noinspection Convert2Diamond
  */
 public class ConsoleOrganizer implements Serializable {
 
@@ -78,7 +79,8 @@ public class ConsoleOrganizer implements Serializable {
                 consoleList.add(videoGame);
                 consoleMap.put(consoles, consoleList);
             } else {
-                addGameToAlphaList(videoGame, consoleMap.get(consoles));
+                addGameToAlphaList(videoGame, Objects.requireNonNull(
+                        consoleMap.get(consoles)));
             }
         }
         addToFavorites(videoGame);
@@ -109,7 +111,8 @@ public class ConsoleOrganizer implements Serializable {
      * @return int
      */
     public int getGameIndex(VideoGame videoGame, String console) {
-        return this.consoleMap.get(console).indexOf(videoGame);
+        return Objects.requireNonNull(
+                this.consoleMap.get(console)).indexOf(videoGame);
     }
 
     /**
@@ -132,13 +135,8 @@ public class ConsoleOrganizer implements Serializable {
         List<String> consoles = getConsoleList();
         for (String console : consoles) {
             List<VideoGame> gameList = this.consoleMap.get(console);
-            Iterator<VideoGame> it = gameList.iterator();
-            while(it.hasNext()) {
-                VideoGame game = (VideoGame) it.next();
-                if (game.getGameId() == videoGameID) {
-                    it.remove();
-                }
-            }
+            assert gameList != null;
+            gameList.removeIf(game -> game.getGameId() == videoGameID);
         }
     }
 

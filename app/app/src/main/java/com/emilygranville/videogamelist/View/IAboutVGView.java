@@ -13,7 +13,7 @@ public interface IAboutVGView {
         /**
          * Alerts listener to return to display fragment
          */
-        void returnToDisplayFromAbout();
+        void onReturnToDisplay();
 
         /**
          * Restores the fragment in MainActivity

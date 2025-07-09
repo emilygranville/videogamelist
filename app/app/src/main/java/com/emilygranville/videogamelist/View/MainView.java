@@ -12,17 +12,15 @@ import com.emilygranville.videogamelist.databinding.ActivityMainBinding;
 public class MainView implements IMainView {
 
     FragmentManager fragmentManager;
-    private ActivityMainBinding binding;
-    private Listener listener;
+    private final ActivityMainBinding binding;
 
     /**
      * MainView constructor
      * @param activity android activity
      */
-    public MainView(Listener listener, FragmentActivity activity) {
+    public MainView(FragmentActivity activity) {
         this.fragmentManager = activity.getSupportFragmentManager();
         this.binding = ActivityMainBinding.inflate(activity.getLayoutInflater());
-        this.listener = listener;
     }
 
     /**

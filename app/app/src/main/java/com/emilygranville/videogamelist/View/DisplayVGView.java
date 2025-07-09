@@ -10,9 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
@@ -32,13 +30,13 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     public static final String FRAG_NAME = "display";
 
     private FragmentDisplayVgViewBinding binding;
-    private Listener listener;
+    private final Listener listener;
     private List<VideoGame> videoGameList;
     private List<String> consoleList;
     // either a valid console or MainActivity.FAVORITES_KEY
     private String curConsole;
     private int scrollLeft;
-    private boolean hasInitInfo;
+    private final boolean hasInitInfo;
 
     private RecyclerView.Adapter<VGViewHolder> vgItemAdapter;
 
@@ -49,17 +47,6 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         this.listener = listener;
         this.hasInitInfo = false;
     }
-
-//    public DisplayVGView(Listener listener, List<VideoGame> videoGameList,
-//                         List<String> consoleList, String curConsole, int scrollLeft) {
-//        this.listener = listener;
-//        this.videoGameList = videoGameList;
-//        Collections.sort(consoleList);
-//        this.consoleList = consoleList;
-//        this.curConsole = curConsole;
-//        this.scrollLeft = scrollLeft;
-//        this.hasInitInfo = true;
-//    }
 
     /**
      *
@@ -117,21 +104,11 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         }
 
         if (scrollLeft > 0) {
-            this.binding.consoleListScroll.post(new Runnable() {
-                @Override
-                public void run() {
-                    DisplayVGView.this.binding.consoleListScroll.scrollTo(
-                            DisplayVGView.this.scrollLeft, 0);
-                }
-            });
+            this.binding.consoleListScroll.post(() -> DisplayVGView.this.binding.consoleListScroll.scrollTo(
+                    DisplayVGView.this.scrollLeft, 0));
         }
 
-        this.binding.displayMenuBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DisplayVGView.this.displayMenu();
-            }
-        });
+        this.binding.displayMenuBtn.setOnClickListener(view -> DisplayVGView.this.displayMenu());
     }
 
     /**
@@ -146,10 +123,6 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         outState.putSerializable(MainActivity.CONSOLE_LIST_KEY, (Serializable) this.consoleList);
         outState.putString(MainActivity.CONSOLE_NAME_KEY, this.curConsole);
         outState.putInt(MainActivity.SCROLL_LEFT_KEY, this.scrollLeft);
-
-        // https://stackoverflow.com/a/43547156
-//        Parcelable listState = binding.vgListRv.getLayoutManager().onSaveInstanceState();
-//        outState.putParcelable("list state", listState);
     }
 
     /**
@@ -178,7 +151,6 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     private void displayVideoGameList() {
         this.vgItemAdapter = new VGDisplayAdapter(this.videoGameList, this.curConsole, this.listener);
         RecyclerView recyclerView = binding.vgListRv;
-        recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(vgItemAdapter);
     }
@@ -189,12 +161,9 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
     private void displayConsoleList() {
         Chip favChip = createConsoleChip(getResources().getString(R.string.favorites_chip_text));
         favChip.setId(-1);
-        favChip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int x = favChip.getLeft();
-                DisplayVGView.this.listener.switchConsole(MainActivity.FAVORITES_KEY, x);
-            }
+        favChip.setOnClickListener(view -> {
+            int x = favChip.getLeft();
+            DisplayVGView.this.listener.onSwitchConsole(MainActivity.FAVORITES_KEY, x);
         });
         this.binding.consoleListChipgroup.addView(favChip);
 
@@ -202,12 +171,9 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
             String consoleName = this.consoleList.get(i);
             Chip consoleNameChip = createConsoleChip(consoleName);
             consoleNameChip.setId(i);
-            consoleNameChip.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int x = consoleNameChip.getLeft();
-                    DisplayVGView.this.listener.switchConsole(consoleNameChip.getText().toString(), x);
-                }
+            consoleNameChip.setOnClickListener(view -> {
+                int x = consoleNameChip.getLeft();
+                DisplayVGView.this.listener.onSwitchConsole(consoleNameChip.getText().toString(), x);
             });
             this.binding.consoleListChipgroup.addView(consoleNameChip);
         }
@@ -245,31 +211,31 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
 
         popupMenu.getMenuInflater().inflate(R.menu.view_nav_menu, popupMenu.getMenu());
 
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                int itemId = menuItem.getItemId();
-                if (itemId == R.id.add_new_game_item) {
-                    DisplayVGView.this.listener.addNewGame();
-                    return true;
-                } else if (itemId == R.id.save_device_item) {
-                    DisplayVGView.this.listener.onDeviceSave();
-                    return true;
-                } else if (itemId == R.id.load_device_item) {
-                    DisplayVGView.this.listener.onDeviceLoad();
-                    return true;
-                } else if (itemId == R.id.save_cloud_item) {
-                    Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Save to cloud", Toast.LENGTH_SHORT).show();
-                    return true;
-                } else if (itemId == R.id.load_cloud_item) {
-                    Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Load from cloud", Toast.LENGTH_SHORT).show();
-                    return true;
-                } else if (itemId == R.id.about_page_item) {
-                    DisplayVGView.this.listener.displayAboutPage();
-                    return true;
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            int itemId = menuItem.getItemId();
+            if (itemId == R.id.add_new_game_item) {
+                DisplayVGView.this.listener.onAddNewGame();
+                return true;
+            } else if (itemId == R.id.save_device_item) {
+                boolean success = DisplayVGView.this.listener.onDeviceSave();
+                if (success) {
+                    Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Saved to device", Toast.LENGTH_SHORT).show();
                 }
-                return false;
+                return success;
+            } else if (itemId == R.id.load_device_item) {
+                DisplayVGView.this.listener.onDeviceLoad();
+                return true;
+            } else if (itemId == R.id.save_cloud_item) {
+                Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Save to cloud", Toast.LENGTH_SHORT).show();
+                return true;
+            } else if (itemId == R.id.load_cloud_item) {
+                Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Load from cloud", Toast.LENGTH_SHORT).show();
+                return true;
+            } else if (itemId == R.id.about_page_item) {
+                DisplayVGView.this.listener.onDisplayAboutPage();
+                return true;
             }
+            return false;
         });
 
         popupMenu.show();

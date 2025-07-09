@@ -24,8 +24,8 @@ public interface IEditVVGView {
     }
 
     /**
-     * Alerts listener to submitting the video game
-     * @param consoleName name of the new console
+     * Shows the new console in the list of consoles
+     * @param consoleName name of console to show
      */
-    public void submitNewConsole(String consoleName);
+    void showNewConsole(String consoleName);
 }

@@ -8,11 +8,12 @@ import androidx.fragment.app.FragmentFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
 
 public class VGLFragmentFactory extends FragmentFactory {
 
     private static final String PACKAGE_NAME = "com.emilygranville.videogamelist.View";
-    private MainActivity controller;
+    private final MainActivity controller;
 
     public VGLFragmentFactory(MainActivity controller) {
         super();
@@ -25,10 +26,12 @@ public class VGLFragmentFactory extends FragmentFactory {
      * @param className The class name of the fragment to instantiate.
      * @return the new fragment
      */
+    @NonNull
     public Fragment instantiate(@NonNull ClassLoader classLoader, @NonNull String className) {
         Class<? extends Fragment> fragmentClass = loadFragmentClass(classLoader, className);
 
-        if (fragmentClass.getPackage().getName().equals(PACKAGE_NAME)) {
+        if (Objects.requireNonNull(
+                fragmentClass.getPackage()).getName().equals(PACKAGE_NAME)) {
             try {
                 Constructor<?>[] constructors = fragmentClass.getConstructors();
                 assert constructors.length > 0 : "Fragment class does not have a constructor";

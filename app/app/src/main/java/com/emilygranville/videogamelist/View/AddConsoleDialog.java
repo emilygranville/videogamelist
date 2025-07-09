@@ -16,31 +16,18 @@ import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.databinding.FragmentAddConsoleDialogBinding;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Objects;
+
 public class AddConsoleDialog extends DialogFragment implements IAddConsoleDialog {
 
     public static final String FRAG_NAME = "dialog";
 
     private FragmentAddConsoleDialogBinding binding;
-    private IAddConsoleDialog.Listener listener;
+    private final IAddConsoleDialog.Listener listener;
 
     public AddConsoleDialog(Listener listener) {
         this.listener = listener;
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment FragmentAddConsoleDialog.
-     */
-    // TODO: Rename and change types and number of parameters
-//    public static AddConsoleDialog newInstance(String param1, String param2) {
-//        AddConsoleDialog fragment = new AddConsoleDialog();
-//        Bundle args = new Bundle();
-//
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
 
     /**
      * Creates the dialog
@@ -50,9 +37,6 @@ public class AddConsoleDialog extends DialogFragment implements IAddConsoleDialo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
     }
 
     /**
@@ -68,9 +52,8 @@ public class AddConsoleDialog extends DialogFragment implements IAddConsoleDialo
      * @return the root of the binding
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         this.binding = FragmentAddConsoleDialogBinding.inflate(inflater);
         return this.binding.getRoot();
     }
@@ -90,26 +73,21 @@ public class AddConsoleDialog extends DialogFragment implements IAddConsoleDialo
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
         Dialog dialog = this.getDialog();
-        dialog.getWindow().setLayout((6 * width)/7, (int) (height/2.65));
+        assert dialog != null;
+        Objects.requireNonNull(dialog.getWindow())
+                .setLayout((6 * width)/7, (int) (height/2.65));
 
-        this.binding.addConsoleDismiss.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        this.binding.addConsoleDismiss.setOnClickListener(view1 -> AddConsoleDialog.this.dismiss());
+
+        this.binding.addConsoleSubmit.setOnClickListener(view2 -> {
+            String consoleName = Objects.requireNonNull(
+                    AddConsoleDialog.this.binding.editNewConsoleInput.getText()).toString();
+            if(!consoleName.isEmpty()) {
+                AddConsoleDialog.this.listener.onSubmitNewConsole(consoleName);
                 AddConsoleDialog.this.dismiss();
-            }
-        });
-
-        this.binding.addConsoleSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String consoleName = AddConsoleDialog.this.binding.editNewConsoleInput.getText().toString();
-                if(!consoleName.equals("")) {
-                    AddConsoleDialog.this.listener.submitNewConsole(consoleName);
-                    AddConsoleDialog.this.dismiss();
-                } else {
-                    Snackbar.make(AddConsoleDialog.this.binding.getRoot(),
-                            getString(R.string.not_valid_new_console), Snackbar.LENGTH_LONG).show();
-                }
+            } else {
+                Snackbar.make(AddConsoleDialog.this.binding.getRoot(),
+                        getString(R.string.not_valid_new_console), Snackbar.LENGTH_LONG).show();
             }
         });
     }

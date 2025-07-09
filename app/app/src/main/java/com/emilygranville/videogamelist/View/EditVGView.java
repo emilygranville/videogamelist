@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class EditVGView extends Fragment implements IEditVVGView {
 
@@ -29,11 +30,11 @@ public class EditVGView extends Fragment implements IEditVVGView {
     public static final String IS_EDITED_KEY = "is edited";
 
     private FragmentEditVgViewBinding binding;
-    private IEditVVGView.Listener listener;
+    private final IEditVVGView.Listener listener;
     private List<String> consoleOptions;
     private boolean isEdited;
     private VideoGame videoGame;
-    private boolean hasInitInfo;
+    private final boolean hasInitInfo;
 
     /**
      * Constructors for EditVGView
@@ -42,21 +43,6 @@ public class EditVGView extends Fragment implements IEditVVGView {
         this.listener = listener;
         this.hasInitInfo = false;
     }
-
-//    public EditVGView(Listener listener, List<String> consoleOptions) {
-//        this.listener = listener;
-//        this.consoleOptions = consoleOptions;
-//        this.isEdited = false;
-//        this.hasInitInfo = true;
-//    }
-
-//    public EditVGView(Listener listener, List<String> consoleOptions, VideoGame videoGame) {
-//        this.listener = listener;
-//        this.consoleOptions = consoleOptions;
-//        this.videoGame = videoGame;
-//        this.isEdited = true;
-//        this.hasInitInfo = true;
-//    }
 
     /**
      *
@@ -71,7 +57,7 @@ public class EditVGView extends Fragment implements IEditVVGView {
      * @return the root of the binding
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.binding = FragmentEditVgViewBinding.inflate(inflater);
         return this.binding.getRoot();
@@ -127,48 +113,43 @@ public class EditVGView extends Fragment implements IEditVVGView {
             }
         }
 
-        this.binding.addConsoleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddConsoleDialog dialogFragment = new AddConsoleDialog((IAddConsoleDialog.Listener)
-                        EditVGView.this.listener);
-                dialogFragment.show(getParentFragmentManager(), AddConsoleDialog.FRAG_NAME);
-            }
+        this.binding.addConsoleButton.setOnClickListener(view1 -> {
+            AddConsoleDialog dialogFragment = new AddConsoleDialog((IAddConsoleDialog.Listener)
+                    EditVGView.this.listener);
+            dialogFragment.show(getParentFragmentManager(), AddConsoleDialog.FRAG_NAME);
         });
 
-        this.binding.submitVideoGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String gameName = EditVGView.this.binding.editNameInput.getText().toString();
-                double price;
-                try {
-                    price = Double.parseDouble(EditVGView.this.binding.editPriceInput
-                            .getText().toString());
-                } catch (NumberFormatException e) {
-                    Log.e("vgl", e.toString());
-                    price = 0;
-                }
-                boolean isFav = EditVGView.this.binding.editFavoriteBtn.isChecked();
-                List<Integer> selectedIndices = EditVGView.this.binding.consoleChipGroup
-                        .getCheckedChipIds();
-                List<String> selectedConsoles = new ArrayList<>();
-                for (int index : selectedIndices) {
-                    selectedConsoles.add(EditVGView.this.consoleOptions.get(index));
-                }
-                if(!gameName.equals("") && !selectedConsoles.isEmpty()) {
-                    VideoGame newGame;
-                    if (isEdited) {
-                        newGame = new VideoGame(gameName, price, selectedConsoles, isFav,
-                                EditVGView.this.videoGame.getGameId());
-                    } else {
-                        newGame = new VideoGame(gameName, price, selectedConsoles, isFav);
-                    }
-                    EditVGView.this.listener.submitGame(newGame);
+        this.binding.submitVideoGame.setOnClickListener(view2 -> {
+            String gameName = Objects.requireNonNull(
+                    EditVGView.this.binding.editNameInput.getText()).toString();
+            double price;
+            try {
+                price = Double.parseDouble(Objects.requireNonNull(
+                        EditVGView.this.binding.editPriceInput.getText()).toString());
+            } catch (NumberFormatException e) {
+                Log.e("vgl", e.toString());
+                price = 0;
+            }
+            boolean isFav = EditVGView.this.binding.editFavoriteBtn.isChecked();
+            List<Integer> selectedIndices = EditVGView.this.binding.consoleChipGroup
+                    .getCheckedChipIds();
+            List<String> selectedConsoles = new ArrayList<>();
+            for (int index : selectedIndices) {
+                selectedConsoles.add(EditVGView.this.consoleOptions.get(index));
+            }
+            if(!gameName.isEmpty() && !selectedConsoles.isEmpty()) {
+                VideoGame newGame;
+                if (isEdited) {
+                    newGame = new VideoGame(gameName, price, selectedConsoles, isFav,
+                            EditVGView.this.videoGame.getGameId());
                 } else {
-                    Snackbar.make(EditVGView.this.binding.getRoot(),
-                            getString(R.string.not_valid_new_game),
-                            Snackbar.LENGTH_LONG).show();
+                    newGame = new VideoGame(gameName, price, selectedConsoles, isFav);
                 }
+                EditVGView.this.listener.submitGame(newGame);
+            } else {
+                Snackbar.make(EditVGView.this.binding.getRoot(),
+                        getString(R.string.not_valid_new_game),
+                        Snackbar.LENGTH_LONG).show();
             }
         });
     }
@@ -211,10 +192,10 @@ public class EditVGView extends Fragment implements IEditVVGView {
     }
 
     /**
-     * Alerts listener to submitting the video game
-     * @param consoleName name of the new console
+     * Shows the new console in the list of consoles
+     * @param consoleName name of console to show
      */
-    public void submitNewConsole(String consoleName) {
+    public void showNewConsole(String consoleName) {
         int newIndex = this.consoleOptions.size();
         this.consoleOptions.add(consoleName);
 

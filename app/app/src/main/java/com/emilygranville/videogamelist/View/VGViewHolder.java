@@ -42,35 +42,17 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
         this.consolesDisplay = itemView.findViewById(R.id.consoles_txt);
         this.favoriteButton = itemView.findViewById(R.id.card_favorite_btn);
 
-        this.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int vis = VGViewHolder.this.consolesDisplay.getVisibility();
-                if (vis == GONE) {
-                    VGViewHolder.this.consolesDisplay.setVisibility(VISIBLE);
-                } else {
-                    VGViewHolder.this.consolesDisplay.setVisibility(GONE);
-                }
+        this.itemView.setOnClickListener(view -> {
+            int vis = VGViewHolder.this.consolesDisplay.getVisibility();
+            if (vis == GONE) {
+                VGViewHolder.this.consolesDisplay.setVisibility(VISIBLE);
+            } else {
+                VGViewHolder.this.consolesDisplay.setVisibility(GONE);
             }
         });
-        this.favoriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                VGViewHolder.this.listener.favorite(VGViewHolder.this.videoGame);
-            }
-        });
-        gameEditBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                VGViewHolder.this.listener.editGame(VGViewHolder.this.videoGame);
-            }
-        });
-        gameDeleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                VGViewHolder.this.listener.deleteGame(VGViewHolder.this.videoGame, VGViewHolder.this.curConsole);
-            }
-        });
+        this.favoriteButton.setOnClickListener(view -> VGViewHolder.this.listener.onFavorite(VGViewHolder.this.videoGame));
+        gameEditBtn.setOnClickListener(view -> VGViewHolder.this.listener.onEditGame(VGViewHolder.this.videoGame));
+        gameDeleteBtn.setOnClickListener(view -> VGViewHolder.this.listener.onDeleteGame(VGViewHolder.this.videoGame, VGViewHolder.this.curConsole));
     }
 
     /**
@@ -82,12 +64,12 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
         this.videoGame = videoGame;
         this.gameName.setText(videoGame.getGameName());
         this.curConsole = curConsole;
-        String consoleText = "Consoles:\n";
+        StringBuilder consoleText = new StringBuilder("Consoles:\n");
         for(String consoles : videoGame.getConsoles()) {
-            consoleText += "\u2022 " + consoles + "\n";
+            consoleText.append("• ").append(consoles).append("\n");
         }
-        consoleText = consoleText.substring(0, consoleText.length()-1);
-        this.consolesDisplay.setText(consoleText);
+        consoleText = new StringBuilder(consoleText.substring(0, consoleText.length() - 1));
+        this.consolesDisplay.setText(consoleText.toString());
 
         this.favoriteButton.setChecked(this.videoGame.getIsFavorite());
     }

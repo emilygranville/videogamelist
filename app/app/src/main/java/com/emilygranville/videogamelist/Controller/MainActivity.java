@@ -20,7 +20,6 @@ import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.MainView;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener,
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
         super.onCreate(savedInstanceState);
 
-        this.mainView = new MainView(this,this);
+        this.mainView = new MainView(this);
         setContentView(this.mainView.getRootView());
 
         if (savedInstanceState != null) {
@@ -114,9 +113,9 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     /**
      * Saves data locally to device
      */
-    private void saveLocally() {
+    private boolean saveLocally() {
         IDataPreservation saveData = new LocalDataPreservation();
-        saveData.saveConsoleOrganizer(this, this.consoleOrganizer);
+        return saveData.saveConsoleOrganizer(this, this.consoleOrganizer);
     }
 
     /**
@@ -224,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * Alerts listener to return to display fragment
      */
     @Override
-    public void returnToDisplayFromAbout() {
+    public void onReturnToDisplay() {
         showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
     }
 
@@ -234,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param scrollLeft position in scroll of the console
      */
     @Override
-    public void switchConsole(String console, int scrollLeft) {
+    public void onSwitchConsole(String console, int scrollLeft) {
         showDisplayFrag(console, scrollLeft);
     }
 
@@ -244,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param videoGame game to change favorite
      */
     @Override
-    public void favorite(VideoGame videoGame) {
+    public void onFavorite(VideoGame videoGame) {
         videoGame.switchFavorite();
         this.consoleOrganizer.editGame(videoGame);
     }
@@ -254,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param videoGame that needs to be updated
      */
     @Override
-    public void editGame(VideoGame videoGame) {
+    public void onEditGame(VideoGame videoGame) {
         showEditFrag(videoGame);
     }
 
@@ -264,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param curConsole current displayed console list
      */
     @Override
-    public void deleteGame(VideoGame videoGame, String curConsole) {
+    public void onDeleteGame(VideoGame videoGame, String curConsole) {
         int index = this.consoleOrganizer.getGameIndex(videoGame, curConsole);
         this.consoleOrganizer.deleteGame(videoGame);
         Log.i("vgl", "delete");
@@ -275,14 +274,14 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * Alerts listener to adding a new game
      */
     @Override
-    public void addNewGame() {
+    public void onAddNewGame() {
         showEditFrag();
     }
 
     /**
      * Alerts listener to show the about page
      */
-    public void displayAboutPage() {
+    public void onDisplayAboutPage() {
         showAboutFrag();
     }
 
@@ -290,8 +289,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * Alerts listener to saving on device
      */
     @Override
-    public void onDeviceSave() {
-        saveLocally();
+    public boolean onDeviceSave() {
+        return saveLocally();
     }
 
     /**
@@ -306,7 +305,6 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
             showDisplayFrag(null);
         }
     }
-
 
     /**
      * Alerts listener to submitting the video game
@@ -324,8 +322,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param consoleName name of the new console
      */
     @Override
-    public void submitNewConsole(String consoleName) {
+    public void onSubmitNewConsole(String consoleName) {
         String upperConsoleName = consoleName.toUpperCase();
-        ((IEditVVGView) this.currentFragment).submitNewConsole(upperConsoleName);
+        ((IEditVVGView) this.currentFragment).showNewConsole(upperConsoleName);
     }
 }

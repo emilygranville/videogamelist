@@ -25,7 +25,7 @@ public class LocalDataPreservation implements IDataPreservation {
      */
     @Override
     public boolean saveConsoleOrganizer(Context context, ConsoleOrganizer consoleOrganizer) {
-        File outFile = new File(context.getFilesDir(), this.CONSOLE_ORGANIZER_FILE_NAME);
+        File outFile = new File(context.getFilesDir(), CONSOLE_ORGANIZER_FILE_NAME);
         try {
             FileOutputStream fileOutStream = new FileOutputStream(outFile);
             ObjectOutputStream objectOutStream = new ObjectOutputStream(fileOutStream);
@@ -47,7 +47,7 @@ public class LocalDataPreservation implements IDataPreservation {
      */
     @Override
     public ConsoleOrganizer loadConsoleOrganizer(Context context) {
-        File inFile = new File(context.getFilesDir(), this.CONSOLE_ORGANIZER_FILE_NAME);
+        File inFile = new File(context.getFilesDir(), CONSOLE_ORGANIZER_FILE_NAME);
         if (inFile.isFile()) {
             try {
                 FileInputStream fileInStream = new FileInputStream(inFile);
@@ -59,7 +59,7 @@ public class LocalDataPreservation implements IDataPreservation {
                 e.printStackTrace();
                 return new ConsoleOrganizer();
             } catch (ClassNotFoundException e) {
-                final String msg = String.format("Can't find class of object from", inFile);
+                final String msg = String.format("Can't find class of object from %s", inFile);
                 Log.e(MainActivity.VGL, msg);
                 e.printStackTrace();
                 return new ConsoleOrganizer();
