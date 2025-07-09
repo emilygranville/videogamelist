@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,10 +93,13 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null && !hasInitInfo) {
+            Log.i(MainActivity.VGL, "please ;-;");
             this.videoGameList = (List<VideoGame>) getArguments().getSerializable(MainActivity.GAMES_FOR_CONSOLE);
             this.consoleList = (List<String>) getArguments().getSerializable(MainActivity.CONSOLE_LIST_KEY);
             this.curConsole = getArguments().getString(MainActivity.CONSOLE_NAME_KEY);
             this.scrollLeft = getArguments().getInt(MainActivity.SCROLL_LEFT_KEY);
+        } else {
+            Log.i(MainActivity.VGL, "please no ;-;");
         }
 
         displayFragment();
@@ -252,7 +256,7 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
                     DisplayVGView.this.listener.addNewGame();
                     return true;
                 } else if (itemId == R.id.save_device_item) {
-                    Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Save to device", Toast.LENGTH_SHORT).show();
+                    DisplayVGView.this.listener.onDeviceSave();
                     return true;
                 } else if (itemId == R.id.save_cloud_item) {
                     Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Save to cloud", Toast.LENGTH_SHORT).show();

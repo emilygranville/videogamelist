@@ -52,6 +52,11 @@ public interface IDisplayVGView {
          * Alerts listener to show the about page
          */
         void displayAboutPage();
+
+        /**
+         * Alerts listener to saving on device
+         */
+        void onDeviceSave();
     }
 
     /**

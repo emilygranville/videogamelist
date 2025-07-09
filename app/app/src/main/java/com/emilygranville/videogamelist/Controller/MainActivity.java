@@ -71,8 +71,18 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         if (savedInstanceState != null) {
             this.consoleOrganizer = (ConsoleOrganizer) savedInstanceState.getSerializable(CONSOLE_ORGANIZER_KEY);
         } else {
-            this.consoleOrganizer = makeTestConsoleOrganizer();
-            showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
+
+            IDataPreservation loadData = new LocalDataPreservation();
+            this.consoleOrganizer = loadData.loadConsoleOrganizer(this);
+            Log.i(MainActivity.VGL, this.consoleOrganizer.toString());
+
+            //this.consoleOrganizer = makeTestConsoleOrganizer();
+            if(!this.consoleOrganizer.getConsoleList().isEmpty()) {
+                showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
+            } else {
+                showDisplayFrag(null);
+            }
+
             //showEditFrag();
         }
     }
@@ -158,6 +168,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     private void showDisplayFrag(String console, int scrollLeft) {
         List<VideoGame> gamesForConsole;
+
+        if (console == null) {
+            console = MainActivity.FAVORITES_KEY;
+        }
+
         if (!console.equals(MainActivity.FAVORITES_KEY)) {
             gamesForConsole = this.consoleOrganizer.getGamesForConsole(console);
         } else {
@@ -291,11 +306,22 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         showEditFrag();
     }
 
+
+
     /**
      * Alerts listener to show the about page
      */
     public void displayAboutPage() {
         showAboutFrag();
+    }
+
+    /**
+     * Alerts listener to saving on device
+     */
+    @Override
+    public void onDeviceSave() {
+        IDataPreservation saveData = new LocalDataPreservation();
+        saveData.saveConsoleOrganizer(this, this.consoleOrganizer);
     }
 
     /**
