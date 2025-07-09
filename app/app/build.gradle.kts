@@ -65,4 +65,11 @@ dependencies {
     // espresso for recyclerview
     androidTestImplementation(libs.espresso.contrib)
 
+    //firestore
+    implementation(platform(libs.firebase.bom))
+
+    // Declare the dependencies for the desired Firebase products without specifying versions
+    // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
+    implementation (libs.firebase.auth)
+    implementation (libs.firebase.firestore)
 }
