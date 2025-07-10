@@ -44,4 +44,9 @@
     <string name="about_return_btn_txt">Return to display page</string>
     <string name="load_device_item_txt">Load from device (default)</string>
     <string name="load_cloud_item_txt">Load from cloud</string>
+    <string name="signup_email_hint">Enter Email Here</string>
+    <string name="signup_email_placeholder">sample-email@email.com</string>
+    <string name="signup_password_hint">Enter Password Here</string>
+    <string name="signup_password_placeholder">password</string>
+    <string name="signup_btn_txt">Sign Up</string>
 </resources>
