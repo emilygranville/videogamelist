@@ -13,10 +13,11 @@ import com.emilygranville.videogamelist.Model.ConsoleOrganizer;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.View.DisplayVGView;
 import com.emilygranville.videogamelist.View.IAboutVGView;
-import com.emilygranville.videogamelist.View.IAddConsoleDialog;
+import com.emilygranville.videogamelist.View.Dialogs.IAddConsoleDialog;
 import com.emilygranville.videogamelist.View.IDisplayVGView;
 import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
+import com.emilygranville.videogamelist.View.Dialogs.ISignUpGVView;
 import com.emilygranville.videogamelist.View.MainView;
 
 import java.io.Serializable;
@@ -24,7 +25,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener,
         IDisplayVGView.Listener, IEditVVGView.Listener, IAddConsoleDialog.Listener,
-        IAboutVGView.Listener {
+        IAboutVGView.Listener, ISignUpGVView.Listener {
 
     private static final String CONSOLE_ORGANIZER_KEY = "console organizer";
     private static final String IN_PROGRESS_KEY = "in progress";
@@ -69,7 +70,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
             loadLocally();
 
-            if(!this.consoleOrganizer.getConsoleList().isEmpty()) {
+            if(this.consoleOrganizer == null || !this.consoleOrganizer.getConsoleList().isEmpty()) {
+                assert this.consoleOrganizer != null;
                 showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
             } else {
                 showDisplayFrag(null);
@@ -305,6 +307,15 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
             showDisplayFrag(null);
         }
     }
+
+    /**
+     * Alerts listener to saving to cloud
+     */
+    @Override
+    public boolean onCloudSave() {
+        return true;
+    }
+
 
     /**
      * Alerts listener to submitting the video game

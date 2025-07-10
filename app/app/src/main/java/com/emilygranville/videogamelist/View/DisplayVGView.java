@@ -19,6 +19,9 @@ import android.widget.Toast;
 import com.emilygranville.videogamelist.Controller.MainActivity;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.R;
+import com.emilygranville.videogamelist.View.Dialogs.AddConsoleDialog;
+import com.emilygranville.videogamelist.View.Dialogs.ISignUpGVView;
+import com.emilygranville.videogamelist.View.Dialogs.SignUpVGDialog;
 import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
 import com.google.android.material.chip.Chip;
 
@@ -226,8 +229,15 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
                 DisplayVGView.this.listener.onDeviceLoad();
                 return true;
             } else if (itemId == R.id.save_cloud_item) {
-                Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Save to cloud", Toast.LENGTH_SHORT).show();
-                return true;
+                Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Saving to cloud...", Toast.LENGTH_SHORT).show();
+                SignUpVGDialog dialogFragment = new SignUpVGDialog((ISignUpGVView.Listener)
+                        DisplayVGView.this.listener);
+                dialogFragment.show(getParentFragmentManager(), AddConsoleDialog.FRAG_NAME);
+                boolean success = DisplayVGView.this.listener.onCloudSave();
+                if (success) {
+                    Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Saved to cloud", Toast.LENGTH_SHORT).show();
+                }
+                return success;
             } else if (itemId == R.id.load_cloud_item) {
                 Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Load from cloud", Toast.LENGTH_SHORT).show();
                 return true;

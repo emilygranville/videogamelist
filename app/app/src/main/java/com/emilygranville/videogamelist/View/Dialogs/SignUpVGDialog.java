@@ -1,26 +1,29 @@
-package com.emilygranville.videogamelist.View;
+package com.emilygranville.videogamelist.View.Dialogs;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.emilygranville.videogamelist.R;
-import com.emilygranville.videogamelist.databinding.FragmentAddConsoleDialogBinding;
+import com.emilygranville.videogamelist.databinding.FragmentSignUpVgDialogBinding;
 
-public class SignUpVGView extends DialogFragment implements ISignUpGVView {
+import java.util.Objects;
+
+public class SignUpVGDialog extends DialogFragment implements ISignUpGVView {
 
     public static final String FRAG_NAME = "sign up";
 
-    private FragmentAddConsoleDialogBinding binding;
+    private FragmentSignUpVgDialogBinding binding;
     private final ISignUpGVView.Listener listener;
 
-    public SignUpVGView(ISignUpGVView.Listener listener) {
+    public SignUpVGDialog(ISignUpGVView.Listener listener) {
         this.listener = listener;
     }
 
@@ -49,7 +52,7 @@ public class SignUpVGView extends DialogFragment implements ISignUpGVView {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.binding = FragmentAddConsoleDialogBinding.inflate(inflater);
+        this.binding = FragmentSignUpVgDialogBinding.inflate(inflater);
         return this.binding.getRoot();
     }
 
@@ -62,5 +65,13 @@ public class SignUpVGView extends DialogFragment implements ISignUpGVView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+        Dialog dialog = this.getDialog();
+        assert dialog != null;
+        Objects.requireNonNull(dialog.getWindow())
+                .setLayout((6 * width)/7, (int) (height/2.65));
     }
 }

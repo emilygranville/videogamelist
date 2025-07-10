@@ -63,6 +63,11 @@ public interface IDisplayVGView {
         void onDeviceLoad();
 
         /**
+         * Alerts listener to saving to cloud
+         */
+        boolean onCloudSave();
+
+        /**
          * Alerts listener to show the about page
          */
         void onDisplayAboutPage();
