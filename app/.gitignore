@@ -19,4 +19,6 @@ local.properties
 /.idea/shelf/
 /.idea/deviceManager.xml
 
+*.json
+
 /app/src/androidTest/java/com/emilygranville/videogamelist/ExampleInstrumentedTest.java

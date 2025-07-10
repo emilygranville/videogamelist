@@ -1,10 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
     namespace = "com.emilygranville.videogamelist"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.emilygranville.videogamelist"
@@ -68,8 +69,6 @@ dependencies {
     //firestore
     implementation(platform(libs.firebase.bom))
 
-    // Declare the dependencies for the desired Firebase products without specifying versions
-    // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
     implementation (libs.firebase.auth)
     implementation (libs.firebase.firestore)
 }
