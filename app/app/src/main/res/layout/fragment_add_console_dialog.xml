@@ -3,23 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    app:barrierMargin="16dp">
 
     <TextView
         android:id="@+id/console_dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/add_console_title"
         app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/console_dialog_instructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/add_console_instructions"
         app:layout_constraintBottom_toTopOf="@+id/edit_new_console_layout"
         app:layout_constraintEnd_toStartOf="parent"
@@ -30,8 +34,11 @@
         android:id="@+id/edit_new_console_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:hint="@string/add_console_label"
+        app:expandedHintEnabled="false"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/console_dialog_instructions"
@@ -50,8 +57,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/add_console_dismiss_btn_text"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/add_console_submit"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_new_console_layout" />
@@ -60,10 +69,12 @@
         android:id="@+id/add_console_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/add_console_submit_btn_text"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toEndOf="@+id/add_console_dismiss"
         app:layout_constraintTop_toBottomOf="@+id/edit_new_console_layout" />
