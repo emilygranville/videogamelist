@@ -233,11 +233,7 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
                 SignUpVGDialog dialogFragment = new SignUpVGDialog((ISignUpGVView.Listener)
                         DisplayVGView.this.listener);
                 dialogFragment.show(getParentFragmentManager(), AddConsoleDialog.FRAG_NAME);
-                boolean success = DisplayVGView.this.listener.onCloudSave();
-                if (success) {
-                    Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Saved to cloud", Toast.LENGTH_SHORT).show();
-                }
-                return success;
+                return true;
             } else if (itemId == R.id.load_cloud_item) {
                 Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Load from cloud", Toast.LENGTH_SHORT).show();
                 return true;

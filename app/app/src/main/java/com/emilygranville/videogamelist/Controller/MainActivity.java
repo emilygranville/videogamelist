@@ -19,6 +19,7 @@ import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.Dialogs.ISignUpGVView;
 import com.emilygranville.videogamelist.View.MainView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.Serializable;
 import java.util.List;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     private ConsoleOrganizer consoleOrganizer;
     private Fragment currentFragment;
 
+    private FirebaseAuth auth;
 
     /*
      * ANDROID METHODS
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                 setFragmentFactory(new VGLFragmentFactory(this));
 
         super.onCreate(savedInstanceState);
+
+        auth = FirebaseAuth.getInstance();
 
         this.mainView = new MainView(this);
         setContentView(this.mainView.getRootView());
@@ -188,6 +192,23 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.currentFragment = new EditVGView(this);
         currentFragment.setArguments(fragArgs);
         this.mainView.displayFragment(currentFragment, false, EditVGView.FRAG_NAME);
+    }
+
+    private boolean validateSignUpInformation(String email, String password) {
+        return !(email.isEmpty() || password.isEmpty());
+    }
+
+    private void registerNewAccount(String email, String password) {
+        if (validateSignUpInformation(email, password)) {
+            auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            Log.i(MainActivity.VGL, "Account created");
+                        } else {
+                            Log.i(MainActivity.VGL, "Account not created");
+                        }
+                    });
+        }
     }
 
     /*
@@ -336,5 +357,17 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     public void onSubmitNewConsole(String consoleName) {
         String upperConsoleName = consoleName.toUpperCase();
         ((IEditVVGView) this.currentFragment).showNewConsole(upperConsoleName);
+    }
+
+
+    /**
+     * Alerts listener to create account button
+     *
+     * @param email email to save
+     * @param password password to save
+     */
+    @Override
+    public void onCreateAccount(String email, String password) {
+        registerNewAccount(email, password);
     }
 }
