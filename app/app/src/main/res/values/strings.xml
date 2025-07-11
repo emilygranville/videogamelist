@@ -49,4 +49,7 @@
     <string name="signup_password_hint">Enter Password Here</string>
     <string name="signup_password_placeholder">password</string>
     <string name="signup_btn_txt">Sign Up</string>
+    <string name="confirm_action_txt">Please confirm action below</string>
+    <string name="confirm_btn_txt">Confirm</string>
+    <string name="nevermind_btn_txt">Nevermind</string>
 </resources>
