@@ -1,5 +1,6 @@
 package com.emilygranville.videogamelist.Controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -19,6 +20,9 @@ import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.Dialogs.ISignUpGVView;
 import com.emilygranville.videogamelist.View.MainView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.Serializable;
@@ -194,21 +198,51 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.mainView.displayFragment(currentFragment, false, EditVGView.FRAG_NAME);
     }
 
+    /**
+     * Makes sure the sign up information is valid
+     * @param email email to sign up with
+     * @param password password to sign up with
+     * @return
+     */
     private boolean validateSignUpInformation(String email, String password) {
         return !(email.isEmpty() || password.isEmpty());
     }
 
+    /**
+     * Registers new account
+     * @param email email for the account
+     * @param password password for the account
+     */
     private void registerNewAccount(String email, String password) {
         if (validateSignUpInformation(email, password)) {
             auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
                             Log.i(MainActivity.VGL, "Account created");
+                            accountSignIn(email, password);
                         } else {
                             Log.i(MainActivity.VGL, "Account not created");
                         }
                     });
         }
+    }
+
+    /**
+     * Sign into the account (as long as one is created)
+     * @param email email
+     * @param password password
+     */
+    private void accountSignIn(String email, String password) {
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Log.i(MainActivity.VGL, "Sign in success");
+                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+                        finish();
+                    } else {
+                        Log.i(MainActivity.VGL, "Sign in failed");
+                    }
+                });
     }
 
     /*
