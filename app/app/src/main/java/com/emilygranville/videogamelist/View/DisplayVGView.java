@@ -19,8 +19,9 @@ import android.widget.Toast;
 import com.emilygranville.videogamelist.Controller.MainActivity;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.R;
-import com.emilygranville.videogamelist.View.Dialogs.AddConsoleDialog;
+import com.emilygranville.videogamelist.View.Dialogs.ISignInGVView;
 import com.emilygranville.videogamelist.View.Dialogs.ISignUpGVView;
+import com.emilygranville.videogamelist.View.Dialogs.SignInVGDialog;
 import com.emilygranville.videogamelist.View.Dialogs.SignUpVGDialog;
 import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
 import com.google.android.material.chip.Chip;
@@ -205,6 +206,20 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         this.vgItemAdapter.notifyItemRemoved(index);
     }
 
+    @Override
+    public void onUserSignIn() {
+        SignInVGDialog dialogFragment = new SignInVGDialog((ISignInGVView.Listener)
+                DisplayVGView.this.listener);
+        dialogFragment.show(getParentFragmentManager(), SignInVGDialog.FRAG_NAME);
+    }
+
+    @Override
+    public void onUserSignUp() {
+        SignUpVGDialog dialogFragment = new SignUpVGDialog((ISignUpGVView.Listener)
+                DisplayVGView.this.listener);
+        dialogFragment.show(getParentFragmentManager(), SignUpVGDialog.FRAG_NAME);
+    }
+
     /**
      * Handles displaying the menu
      */
@@ -230,11 +245,12 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
                 return true;
             } else if (itemId == R.id.save_cloud_item) {
                 Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Saving to cloud...", Toast.LENGTH_SHORT).show();
-                SignUpVGDialog dialogFragment = new SignUpVGDialog((ISignUpGVView.Listener)
-                        DisplayVGView.this.listener);
-                dialogFragment.show(getParentFragmentManager(), AddConsoleDialog.FRAG_NAME);
+                DisplayVGView.this.listener.onCloudSave();
                 return true;
             } else if (itemId == R.id.load_cloud_item) {
+                // TODO: finish this once i get to cloud saving
+//                ConfirmVGDialog dialogFragment = new ConfirmVGDialog();
+//                dialogFragment.show(getParentFragmentManager(), ConfirmVGDialog.FRAG_NAME);
                 Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Load from cloud", Toast.LENGTH_SHORT).show();
                 return true;
             } else if (itemId == R.id.about_page_item) {
@@ -246,5 +262,4 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
 
         popupMenu.show();
     }
-
 }

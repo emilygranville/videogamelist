@@ -79,4 +79,14 @@ public interface IDisplayVGView {
      */
     void updateDeletedItem(int index);
 
+    /**
+     * Called when the user needs to sign up
+     */
+    void onUserSignUp();
+
+    /**
+     * Called when the user needs to sign in
+     */
+    void onUserSignIn();
+
 }

@@ -44,12 +44,15 @@
     <string name="about_return_btn_txt">Return to display page</string>
     <string name="load_device_item_txt">Load from device (default)</string>
     <string name="load_cloud_item_txt">Load from cloud</string>
-    <string name="signup_email_hint">Enter Email Here</string>
-    <string name="signup_email_placeholder">example@email.com</string>
-    <string name="signup_password_hint">Enter Password Here</string>
-    <string name="signup_password_placeholder">password</string>
+    <string name="sign_email_hint">Enter Email Here</string>
+    <string name="sign_email_placeholder">example@email.com</string>
+    <string name="sign_password_hint">Enter Password Here</string>
+    <string name="sign_password_placeholder">password</string>
     <string name="signup_btn_txt">Sign Up</string>
     <string name="confirm_action_txt">Please confirm action below</string>
     <string name="confirm_btn_txt">Confirm</string>
     <string name="nevermind_btn_txt">Nevermind</string>
+    <string name="signup_txt_msg">Sign Up</string>
+    <string name="signin_txt_msg">Sign In</string>
+    <string name="signin_btn_txt">Sign In</string>
 </resources>

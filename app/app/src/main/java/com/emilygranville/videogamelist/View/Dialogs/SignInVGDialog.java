@@ -12,18 +12,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.emilygranville.videogamelist.databinding.FragmentSignUpVgDialogBinding;
+import com.emilygranville.videogamelist.databinding.FragmentSignInVgDialogBinding;
 
 import java.util.Objects;
 
-public class SignUpVGDialog extends DialogFragment implements ISignUpGVView {
+public class SignInVGDialog extends DialogFragment implements ISignInGVView {
 
-    public static final String FRAG_NAME = "sign up";
+    public static final String FRAG_NAME = "sign In";
 
-    private FragmentSignUpVgDialogBinding binding;
-    private final ISignUpGVView.Listener listener;
+    private FragmentSignInVgDialogBinding binding;
+    private final ISignInGVView.Listener listener;
 
-    public SignUpVGDialog(ISignUpGVView.Listener listener) {
+    public SignInVGDialog(ISignInGVView.Listener listener) {
         this.listener = listener;
     }
 
@@ -52,7 +52,7 @@ public class SignUpVGDialog extends DialogFragment implements ISignUpGVView {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.binding = FragmentSignUpVgDialogBinding.inflate(inflater);
+        this.binding = FragmentSignInVgDialogBinding.inflate(inflater);
         return this.binding.getRoot();
     }
 
@@ -74,10 +74,10 @@ public class SignUpVGDialog extends DialogFragment implements ISignUpGVView {
         Objects.requireNonNull(dialog.getWindow())
                 .setLayout((6 * width)/7, (int) (height/2.25));
 
-        this.binding.signupSignupButton.setOnClickListener(view1 -> {
-            String email = SignUpVGDialog.this.binding.emailSignupInput.getText().toString().trim();
-            String password = SignUpVGDialog.this.binding.passwordSignupInput.getText().toString().trim();
-            SignUpVGDialog.this.listener.onCreateAccount(email, password);
+        this.binding.signinSigninButton.setOnClickListener(view1 -> {
+            String email = SignInVGDialog.this.binding.emailSigninInput.getText().toString().trim();
+            String password = SignInVGDialog.this.binding.passwordSigninInput.getText().toString().trim();
+            SignInVGDialog.this.listener.onSignIntoAccount(email, password);
         });
     }
 }

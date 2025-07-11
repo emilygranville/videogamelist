@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.emilygranville.videogamelist.View.AboutVGView;
+import com.emilygranville.videogamelist.View.Dialogs.ISignInGVView;
 import com.emilygranville.videogamelist.View.EditVGView;
 import com.emilygranville.videogamelist.Model.ConsoleOrganizer;
 import com.emilygranville.videogamelist.Model.VideoGame;
@@ -20,17 +21,15 @@ import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.Dialogs.ISignUpGVView;
 import com.emilygranville.videogamelist.View.MainView;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener,
         IDisplayVGView.Listener, IEditVVGView.Listener, IAddConsoleDialog.Listener,
-        IAboutVGView.Listener, ISignUpGVView.Listener {
+        IAboutVGView.Listener, ISignUpGVView.Listener, ISignInGVView.Listener {
 
     private static final String CONSOLE_ORGANIZER_KEY = "console organizer";
     private static final String IN_PROGRESS_KEY = "in progress";
@@ -202,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * Makes sure the sign up information is valid
      * @param email email to sign up with
      * @param password password to sign up with
-     * @return
+     * @return whether the sign up info is valid
      */
     private boolean validateSignUpInformation(String email, String password) {
         return !(email.isEmpty() || password.isEmpty());
@@ -241,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                         finish();
                     } else {
                         Log.i(MainActivity.VGL, "Sign in failed");
+                        ((IDisplayVGView) this.currentFragment).onUserSignUp();
                     }
                 });
     }
@@ -368,6 +368,16 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     @Override
     public boolean onCloudSave() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        ((IDisplayVGView) this.currentFragment).onUserSignIn();
+        if (user != null) {
+            Log.i(MainActivity.VGL, "signed in");
+            //TODO: do this once i have database stuff ready
+
+            // User is signed in
+        } else {
+            ((IDisplayVGView) this.currentFragment).onUserSignIn();
+        }
         return true;
     }
 
@@ -403,5 +413,16 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     @Override
     public void onCreateAccount(String email, String password) {
         registerNewAccount(email, password);
+    }
+
+    /**
+     * Alerts listener to sign into account button
+     *
+     * @param email    email to save
+     * @param password password to save
+     */
+    @Override
+    public void onSignIntoAccount(String email, String password) {
+        accountSignIn(email, password);
     }
 }
