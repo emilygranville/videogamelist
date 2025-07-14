@@ -55,4 +55,6 @@
     <string name="signup_txt_msg">Sign Up</string>
     <string name="signin_txt_msg">Sign In</string>
     <string name="signin_btn_txt">Sign In</string>
+    <string name="signout_btn_txt">Sign Out</string>
+    <string name="delete_account_btn_txt">Delete Account</string>
 </resources>
