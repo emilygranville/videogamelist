@@ -57,4 +57,5 @@
     <string name="signin_btn_txt">Sign In</string>
     <string name="signout_btn_txt">Sign Out</string>
     <string name="delete_account_btn_txt">Delete Account</string>
+    <string name="account_management_page_item_txt">Account Management Page</string>
 </resources>

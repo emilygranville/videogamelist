@@ -68,6 +68,9 @@ public class AboutVGView extends Fragment {
         displayFragment();
     }
 
+    /**
+     * Rest of the code necessary for displaying the fragment
+     */
     private void displayFragment() {
         this.binding.aboutReturnBtn.setOnClickListener(view -> AboutVGView.this.listener.onReturnToDisplay());
     }

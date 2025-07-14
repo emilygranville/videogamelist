@@ -16,6 +16,9 @@
         android:id="@+id/load_cloud_item"
         android:title="@string/load_cloud_item_txt" />
     <item
+        android:id="@+id/am_page_item"
+        android:title="@string/account_management_page_item_txt" />
+    <item
         android:id="@+id/about_page_item"
         android:title="@string/about_page_item_txt" />
 </menu>

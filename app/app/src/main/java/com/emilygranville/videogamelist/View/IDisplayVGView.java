@@ -68,6 +68,11 @@ public interface IDisplayVGView {
         boolean onCloudSave();
 
         /**
+         * Alerts listener to show the account management page
+         */
+        void onDisplayAMPage();
+
+        /**
          * Alerts listener to show the about page
          */
         void onDisplayAboutPage();
@@ -78,15 +83,4 @@ public interface IDisplayVGView {
      * @param index index the item had been
      */
     void updateDeletedItem(int index);
-
-    /**
-     * Called when the user needs to sign up
-     */
-    void onUserSignUp();
-
-    /**
-     * Called when the user needs to sign in
-     */
-    void onUserSignIn();
-
 }

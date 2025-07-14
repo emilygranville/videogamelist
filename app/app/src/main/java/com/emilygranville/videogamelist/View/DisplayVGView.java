@@ -206,20 +206,6 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         this.vgItemAdapter.notifyItemRemoved(index);
     }
 
-    @Override
-    public void onUserSignIn() {
-        SignInVGDialog dialogFragment = new SignInVGDialog((ISignInGVView.Listener)
-                DisplayVGView.this.listener);
-        dialogFragment.show(getParentFragmentManager(), SignInVGDialog.FRAG_NAME);
-    }
-
-    @Override
-    public void onUserSignUp() {
-        SignUpVGDialog dialogFragment = new SignUpVGDialog((ISignUpGVView.Listener)
-                DisplayVGView.this.listener);
-        dialogFragment.show(getParentFragmentManager(), SignUpVGDialog.FRAG_NAME);
-    }
-
     /**
      * Handles displaying the menu
      */
@@ -253,7 +239,9 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
 //                dialogFragment.show(getParentFragmentManager(), ConfirmVGDialog.FRAG_NAME);
                 Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Load from cloud", Toast.LENGTH_SHORT).show();
                 return true;
-            } else if (itemId == R.id.about_page_item) {
+            } else if (itemId == R.id.am_page_item) {
+                DisplayVGView.this.listener.onDisplayAMPage();
+            }else if (itemId == R.id.about_page_item) {
                 DisplayVGView.this.listener.onDisplayAboutPage();
                 return true;
             }

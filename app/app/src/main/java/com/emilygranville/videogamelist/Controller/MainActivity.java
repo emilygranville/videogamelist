@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.emilygranville.videogamelist.View.AboutVGView;
+import com.emilygranville.videogamelist.View.AccountManagementVGView;
 import com.emilygranville.videogamelist.View.Dialogs.ISignInGVView;
 import com.emilygranville.videogamelist.View.EditVGView;
 import com.emilygranville.videogamelist.Model.ConsoleOrganizer;
@@ -16,6 +17,7 @@ import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.View.DisplayVGView;
 import com.emilygranville.videogamelist.View.IAboutVGView;
 import com.emilygranville.videogamelist.View.Dialogs.IAddConsoleDialog;
+import com.emilygranville.videogamelist.View.IAccountManagementVGView;
 import com.emilygranville.videogamelist.View.IDisplayVGView;
 import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
@@ -29,7 +31,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener,
         IDisplayVGView.Listener, IEditVVGView.Listener, IAddConsoleDialog.Listener,
-        IAboutVGView.Listener, ISignUpGVView.Listener, ISignInGVView.Listener {
+        IAboutVGView.Listener, ISignUpGVView.Listener, ISignInGVView.Listener,
+        IAccountManagementVGView.Listener {
 
     private static final String CONSOLE_ORGANIZER_KEY = "console organizer";
     private static final String IN_PROGRESS_KEY = "in progress";
@@ -125,6 +128,14 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     private boolean saveLocally() {
         IDataPreservation saveData = new LocalDataPreservation();
         return saveData.saveConsoleOrganizer(this, this.consoleOrganizer);
+    }
+
+    /**
+     * Shows the Account Management page
+     */
+    private void showAccountManagementFrag() {
+        this.currentFragment = new AccountManagementVGView(this);
+        this.mainView.displayFragment(currentFragment, true, AccountManagementVGView.FRAG_NAME);
     }
 
     /**
@@ -240,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                         finish();
                     } else {
                         Log.i(MainActivity.VGL, "Sign in failed");
-                        ((IDisplayVGView) this.currentFragment).onUserSignUp();
+                        //((IDisplayVGView) this.currentFragment).onUserSignUp();
                     }
                 });
     }
@@ -255,6 +266,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     @Override
     public void restoreAboutFragment(Fragment curFragment) {
+        this.currentFragment = curFragment;
+    }
+
+    @Override
+    public void restoreAccountManagementFrag(Fragment curFragment) {
         this.currentFragment = curFragment;
     }
 
@@ -335,6 +351,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         showEditFrag();
     }
 
+
+
     /**
      * Alerts listener to show the about page
      */
@@ -376,11 +394,18 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
             // User is signed in
         } else {
-            ((IDisplayVGView) this.currentFragment).onUserSignIn();
+            //((IDisplayVGView) this.currentFragment).onUserSignIn();
         }
         return true;
     }
 
+    /**
+     * Alerts listener to show the account management page
+     */
+    @Override
+    public void onDisplayAMPage() {
+        showAccountManagementFrag();
+    }
 
     /**
      * Alerts listener to submitting the video game
@@ -424,5 +449,25 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     @Override
     public void onSignIntoAccount(String email, String password) {
         accountSignIn(email, password);
+    }
+
+    @Override
+    public boolean onSignUp() {
+        return false;
+    }
+
+    @Override
+    public boolean onSignIn() {
+        return false;
+    }
+
+    @Override
+    public boolean onSignOut() {
+        return false;
+    }
+
+    @Override
+    public boolean onDeleteAccount() {
+        return false;
     }
 }
