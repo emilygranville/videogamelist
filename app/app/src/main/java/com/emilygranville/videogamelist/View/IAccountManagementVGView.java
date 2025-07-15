@@ -8,8 +8,8 @@ public interface IAccountManagementVGView {
      */
     interface Listener {
         void restoreAccountManagementFrag(Fragment curFragment);
-        boolean onSignUp();
-        boolean onSignIn();
+//        boolean onSignUp();
+//        boolean onSignIn();
         boolean onSignOut();
         boolean onDeleteAccount();
     }

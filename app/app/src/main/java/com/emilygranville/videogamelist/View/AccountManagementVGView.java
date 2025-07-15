@@ -91,7 +91,7 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
     }
 
     public void onUserSignOut() {
-        Log.i(MainActivity.VGL, "sign out");
+        this.listener.onSignOut();
     }
     public void onUserDeleteAccount() {
         Log.i(MainActivity.VGL, "delete account");
@@ -100,5 +100,6 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
     private void displayFragment() {
         this.binding.amSigninBtn.setOnClickListener(view -> AccountManagementVGView.this.onUserSignIn());
         this.binding.amSignupBtn.setOnClickListener(view -> AccountManagementVGView.this.onUserSignUp());
+        this.binding.amSignoutBtn.setOnClickListener(view -> AccountManagementVGView.this.onUserSignOut());
     }
 }

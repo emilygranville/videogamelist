@@ -23,6 +23,8 @@ import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.Dialogs.ISignUpGVView;
 import com.emilygranville.videogamelist.View.MainView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -256,6 +258,10 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                 });
     }
 
+    private void accountSignOut() {
+        FirebaseAuth.getInstance().signOut();
+    }
+
     /*
      * LISTENER METHODS
      */
@@ -451,19 +457,24 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         accountSignIn(email, password);
     }
 
-    @Override
-    public boolean onSignUp() {
-        return false;
-    }
-
-    @Override
-    public boolean onSignIn() {
-        return false;
-    }
+//    @Override
+//    public boolean onSignUp() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean onSignIn() {
+//        return false;
+//    }
 
     @Override
     public boolean onSignOut() {
-        return false;
+        accountSignOut();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Log.i(MainActivity.VGL, "sign out successful");
+        }
+        return true;
     }
 
     @Override
