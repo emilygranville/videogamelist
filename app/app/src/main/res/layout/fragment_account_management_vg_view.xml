@@ -24,7 +24,7 @@
             android:id="@+id/am_signup_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/signup_btn_txt"
+            android:text="@string/signup_txt"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="32dp"/>
 
@@ -32,7 +32,7 @@
             android:id="@+id/am_signin_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/signin_btn_txt"
+            android:text="@string/signin_txt"
             android:layout_marginBottom="32dp"/>
 
         <Button

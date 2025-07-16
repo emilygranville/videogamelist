@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/signin_txt_msg" />
+            android:text="@string/signin_txt" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_signin_layout"
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="@string/signin_btn_txt" />
+            android:text="@string/signin_txt" />
 
 
     </LinearLayout>
