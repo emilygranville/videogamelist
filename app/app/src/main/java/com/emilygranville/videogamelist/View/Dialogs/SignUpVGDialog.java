@@ -78,6 +78,7 @@ public class SignUpVGDialog extends DialogFragment implements ISignUpGVView {
             String email = SignUpVGDialog.this.binding.emailSignupInput.getText().toString().trim();
             String password = SignUpVGDialog.this.binding.passwordSignupInput.getText().toString().trim();
             SignUpVGDialog.this.listener.onCreateAccount(email, password);
+            SignUpVGDialog.this.dismiss();
         });
     }
 }
