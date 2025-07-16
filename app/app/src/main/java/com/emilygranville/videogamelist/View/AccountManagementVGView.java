@@ -10,12 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.View.Dialogs.ConfirmVGDialog;
 import com.emilygranville.videogamelist.View.Dialogs.IConfirmVGDialog;
 import com.emilygranville.videogamelist.View.Dialogs.ISignInGVView;
-import com.emilygranville.videogamelist.View.Dialogs.ISignUpGVView;
 import com.emilygranville.videogamelist.View.Dialogs.SignInVGDialog;
-import com.emilygranville.videogamelist.View.Dialogs.SignUpVGDialog;
 import com.emilygranville.videogamelist.databinding.FragmentAccountManagementVgViewBinding;
 
 public class AccountManagementVGView extends Fragment implements IAccountManagementVGView, IConfirmVGDialog.Listener {
@@ -24,6 +23,10 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
 
     private static final String SIGN_OUT_PURPOSE_KEY = "sign out";
     private static final String DELETE_ACC_PURPOSE_KEY = "delete account";
+
+    public static final String SIGN_IN_PURPOSE_KEY = "sign in";
+    public static final String SIGN_UP_PURPOSE_KEY = "sign up";
+    public static final String CONFIRM_ACCOUNT_PURPOSE_KEY = "confirm account";
 
     private FragmentAccountManagementVgViewBinding binding;
     private final IAccountManagementVGView.Listener listener;
@@ -82,9 +85,10 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
      */
     @Override
     public void signUpPopUp() {
-        SignUpVGDialog dialogFragment = new SignUpVGDialog((ISignUpGVView.Listener)
-                AccountManagementVGView.this.listener);
-        dialogFragment.show(getParentFragmentManager(), SignUpVGDialog.FRAG_NAME);
+        String msg = getResources().getString(R.string.signup_txt);
+        SignInVGDialog dialogFragment = new SignInVGDialog((ISignInGVView.Listener)
+                AccountManagementVGView.this.listener, SIGN_UP_PURPOSE_KEY, msg);
+        dialogFragment.show(getParentFragmentManager(), SignInVGDialog.FRAG_NAME);
     }
 
     /**
@@ -92,8 +96,9 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
      */
     @Override
     public void signInPopUp() {
+        String msg = getResources().getString(R.string.signin_txt);
         SignInVGDialog dialogFragment = new SignInVGDialog((ISignInGVView.Listener)
-                AccountManagementVGView.this.listener);
+                AccountManagementVGView.this.listener, SIGN_IN_PURPOSE_KEY, msg);
         dialogFragment.show(getParentFragmentManager(), SignInVGDialog.FRAG_NAME);
     }
 

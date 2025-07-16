@@ -8,7 +8,8 @@ public interface ISignInGVView {
          *
          * @param email email to save
          * @param password password to save
+         * @param purpose the purpose for the sign in (sign in, sign up, etc)
          */
-        public void onSignIntoAccount(String email, String password);
+        public void onSignIn(String email, String password, String purpose);
     }
 }

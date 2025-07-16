@@ -19,10 +19,6 @@ import android.widget.Toast;
 import com.emilygranville.videogamelist.Controller.MainActivity;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.R;
-import com.emilygranville.videogamelist.View.Dialogs.ISignInGVView;
-import com.emilygranville.videogamelist.View.Dialogs.ISignUpGVView;
-import com.emilygranville.videogamelist.View.Dialogs.SignInVGDialog;
-import com.emilygranville.videogamelist.View.Dialogs.SignUpVGDialog;
 import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
 import com.google.android.material.chip.Chip;
 

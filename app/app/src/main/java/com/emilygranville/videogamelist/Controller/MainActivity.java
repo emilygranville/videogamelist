@@ -21,7 +21,6 @@ import com.emilygranville.videogamelist.View.IAccountManagementVGView;
 import com.emilygranville.videogamelist.View.IDisplayVGView;
 import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
-import com.emilygranville.videogamelist.View.Dialogs.ISignUpGVView;
 import com.emilygranville.videogamelist.View.MainView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,7 +32,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener,
         IDisplayVGView.Listener, IEditVVGView.Listener, IAddConsoleDialog.Listener,
-        IAboutVGView.Listener, ISignUpGVView.Listener, ISignInGVView.Listener,
+        IAboutVGView.Listener, ISignInGVView.Listener,
         IAccountManagementVGView.Listener {
 
     private static final String CONSOLE_ORGANIZER_KEY = "console organizer";
@@ -477,18 +476,6 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         ((IEditVVGView) this.currentFragment).showNewConsole(upperConsoleName);
     }
 
-
-    /**
-     * Alerts listener to create account button
-     *
-     * @param email email to save
-     * @param password password to save
-     */
-    @Override
-    public void onCreateAccount(String email, String password) {
-        registerNewAccount(email, password);
-    }
-
     /**
      * Alerts listener to sign into account button
      *
@@ -496,8 +483,15 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param password password to save
      */
     @Override
-    public void onSignIntoAccount(String email, String password) {
-        accountSignIn(email, password);
+    public void onSignIn(String email, String password, String purpose) {
+        switch (purpose) {
+            case AccountManagementVGView.SIGN_UP_PURPOSE_KEY:
+                registerNewAccount(email, password);
+                break;
+            case AccountManagementVGView.SIGN_IN_PURPOSE_KEY:
+                accountSignIn(email, password);
+                break;
+        }
     }
 
 //    @Override

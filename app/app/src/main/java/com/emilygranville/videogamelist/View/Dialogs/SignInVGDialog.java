@@ -23,8 +23,13 @@ public class SignInVGDialog extends DialogFragment implements ISignInGVView {
     private FragmentSignInVgDialogBinding binding;
     private final ISignInGVView.Listener listener;
 
-    public SignInVGDialog(ISignInGVView.Listener listener) {
+    private final String purpose;
+    private final String label;
+
+    public SignInVGDialog(ISignInGVView.Listener listener, String purpose, String label) {
         this.listener = listener;
+        this.purpose = purpose;
+        this.label = label;
     }
 
     /**
@@ -74,10 +79,12 @@ public class SignInVGDialog extends DialogFragment implements ISignInGVView {
         Objects.requireNonNull(dialog.getWindow())
                 .setLayout((6 * width)/7, (int) (height/2.25));
 
+        this.binding.signinLabel.setText(this.label);
+
         this.binding.signinSigninButton.setOnClickListener(view1 -> {
             String email = SignInVGDialog.this.binding.emailSigninInput.getText().toString().trim();
             String password = SignInVGDialog.this.binding.passwordSigninInput.getText().toString().trim();
-            SignInVGDialog.this.listener.onSignIntoAccount(email, password);
+            SignInVGDialog.this.listener.onSignIn(email, password, purpose);
             SignInVGDialog.this.dismiss();
         });
     }
