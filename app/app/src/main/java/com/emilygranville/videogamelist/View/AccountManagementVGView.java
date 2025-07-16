@@ -77,7 +77,6 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
         displayFragment();
     }
 
-
     /**
      * Internally handles sign up button
      */
@@ -122,6 +121,7 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
         this.binding.amSignupBtn.setOnClickListener(view -> AccountManagementVGView.this.signUpPopUp());
         this.binding.amSignoutBtn.setOnClickListener(view -> AccountManagementVGView.this.signOutPopUp());
         this.binding.amDeleteAccountBtn.setOnClickListener(view -> AccountManagementVGView.this.deleteAccountPopUp());
+        this.binding.amReturnBtn.setOnClickListener(view -> this.listener.onAMReturn());
     }
 
     /**

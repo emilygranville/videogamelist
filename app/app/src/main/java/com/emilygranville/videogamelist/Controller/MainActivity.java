@@ -523,4 +523,9 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         return user == null;
     }
+
+    @Override
+    public void onAMReturn() {
+        showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
+    }
 }

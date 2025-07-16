@@ -39,7 +39,7 @@
 
         \n\nOn loading, the app automatically loads the data saved to the device. To see the
         information saved to the cloud, please select that button from the menu.</string>
-    <string name="about_return_btn_txt">Return to display page</string>
+    <string name="return_btn_txt">Return to display page</string>
     <string name="load_device_item_txt">Load from device (default)</string>
     <string name="load_cloud_item_txt">Load from cloud</string>
     <string name="sign_email_hint">Enter Email Here</string>

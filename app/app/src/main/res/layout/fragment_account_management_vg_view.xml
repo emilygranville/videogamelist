@@ -48,5 +48,12 @@
             android:layout_height="wrap_content"
             android:text="@string/delete_account_btn_txt"
             android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/am_return_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/return_btn_txt"
+            android:layout_marginBottom="16dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

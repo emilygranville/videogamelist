@@ -12,6 +12,7 @@ public interface IAccountManagementVGView {
 //        boolean onSignIn();
         boolean onSignOut();
         boolean onDeleteAccount();
+        void onAMReturn();
     }
 
     void signUpPopUp();
