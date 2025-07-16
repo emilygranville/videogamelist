@@ -6,22 +6,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.emilygranville.videogamelist.Controller.MainActivity;
-import com.emilygranville.videogamelist.R;
+import com.emilygranville.videogamelist.View.Dialogs.ConfirmVGDialog;
+import com.emilygranville.videogamelist.View.Dialogs.IConfirmVGDialog;
 import com.emilygranville.videogamelist.View.Dialogs.ISignInGVView;
 import com.emilygranville.videogamelist.View.Dialogs.ISignUpGVView;
 import com.emilygranville.videogamelist.View.Dialogs.SignInVGDialog;
 import com.emilygranville.videogamelist.View.Dialogs.SignUpVGDialog;
 import com.emilygranville.videogamelist.databinding.FragmentAccountManagementVgViewBinding;
 
-public class AccountManagementVGView extends Fragment implements IAccountManagementVGView {
+public class AccountManagementVGView extends Fragment implements IAccountManagementVGView, IConfirmVGDialog.Listener {
 
     public static final String FRAG_NAME = "account management";
+
+    private static final String SIGN_OUT_PURPOSE_KEY = "sign out";
+    private static final String DELETE_ACC_PURPOSE_KEY = "delete account";
 
     private FragmentAccountManagementVgViewBinding binding;
     private final IAccountManagementVGView.Listener listener;
@@ -76,30 +78,61 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
     }
 
 
+    /**
+     * Internally handles sign up button
+     */
     @Override
-    public void onUserSignUp() {
+    public void signUpPopUp() {
         SignUpVGDialog dialogFragment = new SignUpVGDialog((ISignUpGVView.Listener)
                 AccountManagementVGView.this.listener);
         dialogFragment.show(getParentFragmentManager(), SignUpVGDialog.FRAG_NAME);
     }
 
+    /**
+     * Internally handles sign in button
+     */
     @Override
-    public void onUserSignIn() {
+    public void signInPopUp() {
         SignInVGDialog dialogFragment = new SignInVGDialog((ISignInGVView.Listener)
                 AccountManagementVGView.this.listener);
         dialogFragment.show(getParentFragmentManager(), SignInVGDialog.FRAG_NAME);
     }
 
-    public void onUserSignOut() {
-        this.listener.onSignOut();
-    }
-    public void onUserDeleteAccount() {
-        Log.i(MainActivity.VGL, "delete account");
+    /**
+     * Internally handles sign out button
+     */
+    public void signOutPopUp() {
+        ConfirmVGDialog confirmVGDialog = new ConfirmVGDialog(this, SIGN_OUT_PURPOSE_KEY);
+        confirmVGDialog.show(getParentFragmentManager(), ConfirmVGDialog.FRAG_NAME);
     }
 
+    /**
+     * Internally handles delete account button
+     */
+    public void deleteAccountPopUp() {
+        ConfirmVGDialog confirmVGDialog = new ConfirmVGDialog(this, DELETE_ACC_PURPOSE_KEY);
+        confirmVGDialog.show(getParentFragmentManager(), ConfirmVGDialog.FRAG_NAME);
+    }
+
+    /**
+     * Sets up the display for the fragment
+     */
     private void displayFragment() {
-        this.binding.amSigninBtn.setOnClickListener(view -> AccountManagementVGView.this.onUserSignIn());
-        this.binding.amSignupBtn.setOnClickListener(view -> AccountManagementVGView.this.onUserSignUp());
-        this.binding.amSignoutBtn.setOnClickListener(view -> AccountManagementVGView.this.onUserSignOut());
+        this.binding.amSigninBtn.setOnClickListener(view -> AccountManagementVGView.this.signInPopUp());
+        this.binding.amSignupBtn.setOnClickListener(view -> AccountManagementVGView.this.signUpPopUp());
+        this.binding.amSignoutBtn.setOnClickListener(view -> AccountManagementVGView.this.signOutPopUp());
+        this.binding.amDeleteAccountBtn.setOnClickListener(view -> AccountManagementVGView.this.deleteAccountPopUp());
+    }
+
+    /**
+     * Alerts listener to confirmation
+     */
+    @Override
+    public void onConfirm(String purpose) {
+        if (purpose.equals(SIGN_OUT_PURPOSE_KEY)) {
+            this.listener.onSignOut();
+        } else if (purpose.equals(DELETE_ACC_PURPOSE_KEY)) {
+            this.listener.onDeleteAccount();
+        }
     }
 }

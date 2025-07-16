@@ -1,6 +1,5 @@
 package com.emilygranville.videogamelist.Controller;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -8,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.View.AboutVGView;
 import com.emilygranville.videogamelist.View.AccountManagementVGView;
 import com.emilygranville.videogamelist.View.Dialogs.ISignInGVView;
@@ -234,8 +234,14 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                             accountSignIn(email, password);
                         } else {
                             Log.i(MainActivity.VGL, "Account not created");
+                            String msg = getResources().getString(R.string.try_again_txt);
+                            mainView.displayToast(msg);
                         }
                     });
+        } else {
+            Log.i(MainActivity.VGL, "Account not created");
+            String msg = getResources().getString(R.string.try_again_txt);
+            mainView.displayToast(msg);
         }
     }
 
@@ -249,17 +255,54 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         Log.i(MainActivity.VGL, "Sign in success");
-                        startActivity(new Intent(MainActivity.this, MainActivity.class));
-                        finish();
+//                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+//                        finish();
+                        String msg = getResources().getString(R.string.success);
+                        mainView.displayToast(msg);
                     } else {
                         Log.i(MainActivity.VGL, "Sign in failed");
                         //((IDisplayVGView) this.currentFragment).onUserSignUp();
+                        String msg = getResources().getString(R.string.try_again_txt);
+                        mainView.displayToast(msg);
                     }
                 });
     }
 
     private void accountSignOut() {
         FirebaseAuth.getInstance().signOut();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Log.i(MainActivity.VGL, "sign out successful");
+            String msg = getResources().getString(R.string.success);
+            mainView.displayToast(msg);
+        }
+    }
+
+    private void accountDelete() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //TODO: should force them to re-sign in before they can delete
+//
+//        user.reauthenticate(credential)
+//                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+                        user.delete()
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d(MainActivity.VGL, "User account deleted.");
+                                            String msg = getResources().getString(R.string.success);
+                                            mainView.displayToast(msg);
+                                        } else {
+                                            String msg = getResources().getString(R.string.try_again_txt);
+                                            mainView.displayToast(msg);
+                                        }
+                                    }
+                                });
+
+//                    }
+//                });
     }
 
     /*
@@ -471,14 +514,13 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     public boolean onSignOut() {
         accountSignOut();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) {
-            Log.i(MainActivity.VGL, "sign out successful");
-        }
-        return true;
+        return user == null;
     }
 
     @Override
     public boolean onDeleteAccount() {
-        return false;
+        accountDelete();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        return user == null;
     }
 }

@@ -54,4 +54,6 @@
     <string name="signout_btn_txt">Sign Out</string>
     <string name="delete_account_btn_txt">Delete Account</string>
     <string name="account_management_page_item_txt">Account Management Page</string>
+    <string name="try_again_txt">Attempt unsuccessful. Please try again later.</string>
+    <string name="success">Success.</string>
 </resources>

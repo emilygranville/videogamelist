@@ -20,6 +20,12 @@ public interface IMainView {
     void displayFragment(Fragment fragment, boolean allowBack, String name);
 
     /**
+     * Displays a toast message
+     * @param message message to make a toast
+     */
+    void displayToast(String message);
+
+    /**
      * Listener to provide controller with updates
      */
     interface Listener {

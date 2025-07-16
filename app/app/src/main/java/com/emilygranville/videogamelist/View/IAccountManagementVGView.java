@@ -14,8 +14,8 @@ public interface IAccountManagementVGView {
         boolean onDeleteAccount();
     }
 
-    void onUserSignUp();
-    void onUserSignIn();
-    void onUserSignOut();
-    void onUserDeleteAccount();
+    void signUpPopUp();
+    void signInPopUp();
+    void signOutPopUp();
+    void deleteAccountPopUp();
 }
