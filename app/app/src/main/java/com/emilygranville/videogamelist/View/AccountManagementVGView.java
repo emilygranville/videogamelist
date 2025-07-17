@@ -23,10 +23,11 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
 
     private static final String SIGN_OUT_PURPOSE_KEY = "sign out";
     private static final String DELETE_ACC_PURPOSE_KEY = "delete account";
-
+    public static final String CHANGE_PW_PURPOSE_KEY = "change password";
+    public static final String NEW_PW_PURPOSE_KEY = "new password";
     public static final String SIGN_IN_PURPOSE_KEY = "sign in";
     public static final String SIGN_UP_PURPOSE_KEY = "sign up";
-    public static final String CONFIRM_ACCOUNT_PURPOSE_KEY = "confirm account";
+    public static final String DELETE_ACCOUNT_PURPOSE_KEY = "delete account";
 
     private FragmentAccountManagementVgViewBinding binding;
     private final IAccountManagementVGView.Listener listener;
@@ -103,10 +104,38 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
     }
 
     /**
+     * Handles confirming account
+     */
+    public void confirmAccountPopUp(String purpose) {
+        String msg = getResources().getString(R.string.confirm_acc_txt);
+        SignInVGDialog dialogFragment = new SignInVGDialog((ISignInGVView.Listener)
+                AccountManagementVGView.this.listener, purpose, msg);
+        dialogFragment.show(getParentFragmentManager(), SignInVGDialog.FRAG_NAME);
+    }
+
+    /**
+     * Handles confirming account
+     */
+    public void newPWPopUp() {
+        String msg = getResources().getString(R.string.change_password_txt);
+        SignInVGDialog dialogFragment = new SignInVGDialog((ISignInGVView.Listener)
+                AccountManagementVGView.this.listener, NEW_PW_PURPOSE_KEY, msg);
+        dialogFragment.show(getParentFragmentManager(), SignInVGDialog.FRAG_NAME);
+    }
+
+    /**
      * Internally handles sign out button
      */
     public void signOutPopUp() {
         ConfirmVGDialog confirmVGDialog = new ConfirmVGDialog(this, SIGN_OUT_PURPOSE_KEY);
+        confirmVGDialog.show(getParentFragmentManager(), ConfirmVGDialog.FRAG_NAME);
+    }
+
+    /**
+     * Handles confirming for password changing
+     */
+    public void changePasswordPopUp() {
+        ConfirmVGDialog confirmVGDialog = new ConfirmVGDialog(this, CHANGE_PW_PURPOSE_KEY);
         confirmVGDialog.show(getParentFragmentManager(), ConfirmVGDialog.FRAG_NAME);
     }
 
@@ -124,6 +153,7 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
     private void displayFragment() {
         this.binding.amSigninBtn.setOnClickListener(view -> AccountManagementVGView.this.signInPopUp());
         this.binding.amSignupBtn.setOnClickListener(view -> AccountManagementVGView.this.signUpPopUp());
+        this.binding.amChangePasswordBtn.setOnClickListener(view -> AccountManagementVGView.this.changePasswordPopUp());
         this.binding.amSignoutBtn.setOnClickListener(view -> AccountManagementVGView.this.signOutPopUp());
         this.binding.amDeleteAccountBtn.setOnClickListener(view -> AccountManagementVGView.this.deleteAccountPopUp());
         this.binding.amReturnBtn.setOnClickListener(view -> this.listener.onAMReturn());
@@ -134,10 +164,16 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
      */
     @Override
     public void onConfirm(String purpose) {
-        if (purpose.equals(SIGN_OUT_PURPOSE_KEY)) {
-            this.listener.onSignOut();
-        } else if (purpose.equals(DELETE_ACC_PURPOSE_KEY)) {
-            this.listener.onDeleteAccount();
+        switch (purpose) {
+            case SIGN_IN_PURPOSE_KEY:
+                this.listener.onSignOut();
+                break;
+            case DELETE_ACC_PURPOSE_KEY:
+//                this.listener.onDeleteAccount();
+                break;
+            case CHANGE_PW_PURPOSE_KEY:
+                confirmAccountPopUp(CHANGE_PW_PURPOSE_KEY);
+                break;
         }
     }
 }

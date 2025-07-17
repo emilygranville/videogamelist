@@ -36,6 +36,13 @@
             android:layout_marginBottom="32dp"/>
 
         <Button
+            android:id="@+id/am_change_password_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/change_password_txt"
+            android:layout_marginBottom="32dp"/>
+
+        <Button
             android:id="@+id/am_signout_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

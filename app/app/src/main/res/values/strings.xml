@@ -53,7 +53,10 @@
     <string name="signin_txt">Sign In</string>
     <string name="signout_btn_txt">Sign Out</string>
     <string name="delete_account_btn_txt">Delete Account</string>
+    <string name="new_pw_txt">Enter New Password</string>
     <string name="account_management_page_item_txt">Account Management Page</string>
     <string name="try_again_txt">Attempt unsuccessful. Please try again later.</string>
     <string name="success">Success.</string>
+    <string name="change_password_txt">Change Password</string>
+    <string name="confirm_acc_txt">Confirm Account</string>
 </resources>

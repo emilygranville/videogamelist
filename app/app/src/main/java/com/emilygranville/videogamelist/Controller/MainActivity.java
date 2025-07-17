@@ -24,6 +24,8 @@ import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.MainView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -267,6 +269,43 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                 });
     }
 
+    private void accountPWReset(String email) {
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.i(VGL, "reset email success");
+            } else {
+                Log.i(VGL, "reset email fail");
+            }
+        });
+    }
+
+    private void accountAuth(String email, String password) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(email, password);
+        assert user != null;
+        user.reauthenticate(credential)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        ((IAccountManagementVGView) MainActivity.this.currentFragment).newPWPopUp();
+                    } else {
+                        Log.d(MainActivity.VGL, "Cannot authenticate");
+                    }
+                });
+    }
+
+    private void accountPWChange(String newPassword) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        user.updatePassword(newPassword).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(MainActivity.VGL, "Password updated");
+            } else {
+                Log.d(MainActivity.VGL, "Error password not updated");
+            }
+        });
+    }
+
     private void accountSignOut() {
         FirebaseAuth.getInstance().signOut();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -491,6 +530,15 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
             case AccountManagementVGView.SIGN_IN_PURPOSE_KEY:
                 accountSignIn(email, password);
                 break;
+            case AccountManagementVGView.CHANGE_PW_PURPOSE_KEY:
+                accountAuth(email, password);
+                break;
+            case AccountManagementVGView.NEW_PW_PURPOSE_KEY:
+                accountPWChange(password);
+                break;
+            case AccountManagementVGView.DELETE_ACCOUNT_PURPOSE_KEY:
+                accountDelete();
+                break;
         }
     }
 
@@ -511,12 +559,12 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         return user == null;
     }
 
-    @Override
-    public boolean onDeleteAccount() {
-        accountDelete();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        return user == null;
-    }
+//    @Override
+//    public boolean onDeleteAccount() {
+//        accountDelete();
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        return user == null;
+//    }
 
     @Override
     public void onAMReturn() {
