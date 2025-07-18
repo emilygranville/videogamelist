@@ -62,4 +62,7 @@
     <string name="reset_password_txt">Reset Password</string>
     <string name="send_pw_reset_email_txt">Send Email</string>
     <string name="enter_new_pw_txt">Enter New Password</string>
+    <string name="pw_reset_email_sent_txt">Password reset email sent.</string>
+    <string name="pw_updated_txt">Password updated.</string>
+    <string name="account_deleted_txt">Account deleted.</string>
 </resources>

@@ -256,13 +256,10 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         Log.i(MainActivity.VGL, "Sign in success");
-//                        startActivity(new Intent(MainActivity.this, MainActivity.class));
-//                        finish();
                         String msg = getResources().getString(R.string.success);
                         mainView.displayToast(msg);
                     } else {
                         Log.i(MainActivity.VGL, "Sign in failed");
-                        //((IDisplayVGView) this.currentFragment).onUserSignUp();
                         String msg = getResources().getString(R.string.try_again_txt);
                         mainView.displayToast(msg);
                     }
@@ -273,8 +270,12 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Log.i(VGL, "reset email success");
+                String msg = getResources().getString(R.string.pw_reset_email_sent_txt);
+                mainView.displayToast(msg);
             } else {
                 Log.i(VGL, "reset email fail");
+                String msg = getResources().getString(R.string.try_again_txt);
+                mainView.displayToast(msg);
             }
         });
     }
@@ -295,9 +296,10 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                                 accountDelete();
                                 break;
                         }
-
                     } else {
                         Log.d(MainActivity.VGL, "Cannot authenticate");
+                        String msg = getResources().getString(R.string.try_again_txt);
+                        mainView.displayToast(msg);
                     }
                 });
     }
@@ -308,8 +310,12 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         user.updatePassword(newPassword).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Log.d(MainActivity.VGL, "Password updated");
+                String msg = getResources().getString(R.string.pw_updated_txt);
+                mainView.displayToast(msg);
             } else {
                 Log.d(MainActivity.VGL, "Error password not updated");
+                String msg = getResources().getString(R.string.try_again_txt);
+                mainView.displayToast(msg);
             }
         });
     }
@@ -321,6 +327,9 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
             Log.i(MainActivity.VGL, "sign out successful");
             String msg = getResources().getString(R.string.success);
             mainView.displayToast(msg);
+        } else {
+            String msg = getResources().getString(R.string.try_again_txt);
+            mainView.displayToast(msg);
         }
     }
 
@@ -328,17 +337,14 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         user.delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(MainActivity.VGL, "User account deleted.");
-                            String msg = getResources().getString(R.string.success);
-                            mainView.displayToast(msg);
-                        } else {
-                            String msg = getResources().getString(R.string.try_again_txt);
-                            mainView.displayToast(msg);
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(MainActivity.VGL, "User account deleted.");
+                        String msg = getResources().getString(R.string.account_deleted_txt);
+                        mainView.displayToast(msg);
+                    } else {
+                        String msg = getResources().getString(R.string.try_again_txt);
+                        mainView.displayToast(msg);
                     }
                 });
     }
@@ -437,8 +443,6 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     public void onAddNewGame() {
         showEditFrag();
     }
-
-
 
     /**
      * Alerts listener to show the about page
@@ -546,29 +550,12 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         }
     }
 
-//    @Override
-//    public boolean onSignUp() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean onSignIn() {
-//        return false;
-//    }
-
     @Override
     public boolean onSignOut() {
         accountSignOut();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         return user == null;
     }
-
-//    @Override
-//    public boolean onDeleteAccount() {
-//        accountDelete();
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        return user == null;
-//    }
 
     @Override
     public void onAMReturn() {
