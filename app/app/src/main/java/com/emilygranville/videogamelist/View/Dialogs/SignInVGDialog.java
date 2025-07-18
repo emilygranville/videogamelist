@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.View.AccountManagementVGView;
 import com.emilygranville.videogamelist.databinding.FragmentSignInVgDialogBinding;
 
@@ -89,8 +90,18 @@ public class SignInVGDialog extends DialogFragment implements ISignInGVView {
             SignInVGDialog.this.dismiss();
         });
 
-        if (this.purpose.equals(AccountManagementVGView.NEW_PW_PURPOSE_KEY)) {
-            this.binding.emailSigninLayout.setVisibility(View.GONE);
+        String msg = "";
+        switch (purpose) {
+            case AccountManagementVGView.NEW_PW_PURPOSE_KEY:
+                this.binding.emailSigninLayout.setVisibility(View.GONE);
+                msg = getResources().getString(R.string.enter_new_pw_txt);
+                this.binding.signinSigninButton.setText(msg);
+                break;
+            case AccountManagementVGView.RESET_PW_PURPOSE_KEY:
+                this.binding.passwordSigninLayout.setVisibility(View.GONE);
+                msg = getResources().getString(R.string.send_pw_reset_email_txt);
+                this.binding.signinSigninButton.setText(msg);
+                break;
         }
     }
 }

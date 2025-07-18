@@ -25,6 +25,7 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
     private static final String DELETE_ACC_PURPOSE_KEY = "delete account";
     public static final String CHANGE_PW_PURPOSE_KEY = "change password";
     public static final String NEW_PW_PURPOSE_KEY = "new password";
+    public static final String RESET_PW_PURPOSE_KEY = "reset password";
     public static final String SIGN_IN_PURPOSE_KEY = "sign in";
     public static final String SIGN_UP_PURPOSE_KEY = "sign up";
     public static final String DELETE_ACCOUNT_PURPOSE_KEY = "delete account";
@@ -139,6 +140,11 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
         confirmVGDialog.show(getParentFragmentManager(), ConfirmVGDialog.FRAG_NAME);
     }
 
+    public void passwordResetPopUp() {
+        ConfirmVGDialog confirmVGDialog = new ConfirmVGDialog(this, RESET_PW_PURPOSE_KEY);
+        confirmVGDialog.show(getParentFragmentManager(), ConfirmVGDialog.FRAG_NAME);
+    }
+
     /**
      * Internally handles delete account button
      */
@@ -154,6 +160,7 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
         this.binding.amSigninBtn.setOnClickListener(view -> AccountManagementVGView.this.signInPopUp());
         this.binding.amSignupBtn.setOnClickListener(view -> AccountManagementVGView.this.signUpPopUp());
         this.binding.amChangePasswordBtn.setOnClickListener(view -> AccountManagementVGView.this.changePasswordPopUp());
+        this.binding.amPasswordResetBtn.setOnClickListener(view -> AccountManagementVGView.this.passwordResetPopUp());
         this.binding.amSignoutBtn.setOnClickListener(view -> AccountManagementVGView.this.signOutPopUp());
         this.binding.amDeleteAccountBtn.setOnClickListener(view -> AccountManagementVGView.this.deleteAccountPopUp());
         this.binding.amReturnBtn.setOnClickListener(view -> this.listener.onAMReturn());
@@ -165,14 +172,17 @@ public class AccountManagementVGView extends Fragment implements IAccountManagem
     @Override
     public void onConfirm(String purpose) {
         switch (purpose) {
-            case SIGN_IN_PURPOSE_KEY:
+            case SIGN_OUT_PURPOSE_KEY:
                 this.listener.onSignOut();
                 break;
             case DELETE_ACC_PURPOSE_KEY:
-//                this.listener.onDeleteAccount();
+                confirmAccountPopUp(DELETE_ACC_PURPOSE_KEY);
                 break;
             case CHANGE_PW_PURPOSE_KEY:
                 confirmAccountPopUp(CHANGE_PW_PURPOSE_KEY);
+                break;
+            case RESET_PW_PURPOSE_KEY:
+                confirmAccountPopUp(RESET_PW_PURPOSE_KEY);
                 break;
         }
     }

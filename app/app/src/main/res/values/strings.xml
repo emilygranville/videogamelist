@@ -59,4 +59,7 @@
     <string name="success">Success.</string>
     <string name="change_password_txt">Change Password</string>
     <string name="confirm_acc_txt">Confirm Account</string>
+    <string name="reset_password_txt">Reset Password</string>
+    <string name="send_pw_reset_email_txt">Send Email</string>
+    <string name="enter_new_pw_txt">Enter New Password</string>
 </resources>

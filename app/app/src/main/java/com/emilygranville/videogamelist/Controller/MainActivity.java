@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         });
     }
 
-    private void accountAuth(String email, String password) {
+    private void accountAuth(String email, String password, String purpose) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         AuthCredential credential = EmailAuthProvider
                 .getCredential(email, password);
@@ -287,7 +287,15 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         user.reauthenticate(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        ((IAccountManagementVGView) MainActivity.this.currentFragment).newPWPopUp();
+                        switch (purpose) {
+                            case AccountManagementVGView.CHANGE_PW_PURPOSE_KEY:
+                                ((IAccountManagementVGView) MainActivity.this.currentFragment).newPWPopUp();
+                                break;
+                            case AccountManagementVGView.DELETE_ACCOUNT_PURPOSE_KEY:
+                                accountDelete();
+                                break;
+                        }
+
                     } else {
                         Log.d(MainActivity.VGL, "Cannot authenticate");
                     }
@@ -318,29 +326,21 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     private void accountDelete() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //TODO: should force them to re-sign in before they can delete
-//
-//        user.reauthenticate(credential)
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-                        user.delete()
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Log.d(MainActivity.VGL, "User account deleted.");
-                                            String msg = getResources().getString(R.string.success);
-                                            mainView.displayToast(msg);
-                                        } else {
-                                            String msg = getResources().getString(R.string.try_again_txt);
-                                            mainView.displayToast(msg);
-                                        }
-                                    }
-                                });
-
-//                    }
-//                });
+        assert user != null;
+        user.delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(MainActivity.VGL, "User account deleted.");
+                            String msg = getResources().getString(R.string.success);
+                            mainView.displayToast(msg);
+                        } else {
+                            String msg = getResources().getString(R.string.try_again_txt);
+                            mainView.displayToast(msg);
+                        }
+                    }
+                });
     }
 
     /*
@@ -531,12 +531,16 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                 accountSignIn(email, password);
                 break;
             case AccountManagementVGView.CHANGE_PW_PURPOSE_KEY:
-                accountAuth(email, password);
+                accountAuth(email, password, purpose);
                 break;
             case AccountManagementVGView.NEW_PW_PURPOSE_KEY:
                 accountPWChange(password);
                 break;
+            case AccountManagementVGView.RESET_PW_PURPOSE_KEY:
+                accountPWReset(email);
+                break;
             case AccountManagementVGView.DELETE_ACCOUNT_PURPOSE_KEY:
+                accountAuth(email, password, purpose);
                 accountDelete();
                 break;
         }

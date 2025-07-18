@@ -43,6 +43,13 @@
             android:layout_marginBottom="32dp"/>
 
         <Button
+            android:id="@+id/am_password_reset_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/reset_password_txt"
+            android:layout_marginBottom="32dp"/>
+
+        <Button
             android:id="@+id/am_signout_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/delete_account_btn_txt"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="32dp"/>
 
         <Button
             android:id="@+id/am_return_btn"
