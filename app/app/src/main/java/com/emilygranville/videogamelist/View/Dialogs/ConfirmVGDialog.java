@@ -19,11 +19,19 @@ public class ConfirmVGDialog extends DialogFragment implements IConfirmVGDialog 
     private FragmentConfirmVgDialogBinding binding;
     private final IConfirmVGDialog.Listener listener;
     private final String purpose;
+    private final String message;
 
 
     public ConfirmVGDialog(IConfirmVGDialog.Listener listener, String purpose) {
         this.listener = listener;
         this.purpose = purpose;
+        message = "";
+    }
+
+    public ConfirmVGDialog(IConfirmVGDialog.Listener listener, String purpose, String message) {
+        this.listener = listener;
+        this.purpose = purpose;
+        this.message = message;
     }
 
     @Override
@@ -47,5 +55,9 @@ public class ConfirmVGDialog extends DialogFragment implements IConfirmVGDialog 
             ConfirmVGDialog.this.dismiss();
             ConfirmVGDialog.this.listener.onConfirm(ConfirmVGDialog.this.purpose);
         });
+
+        if(!message.isEmpty()) {
+            this.binding.confirmText.setText(this.message);
+        }
     }
 }

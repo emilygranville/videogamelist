@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +20,20 @@ import android.widget.Toast;
 import com.emilygranville.videogamelist.Controller.MainActivity;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.R;
+import com.emilygranville.videogamelist.View.Dialogs.ConfirmVGDialog;
+import com.emilygranville.videogamelist.View.Dialogs.IConfirmVGDialog;
 import com.emilygranville.videogamelist.databinding.FragmentDisplayVgViewBinding;
 import com.google.android.material.chip.Chip;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class DisplayVGView extends Fragment implements IDisplayVGView {
+public class DisplayVGView extends Fragment implements IDisplayVGView, IConfirmVGDialog.Listener {
 
     public static final String FRAG_NAME = "display";
+
+    private static final String CLOUD_SAVE_PURPOSE_KEY = "save to cloud";
+    private static final String LOCAL_SAVE_PURPOSE_KEY = "save to device";
 
     private FragmentDisplayVgViewBinding binding;
     private final Listener listener;
@@ -217,17 +223,17 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
                 DisplayVGView.this.listener.onAddNewGame();
                 return true;
             } else if (itemId == R.id.save_device_item) {
-                boolean success = DisplayVGView.this.listener.onDeviceSave();
-                if (success) {
-                    Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Saved to device", Toast.LENGTH_SHORT).show();
-                }
-                return success;
+                String msg = getResources().getString(R.string.confirm_action_save_locally_txt);
+                ConfirmVGDialog dialogFragment = new ConfirmVGDialog(this, LOCAL_SAVE_PURPOSE_KEY, msg);
+                dialogFragment.show(getParentFragmentManager(), ConfirmVGDialog.FRAG_NAME);
+                return true;
             } else if (itemId == R.id.load_device_item) {
                 DisplayVGView.this.listener.onDeviceLoad();
                 return true;
             } else if (itemId == R.id.save_cloud_item) {
-                Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Saving to cloud...", Toast.LENGTH_SHORT).show();
-                DisplayVGView.this.listener.onCloudSave();
+                String msg = getResources().getString(R.string.confirm_action_save_cloud_txt);
+                ConfirmVGDialog dialogFragment = new ConfirmVGDialog(this, CLOUD_SAVE_PURPOSE_KEY, msg);
+                dialogFragment.show(getParentFragmentManager(), ConfirmVGDialog.FRAG_NAME);
                 return true;
             } else if (itemId == R.id.load_cloud_item) {
                 // TODO: finish this once i get to cloud saving
@@ -245,5 +251,27 @@ public class DisplayVGView extends Fragment implements IDisplayVGView {
         });
 
         popupMenu.show();
+    }
+
+
+    /**
+     * Alerts listener to confirmation
+     *
+     * @param purpose the purpose of the confirm dialog
+     */
+    @Override
+    public void onConfirm(String purpose) {
+        switch (purpose) {
+            case CLOUD_SAVE_PURPOSE_KEY:
+                DisplayVGView.this.listener.onCloudSave();
+                break;
+            case LOCAL_SAVE_PURPOSE_KEY:
+                boolean success = DisplayVGView.this.listener.onDeviceSave();
+                if (success) {
+                    String msg = getResources().getString(R.string.saved_to_device);
+                    Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), msg, Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 }
