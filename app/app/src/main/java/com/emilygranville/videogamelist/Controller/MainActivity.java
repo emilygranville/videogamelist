@@ -22,8 +22,6 @@ import com.emilygranville.videogamelist.View.IDisplayVGView;
 import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.MainView;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -211,6 +209,10 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         this.mainView.displayFragment(currentFragment, false, EditVGView.FRAG_NAME);
     }
 
+    /*
+     * Account information methods
+     */
+
     /**
      * Makes sure the sign up information is valid
      * @param email email to sign up with
@@ -266,8 +268,12 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                 });
     }
 
+    /**
+     * Resets password for the account with the given email
+     * @param email email to send the reset email to
+     */
     private void accountPWReset(String email) {
-        FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+        auth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Log.i(VGL, "reset email success");
                 String msg = getResources().getString(R.string.pw_reset_email_sent_txt);
@@ -280,8 +286,14 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         });
     }
 
+    /**
+     * Authenticates that the account is valid
+     * @param email email for the account
+     * @param password password for the account
+     * @param purpose reason for auth the account
+     */
     private void accountAuth(String email, String password, String purpose) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = auth.getCurrentUser();
         AuthCredential credential = EmailAuthProvider
                 .getCredential(email, password);
         assert user != null;
@@ -304,8 +316,12 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                 });
     }
 
+    /**
+     * Changes the password of the current account to the new password
+     * @param newPassword new password
+     */
     private void accountPWChange(String newPassword) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = auth.getCurrentUser();
         assert user != null;
         user.updatePassword(newPassword).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -320,9 +336,12 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         });
     }
 
+    /**
+     * Signs out of the current account
+     */
     private void accountSignOut() {
-        FirebaseAuth.getInstance().signOut();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        auth.signOut();
+        FirebaseUser user = auth.getCurrentUser();
         if (user == null) {
             Log.i(MainActivity.VGL, "sign out successful");
             String msg = getResources().getString(R.string.success);
@@ -333,8 +352,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         }
     }
 
+    /**
+     * Deletes the current account
+     */
     private void accountDelete() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = auth.getCurrentUser();
         assert user != null;
         user.delete()
                 .addOnCompleteListener(task -> {
@@ -477,7 +499,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     @Override
     public boolean onCloudSave() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = auth.getCurrentUser();
 //        ((IDisplayVGView) this.currentFragment).onUserSignIn();
         if (user != null) {
             Log.i(MainActivity.VGL, "signed in");
@@ -551,10 +573,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     }
 
     @Override
-    public boolean onSignOut() {
+    public void onSignOut() {
         accountSignOut();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        return user == null;
     }
 
     @Override
