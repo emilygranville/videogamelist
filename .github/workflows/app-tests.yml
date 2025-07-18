@@ -35,12 +35,12 @@ jobs:
 
       # Sets up the google-services.json file
       - name: Create file
-        run: cat ${{GITHUB.workspace}}/app/google-services.json | base64
+        run: cat ${{GITHUB.workspace}}/app/app/google-services.json | base64
 
       - name: Putting data
         env:
             DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: echo $DATA > ${{GITHUB.workspace}}/app/google-services.json
+        run: echo $DATA > ${{GITHUB.workspace}}/app/app/google-services.json
 
       # Runs the gradle tests
       - name: Run gradle tests
