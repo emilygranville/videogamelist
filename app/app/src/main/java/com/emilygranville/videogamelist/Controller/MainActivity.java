@@ -7,24 +7,33 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.emilygranville.videogamelist.R;
 import com.emilygranville.videogamelist.View.AboutVGView;
+import com.emilygranville.videogamelist.View.AccountManagementVGView;
+import com.emilygranville.videogamelist.View.Dialogs.ISignInGVView;
 import com.emilygranville.videogamelist.View.EditVGView;
 import com.emilygranville.videogamelist.Model.ConsoleOrganizer;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.View.DisplayVGView;
 import com.emilygranville.videogamelist.View.IAboutVGView;
-import com.emilygranville.videogamelist.View.IAddConsoleDialog;
+import com.emilygranville.videogamelist.View.Dialogs.IAddConsoleDialog;
+import com.emilygranville.videogamelist.View.IAccountManagementVGView;
 import com.emilygranville.videogamelist.View.IDisplayVGView;
 import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.MainView;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener,
         IDisplayVGView.Listener, IEditVVGView.Listener, IAddConsoleDialog.Listener,
-        IAboutVGView.Listener {
+        IAboutVGView.Listener, ISignInGVView.Listener,
+        IAccountManagementVGView.Listener {
 
     private static final String CONSOLE_ORGANIZER_KEY = "console organizer";
     private static final String IN_PROGRESS_KEY = "in progress";
@@ -43,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     private ConsoleOrganizer consoleOrganizer;
     private Fragment currentFragment;
 
+    private FirebaseAuth auth;
 
     /*
      * ANDROID METHODS
@@ -60,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
         super.onCreate(savedInstanceState);
 
+        auth = FirebaseAuth.getInstance();
+
         this.mainView = new MainView(this);
         setContentView(this.mainView.getRootView());
 
@@ -69,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
             loadLocally();
 
-            if(!this.consoleOrganizer.getConsoleList().isEmpty()) {
+            if(this.consoleOrganizer == null || !this.consoleOrganizer.getConsoleList().isEmpty()) {
+                assert this.consoleOrganizer != null;
                 showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
             } else {
                 showDisplayFrag(null);
@@ -116,6 +129,14 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     private boolean saveLocally() {
         IDataPreservation saveData = new LocalDataPreservation();
         return saveData.saveConsoleOrganizer(this, this.consoleOrganizer);
+    }
+
+    /**
+     * Shows the Account Management page
+     */
+    private void showAccountManagementFrag() {
+        this.currentFragment = new AccountManagementVGView(this);
+        this.mainView.displayFragment(currentFragment, true, AccountManagementVGView.FRAG_NAME);
     }
 
     /**
@@ -189,6 +210,168 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     }
 
     /*
+     * Account information methods
+     */
+
+    /**
+     * Makes sure the sign up information is valid
+     * @param email email to sign up with
+     * @param password password to sign up with
+     * @return whether the sign up info is valid
+     */
+    private boolean validateSignUpInformation(String email, String password) {
+        return !(email.isEmpty() || password.isEmpty());
+    }
+
+    /**
+     * Registers new account
+     * @param email email for the account
+     * @param password password for the account
+     */
+    private void registerNewAccount(String email, String password) {
+        if (validateSignUpInformation(email, password)) {
+            auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            Log.i(MainActivity.VGL, "Account created");
+                            accountSignIn(email, password);
+                        } else {
+                            Log.i(MainActivity.VGL, "Account not created");
+                            String msg = getResources().getString(R.string.try_again_txt);
+                            mainView.displayToast(msg);
+                        }
+                    });
+        } else {
+            Log.i(MainActivity.VGL, "Account not created");
+            String msg = getResources().getString(R.string.try_again_txt);
+            mainView.displayToast(msg);
+        }
+    }
+
+    /**
+     * Sign into the account (as long as one is created)
+     * @param email email
+     * @param password password
+     */
+    private void accountSignIn(String email, String password) {
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Log.i(MainActivity.VGL, "Sign in success");
+                        String msg = getResources().getString(R.string.success);
+                        mainView.displayToast(msg);
+                    } else {
+                        Log.i(MainActivity.VGL, "Sign in failed");
+                        String msg = getResources().getString(R.string.try_again_txt);
+                        mainView.displayToast(msg);
+                    }
+                });
+    }
+
+    /**
+     * Resets password for the account with the given email
+     * @param email email to send the reset email to
+     */
+    private void accountPWReset(String email) {
+        auth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.i(VGL, "reset email success");
+                String msg = getResources().getString(R.string.pw_reset_email_sent_txt);
+                mainView.displayToast(msg);
+            } else {
+                Log.i(VGL, "reset email fail");
+                String msg = getResources().getString(R.string.try_again_txt);
+                mainView.displayToast(msg);
+            }
+        });
+    }
+
+    /**
+     * Authenticates that the account is valid
+     * @param email email for the account
+     * @param password password for the account
+     * @param purpose reason for auth the account
+     */
+    private void accountAuth(String email, String password, String purpose) {
+        FirebaseUser user = auth.getCurrentUser();
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(email, password);
+        assert user != null;
+        user.reauthenticate(credential)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        switch (purpose) {
+                            case AccountManagementVGView.CHANGE_PW_PURPOSE_KEY:
+                                ((IAccountManagementVGView) MainActivity.this.currentFragment).newPWPopUp();
+                                break;
+                            case AccountManagementVGView.DELETE_ACCOUNT_PURPOSE_KEY:
+                                accountDelete();
+                                break;
+                        }
+                    } else {
+                        Log.d(MainActivity.VGL, "Cannot authenticate");
+                        String msg = getResources().getString(R.string.try_again_txt);
+                        mainView.displayToast(msg);
+                    }
+                });
+    }
+
+    /**
+     * Changes the password of the current account to the new password
+     * @param newPassword new password
+     */
+    private void accountPWChange(String newPassword) {
+        FirebaseUser user = auth.getCurrentUser();
+        assert user != null;
+        user.updatePassword(newPassword).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(MainActivity.VGL, "Password updated");
+                String msg = getResources().getString(R.string.pw_updated_txt);
+                mainView.displayToast(msg);
+            } else {
+                Log.d(MainActivity.VGL, "Error password not updated");
+                String msg = getResources().getString(R.string.try_again_txt);
+                mainView.displayToast(msg);
+            }
+        });
+    }
+
+    /**
+     * Signs out of the current account
+     */
+    private void accountSignOut() {
+        auth.signOut();
+        FirebaseUser user = auth.getCurrentUser();
+        if (user == null) {
+            Log.i(MainActivity.VGL, "sign out successful");
+            String msg = getResources().getString(R.string.success);
+            mainView.displayToast(msg);
+        } else {
+            String msg = getResources().getString(R.string.try_again_txt);
+            mainView.displayToast(msg);
+        }
+    }
+
+    /**
+     * Deletes the current account
+     */
+    private void accountDelete() {
+        FirebaseUser user = auth.getCurrentUser();
+        assert user != null;
+        user.delete()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(MainActivity.VGL, "User account deleted.");
+                        String msg = getResources().getString(R.string.account_deleted_txt);
+                        mainView.displayToast(msg);
+                    } else {
+                        String msg = getResources().getString(R.string.try_again_txt);
+                        mainView.displayToast(msg);
+                    }
+                });
+    }
+
+    /*
      * LISTENER METHODS
      */
 
@@ -198,6 +381,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     @Override
     public void restoreAboutFragment(Fragment curFragment) {
+        this.currentFragment = curFragment;
+    }
+
+    @Override
+    public void restoreAccountManagementFrag(Fragment curFragment) {
         this.currentFragment = curFragment;
     }
 
@@ -307,6 +495,32 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     }
 
     /**
+     * Alerts listener to saving to cloud
+     */
+    @Override
+    public boolean onCloudSave() {
+        FirebaseUser user = auth.getCurrentUser();
+//        ((IDisplayVGView) this.currentFragment).onUserSignIn();
+        if (user != null) {
+            Log.i(MainActivity.VGL, "signed in");
+            //TODO: do this once i have database stuff ready
+
+            // User is signed in
+        } else {
+            //((IDisplayVGView) this.currentFragment).onUserSignIn();
+        }
+        return true;
+    }
+
+    /**
+     * Alerts listener to show the account management page
+     */
+    @Override
+    public void onDisplayAMPage() {
+        showAccountManagementFrag();
+    }
+
+    /**
      * Alerts listener to submitting the video game
      * @param videoGame the video game to edit/create
      */
@@ -325,5 +539,46 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     public void onSubmitNewConsole(String consoleName) {
         String upperConsoleName = consoleName.toUpperCase();
         ((IEditVVGView) this.currentFragment).showNewConsole(upperConsoleName);
+    }
+
+    /**
+     * Alerts listener to sign into account button
+     *
+     * @param email    email to save
+     * @param password password to save
+     */
+    @Override
+    public void onSignIn(String email, String password, String purpose) {
+        switch (purpose) {
+            case AccountManagementVGView.SIGN_UP_PURPOSE_KEY:
+                registerNewAccount(email, password);
+                break;
+            case AccountManagementVGView.SIGN_IN_PURPOSE_KEY:
+                accountSignIn(email, password);
+                break;
+            case AccountManagementVGView.CHANGE_PW_PURPOSE_KEY:
+                accountAuth(email, password, purpose);
+                break;
+            case AccountManagementVGView.NEW_PW_PURPOSE_KEY:
+                accountPWChange(password);
+                break;
+            case AccountManagementVGView.RESET_PW_PURPOSE_KEY:
+                accountPWReset(email);
+                break;
+            case AccountManagementVGView.DELETE_ACCOUNT_PURPOSE_KEY:
+                accountAuth(email, password, purpose);
+                accountDelete();
+                break;
+        }
+    }
+
+    @Override
+    public void onSignOut() {
+        accountSignOut();
+    }
+
+    @Override
+    public void onAMReturn() {
+        showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
     }
 }

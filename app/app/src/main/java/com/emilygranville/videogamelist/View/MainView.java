@@ -1,6 +1,7 @@
 package com.emilygranville.videogamelist.View;
 
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -47,4 +48,16 @@ public class MainView implements IMainView {
         }
         ft.commit();
     }
+
+    /**
+     * Displays a toast message
+     *
+     * @param message message to make a toast
+     */
+    @Override
+    public void displayToast(String message) {
+        Toast.makeText(this.binding.getRoot().getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+
 }

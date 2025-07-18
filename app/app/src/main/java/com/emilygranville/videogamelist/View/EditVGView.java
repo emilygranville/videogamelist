@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import com.emilygranville.videogamelist.Controller.MainActivity;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.R;
+import com.emilygranville.videogamelist.View.Dialogs.AddConsoleDialog;
+import com.emilygranville.videogamelist.View.Dialogs.IAddConsoleDialog;
 import com.emilygranville.videogamelist.databinding.FragmentEditVgViewBinding;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;

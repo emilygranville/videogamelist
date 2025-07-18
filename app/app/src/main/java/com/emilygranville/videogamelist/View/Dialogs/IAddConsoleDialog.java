@@ -1,4 +1,4 @@
-package com.emilygranville.videogamelist.View;
+package com.emilygranville.videogamelist.View.Dialogs;
 
 public interface IAddConsoleDialog {
     interface Listener {

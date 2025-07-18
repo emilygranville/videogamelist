@@ -31,7 +31,7 @@
             android:id="@+id/about_return_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/about_return_btn_txt" />
+            android:text="@string/return_btn_txt" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

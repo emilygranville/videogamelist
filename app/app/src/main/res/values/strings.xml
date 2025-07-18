@@ -27,8 +27,6 @@
     <string name="save_to_cloud_item_txt">Save to cloud</string>
     <string name="about_page_item_txt">About page</string>
     <string name="display_menu_txt">Menu</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="about_info_txt">Created by Emily Granville
 
         \n\nTo create a new video game item upon starting the app, please click the menu button at
@@ -41,7 +39,30 @@
 
         \n\nOn loading, the app automatically loads the data saved to the device. To see the
         information saved to the cloud, please select that button from the menu.</string>
-    <string name="about_return_btn_txt">Return to display page</string>
+    <string name="return_btn_txt">Return to display page</string>
     <string name="load_device_item_txt">Load from device (default)</string>
     <string name="load_cloud_item_txt">Load from cloud</string>
+    <string name="sign_email_hint">Enter Email Here</string>
+    <string name="sign_email_placeholder">example@email.com</string>
+    <string name="sign_password_hint">Enter Password Here</string>
+    <string name="sign_password_placeholder">password</string>
+    <string name="signup_txt">Sign Up</string>
+    <string name="confirm_action_txt">Please confirm action below</string>
+    <string name="confirm_btn_txt">Confirm</string>
+    <string name="cancel_btn_txt">Cancel</string>
+    <string name="signin_txt">Sign In</string>
+    <string name="signout_btn_txt">Sign Out</string>
+    <string name="delete_account_btn_txt">Delete Account</string>
+    <string name="new_pw_txt">Enter New Password</string>
+    <string name="account_management_page_item_txt">Account Management Page</string>
+    <string name="try_again_txt">Attempt unsuccessful. Please try again later.</string>
+    <string name="success">Success.</string>
+    <string name="change_password_txt">Change Password</string>
+    <string name="confirm_acc_txt">Confirm Account</string>
+    <string name="reset_password_txt">Reset Password</string>
+    <string name="send_pw_reset_email_txt">Send Email</string>
+    <string name="enter_new_pw_txt">Enter New Password</string>
+    <string name="pw_reset_email_sent_txt">Password reset email sent.</string>
+    <string name="pw_updated_txt">Password updated.</string>
+    <string name="account_deleted_txt">Account deleted.</string>
 </resources>

@@ -1,0 +1,107 @@
+package com.emilygranville.videogamelist.View.Dialogs;
+
+import android.app.Dialog;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.emilygranville.videogamelist.R;
+import com.emilygranville.videogamelist.View.AccountManagementVGView;
+import com.emilygranville.videogamelist.databinding.FragmentSignInVgDialogBinding;
+
+import java.util.Objects;
+
+public class SignInVGDialog extends DialogFragment implements ISignInGVView {
+
+    public static final String FRAG_NAME = "sign In";
+
+    private FragmentSignInVgDialogBinding binding;
+    private final ISignInGVView.Listener listener;
+
+    private final String purpose;
+    private final String label;
+
+    public SignInVGDialog(ISignInGVView.Listener listener, String purpose, String label) {
+        this.listener = listener;
+        this.purpose = purpose;
+        this.label = label;
+    }
+
+    /**
+     * Creates the dialog
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    /**
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return the root of the binding
+     */
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        this.binding = FragmentSignInVgDialogBinding.inflate(inflater);
+        return this.binding.getRoot();
+    }
+
+    /**
+     *
+     * @param view The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+        Dialog dialog = this.getDialog();
+        assert dialog != null;
+        Objects.requireNonNull(dialog.getWindow())
+                .setLayout((6 * width)/7, (int) (height/2.25));
+
+        this.binding.signinLabel.setText(this.label);
+
+        this.binding.signinSigninButton.setOnClickListener(view1 -> {
+            String email = SignInVGDialog.this.binding.emailSigninInput.getText().toString().trim();
+            String password = SignInVGDialog.this.binding.passwordSigninInput.getText().toString().trim();
+            SignInVGDialog.this.listener.onSignIn(email, password, purpose);
+            SignInVGDialog.this.dismiss();
+        });
+
+        String msg = "";
+        switch (purpose) {
+            case AccountManagementVGView.NEW_PW_PURPOSE_KEY:
+                this.binding.emailSigninLayout.setVisibility(View.GONE);
+                msg = getResources().getString(R.string.enter_new_pw_txt);
+                this.binding.signinSigninButton.setText(msg);
+                break;
+            case AccountManagementVGView.RESET_PW_PURPOSE_KEY:
+                this.binding.passwordSigninLayout.setVisibility(View.GONE);
+                msg = getResources().getString(R.string.send_pw_reset_email_txt);
+                this.binding.signinSigninButton.setText(msg);
+                break;
+        }
+    }
+}

@@ -63,6 +63,16 @@ public interface IDisplayVGView {
         void onDeviceLoad();
 
         /**
+         * Alerts listener to saving to cloud
+         */
+        boolean onCloudSave();
+
+        /**
+         * Alerts listener to show the account management page
+         */
+        void onDisplayAMPage();
+
+        /**
          * Alerts listener to show the about page
          */
         void onDisplayAboutPage();
@@ -73,5 +83,4 @@ public interface IDisplayVGView {
      * @param index index the item had been
      */
     void updateDeletedItem(int index);
-
 }
