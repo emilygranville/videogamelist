@@ -217,10 +217,33 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * Makes sure the sign up information is valid
      * @param email email to sign up with
      * @param password password to sign up with
-     * @return whether the sign up info is valid
+     * @return true when email and password are valid
      */
     private boolean validateSignUpInformation(String email, String password) {
-        return !(email.isEmpty() || password.isEmpty());
+        return validateEmail(email) && validatePassword(password);
+    }
+
+    /**
+     * Validates that it's a valid email
+     * @param email the email to check
+     * @return true when the email is valid
+     */
+    private boolean validateEmail(String email) {
+        if (email != null && !email.isEmpty()) {
+            boolean test = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+            Log.i(VGL, "Test: "+test);
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        }
+        return false;
+    }
+
+    /**
+     * Validates that it's a valid password
+     * @param password the password to check
+     * @return true when it's not empty
+     */
+    private boolean validatePassword(String password) {
+        return !password.isEmpty();
     }
 
     /**
@@ -254,18 +277,24 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param password password
      */
     private void accountSignIn(String email, String password) {
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        Log.i(MainActivity.VGL, "Sign in success");
-                        String msg = getResources().getString(R.string.success);
-                        mainView.displayToast(msg);
-                    } else {
-                        Log.i(MainActivity.VGL, "Sign in failed");
-                        String msg = getResources().getString(R.string.try_again_txt);
-                        mainView.displayToast(msg);
-                    }
-                });
+        if (validateEmail(email)) {
+            auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            Log.i(MainActivity.VGL, "Sign in success");
+                            String msg = getResources().getString(R.string.success);
+                            mainView.displayToast(msg);
+                        } else {
+                            Log.i(MainActivity.VGL, "Sign in failed");
+                            String msg = getResources().getString(R.string.try_again_txt);
+                            mainView.displayToast(msg);
+                        }
+                    });
+        } else {
+            Log.i(MainActivity.VGL, "Sign in failed");
+            String msg = getResources().getString(R.string.try_again_txt);
+            mainView.displayToast(msg);
+        }
     }
 
     /**
@@ -273,17 +302,23 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param email email to send the reset email to
      */
     private void accountPWReset(String email) {
-        auth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Log.i(VGL, "reset email success");
-                String msg = getResources().getString(R.string.pw_reset_email_sent_txt);
-                mainView.displayToast(msg);
-            } else {
-                Log.i(VGL, "reset email fail");
-                String msg = getResources().getString(R.string.try_again_txt);
-                mainView.displayToast(msg);
-            }
-        });
+        if (validateEmail(email)) {
+            auth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.i(VGL, "reset email success");
+                    String msg = getResources().getString(R.string.pw_reset_email_sent_txt);
+                    mainView.displayToast(msg);
+                } else {
+                    Log.i(VGL, "reset email fail");
+                    String msg = getResources().getString(R.string.try_again_txt);
+                    mainView.displayToast(msg);
+                }
+            });
+        } else {
+            Log.i(VGL, "reset email fail");
+            String msg = getResources().getString(R.string.try_again_txt);
+            mainView.displayToast(msg);
+        }
     }
 
     /**
@@ -293,27 +328,33 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * @param purpose reason for auth the account
      */
     private void accountAuth(String email, String password, String purpose) {
-        FirebaseUser user = auth.getCurrentUser();
-        AuthCredential credential = EmailAuthProvider
-                .getCredential(email, password);
-        assert user != null;
-        user.reauthenticate(credential)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        switch (purpose) {
-                            case AccountManagementVGView.CHANGE_PW_PURPOSE_KEY:
-                                ((IAccountManagementVGView) MainActivity.this.currentFragment).newPWPopUp();
-                                break;
-                            case AccountManagementVGView.DELETE_ACCOUNT_PURPOSE_KEY:
-                                accountDelete();
-                                break;
+        if (validateSignUpInformation(email, password)) {
+            FirebaseUser user = auth.getCurrentUser();
+            AuthCredential credential = EmailAuthProvider
+                    .getCredential(email, password);
+            assert user != null;
+            user.reauthenticate(credential)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            switch (purpose) {
+                                case AccountManagementVGView.CHANGE_PW_PURPOSE_KEY:
+                                    ((IAccountManagementVGView) MainActivity.this.currentFragment).newPWPopUp();
+                                    break;
+                                case AccountManagementVGView.DELETE_ACCOUNT_PURPOSE_KEY:
+                                    accountDelete();
+                                    break;
+                            }
+                        } else {
+                            Log.d(MainActivity.VGL, "Cannot authenticate");
+                            String msg = getResources().getString(R.string.try_again_txt);
+                            mainView.displayToast(msg);
                         }
-                    } else {
-                        Log.d(MainActivity.VGL, "Cannot authenticate");
-                        String msg = getResources().getString(R.string.try_again_txt);
-                        mainView.displayToast(msg);
-                    }
-                });
+                    });
+        } else {
+            Log.d(MainActivity.VGL, "Cannot authenticate");
+            String msg = getResources().getString(R.string.try_again_txt);
+            mainView.displayToast(msg);
+        }
     }
 
     /**
@@ -323,17 +364,23 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     private void accountPWChange(String newPassword) {
         FirebaseUser user = auth.getCurrentUser();
         assert user != null;
-        user.updatePassword(newPassword).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Log.d(MainActivity.VGL, "Password updated");
-                String msg = getResources().getString(R.string.pw_updated_txt);
-                mainView.displayToast(msg);
-            } else {
-                Log.d(MainActivity.VGL, "Error password not updated");
-                String msg = getResources().getString(R.string.try_again_txt);
-                mainView.displayToast(msg);
-            }
-        });
+        if (validatePassword(newPassword)) {
+            user.updatePassword(newPassword).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d(MainActivity.VGL, "Password updated");
+                    String msg = getResources().getString(R.string.pw_updated_txt);
+                    mainView.displayToast(msg);
+                } else {
+                    Log.d(MainActivity.VGL, "Error password not updated");
+                    String msg = getResources().getString(R.string.try_again_txt);
+                    mainView.displayToast(msg);
+                }
+            });
+        } else {
+            Log.d(MainActivity.VGL, "Error password not updated");
+            String msg = getResources().getString(R.string.try_again_txt);
+            mainView.displayToast(msg);
+        }
     }
 
     /**
@@ -544,7 +591,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     /**
      * Alerts listener to sign into account button
      *
-     * @param email    email to save
+     * @param email email to save
      * @param password password to save
      */
     @Override
