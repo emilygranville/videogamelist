@@ -6,9 +6,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Represents organization of the consoles and games with in it
@@ -177,6 +179,20 @@ public class ConsoleOrganizer implements Serializable {
             this.favorites.remove(index);
         }
         //this.favorites.removeIf(game -> game.getGameId() == videoGame.getGameId());
+    }
+
+    /**
+     * Creates a set of all the games (each game only appears once)
+     * @return set of all games
+     */
+    public LinkedHashSet<VideoGame> compileGames() {
+        LinkedHashSet<VideoGame> allGames = new LinkedHashSet<VideoGame>();
+        for (String console : getConsoleList()) {
+            for (VideoGame game : this.consoleMap.get(console)) {
+                allGames.add(game);
+            }
+        }
+        return allGames;
     }
 
     /**

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 class ConsoleOrganizerTest {
 
@@ -290,20 +291,35 @@ class ConsoleOrganizerTest {
     }
 
     @Test
+    void testCompileGames() {
+        setUp();
+
+        Set<VideoGame> set = this.consoleOrganizer.compileGames();
+        assertEquals(3, set.size());
+
+        VideoGame game = new VideoGame("newTestGame", Arrays.asList("1", "2", "3"));
+        this.consoleOrganizer.addVideoGame(game);
+        set = this.consoleOrganizer.compileGames();
+        assertEquals(4, set.size());
+    }
+
+    @Test
     void testToString() {
         setUp();
 
         //testing simple version
-        String result = "ConsoleOrganizer:\n" +
-                "Map Keys: [1, 2]\n" +
-                "Console Name: 1\n" +
-                "Games:\n" +
-                "B\n" +
-                "C\n" +
-                "F\n" +
-                "Console Name: 2\n" +
-                "Games:\n" +
-                "C\n";
+        String result = """
+                ConsoleOrganizer:
+                Map Keys: [1, 2]
+                Console Name: 1
+                Games:
+                B
+                C
+                F
+                Console Name: 2
+                Games:
+                C
+                """;
         assertEquals(result, consoleOrganizer.toString());
 
         //testing more complicated version
@@ -328,5 +344,4 @@ class ConsoleOrganizerTest {
                 "A\n";
         assertEquals(result, consoleOrganizer.toString());
     }
-
 }

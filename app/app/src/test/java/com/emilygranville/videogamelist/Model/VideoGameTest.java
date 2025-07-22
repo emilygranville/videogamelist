@@ -132,9 +132,4 @@ class VideoGameTest {
         assertEquals("VideoGame{gameName='C', price=0.0, consoles=[SWITCH, XBOX]}", v3.toString());
     }
 
-//  intentional fail test--just for testing how to make the workflow
-//    @Test
-//    void intentionalFailure() {
-//        fail();
-//    }
 }
