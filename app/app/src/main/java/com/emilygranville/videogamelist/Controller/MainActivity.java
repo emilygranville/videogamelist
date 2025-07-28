@@ -257,6 +257,9 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
                             Log.i(MainActivity.VGL, "Account created");
+                            String uid = auth.getCurrentUser().getUid();
+                            CloudDataPreservation preservation = new CloudDataPreservation();
+                            preservation.createUserDoc(uid);
                             accountSignIn(email, password);
                         } else {
                             Log.i(MainActivity.VGL, "Account not created");
