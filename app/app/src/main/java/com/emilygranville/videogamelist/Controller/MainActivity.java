@@ -257,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
                             Log.i(MainActivity.VGL, "Account created");
+                            assert auth.getCurrentUser() != null;
                             String uid = auth.getCurrentUser().getUid();
                             CloudDataPreservation preservation = new CloudDataPreservation();
                             preservation.createUserDoc(uid);
@@ -550,11 +551,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     @Override
     public boolean onCloudSave() {
         FirebaseUser user = auth.getCurrentUser();
-//        ((IDisplayVGView) this.currentFragment).onUserSignIn();
         if (user != null) {
             Log.i(MainActivity.VGL, "signed in");
-            //TODO: do this once i have database stuff ready
-
+            String uid = user.getUid();
+            CloudDataPreservation preservation = new CloudDataPreservation();
+            preservation.saveConsoleOrganizer(this, this.consoleOrganizer, uid);
             // User is signed in
         } else {
             //((IDisplayVGView) this.currentFragment).onUserSignIn();

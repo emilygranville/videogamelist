@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -174,6 +175,17 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         //makes the consoles lower case and removes whitespace
         this.consoles.add(console.toUpperCase().replaceAll("\\s", ""));
     }
+
+    public HashMap<String, Object> convertToMap() {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("gameID", this.gameId);
+        map.put("gameName", this.gameName);
+        map.put("price", this.price);
+        map.put("consoles", this.consoles);
+        map.put("isFavorite", this.isFavorite);
+        return map;
+    }
+
 
     /**
      * Compares two VideoGames using the name of the video game
