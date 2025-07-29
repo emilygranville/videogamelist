@@ -110,6 +110,14 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         this.isFavorite = isFavorite;
     }
 
+    public VideoGame(HashMap<String, Object> videoGameMap) throws NullPointerException {
+        // for some reason it needs to be cast as a long before it can be cast as an int
+        this.gameId = (int) (long) videoGameMap.get("gameID");
+        this.gameName = (String) videoGameMap.get("gameName");
+        this.price = (double) videoGameMap.get("price");
+        this.consoles = (List) videoGameMap.get("consoles");
+        this.isFavorite = (boolean) videoGameMap.get("isFavorite");
+    }
 
     /**
      * Creates a separate function to set up from a null list
@@ -176,6 +184,11 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         this.consoles.add(console.toUpperCase().replaceAll("\\s", ""));
     }
 
+    /**
+     * Converts the VideoGame object into a HashMap
+     * object you can save in firestore database
+     * @return HashMap of the VideoGame
+     */
     public HashMap<String, Object> convertToMap() {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("gameID", this.gameId);

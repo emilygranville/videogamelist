@@ -236,10 +236,8 @@ public class DisplayVGView extends Fragment implements IDisplayVGView, IConfirmV
                 dialogFragment.show(getParentFragmentManager(), ConfirmVGDialog.FRAG_NAME);
                 return true;
             } else if (itemId == R.id.load_cloud_item) {
-                // TODO: finish this once i get to cloud saving
-//                ConfirmVGDialog dialogFragment = new ConfirmVGDialog();
-//                dialogFragment.show(getParentFragmentManager(), ConfirmVGDialog.FRAG_NAME);
-                Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Load from cloud", Toast.LENGTH_SHORT).show();
+                DisplayVGView.this.listener.onCloudLoad();
+                //Toast.makeText(DisplayVGView.this.binding.getRoot().getContext(), "Load from cloud", Toast.LENGTH_SHORT).show();
                 return true;
             } else if (itemId == R.id.am_page_item) {
                 DisplayVGView.this.listener.onDisplayAMPage();

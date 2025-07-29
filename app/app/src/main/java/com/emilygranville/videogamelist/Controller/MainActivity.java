@@ -18,6 +18,7 @@ import com.emilygranville.videogamelist.View.DisplayVGView;
 import com.emilygranville.videogamelist.View.IAboutVGView;
 import com.emilygranville.videogamelist.View.Dialogs.IAddConsoleDialog;
 import com.emilygranville.videogamelist.View.IAccountManagementVGView;
+import com.emilygranville.videogamelist.View.ICloudDataPreservation;
 import com.emilygranville.videogamelist.View.IDisplayVGView;
 import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
@@ -33,7 +34,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements IMainView.Listener,
         IDisplayVGView.Listener, IEditVVGView.Listener, IAddConsoleDialog.Listener,
         IAboutVGView.Listener, ISignInGVView.Listener,
-        IAccountManagementVGView.Listener {
+        IAccountManagementVGView.Listener, ICloudDataPreservation.Listener {
 
     private static final String CONSOLE_ORGANIZER_KEY = "console organizer";
     private static final String IN_PROGRESS_KEY = "in progress";
@@ -259,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                             Log.i(MainActivity.VGL, "Account created");
                             assert auth.getCurrentUser() != null;
                             String uid = auth.getCurrentUser().getUid();
-                            CloudDataPreservation preservation = new CloudDataPreservation();
+                            CloudDataPreservation preservation = new CloudDataPreservation((ICloudDataPreservation.Listener) this);
                             preservation.createUserDoc(uid);
                             accountSignIn(email, password);
                         } else {
@@ -554,9 +555,25 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         if (user != null) {
             Log.i(MainActivity.VGL, "signed in");
             String uid = user.getUid();
-            CloudDataPreservation preservation = new CloudDataPreservation();
-            preservation.saveConsoleOrganizer(this, this.consoleOrganizer, uid);
-            // User is signed in
+            CloudDataPreservation preservation = new CloudDataPreservation((ICloudDataPreservation.Listener) this);
+            preservation.saveConsoleOrganizer(this.consoleOrganizer, uid);
+        } else {
+            //((IDisplayVGView) this.currentFragment).onUserSignIn();
+        }
+        return true;
+    }
+
+    /**
+     * Alerts listener to loading from cloud
+     */
+    @Override
+    public boolean onCloudLoad() {
+        FirebaseUser user = auth.getCurrentUser();
+        if (user != null) {
+            Log.i(MainActivity.VGL, "signed in");
+            String uid = user.getUid();
+            CloudDataPreservation preservation = new CloudDataPreservation((ICloudDataPreservation.Listener) this);
+            preservation.loadConsoleOrganizer(uid);
         } else {
             //((IDisplayVGView) this.currentFragment).onUserSignIn();
         }
@@ -631,5 +648,27 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     @Override
     public void onAMReturn() {
         showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
+    }
+
+    /**
+     * Alerts the listener to successful save
+     */
+    @Override
+    public void onCloudSaveSuccess() {
+        this.mainView.displayToast("Successfully saved to cloud");
+    }
+
+    /**
+     * Alerts the listener to successful load
+     */
+    @Override
+    public void onCloudLoadSuccess(ConsoleOrganizer consoleOrganizer) {
+        this.consoleOrganizer = consoleOrganizer;
+        this.mainView.displayToast("Successfully loaded from cloud");
+        if(!this.consoleOrganizer.getConsoleList().isEmpty()) {
+            showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
+        } else {
+            showDisplayFrag(null);
+        }
     }
 }
