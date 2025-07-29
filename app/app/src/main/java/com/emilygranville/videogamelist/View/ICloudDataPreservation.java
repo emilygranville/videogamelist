@@ -13,5 +13,10 @@ public interface ICloudDataPreservation {
          * Alerts the listener to successful load
          */
         void onCloudLoadSuccess(ConsoleOrganizer consoleOrganizer);
+
+        /**
+         * Alerts the listener to cloud failure
+         */
+        void onCloudFailure();
     }
 }

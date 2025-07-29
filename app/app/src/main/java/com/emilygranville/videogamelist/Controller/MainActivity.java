@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                             Log.i(MainActivity.VGL, "Account created");
                             assert auth.getCurrentUser() != null;
                             String uid = auth.getCurrentUser().getUid();
-                            CloudDataPreservation preservation = new CloudDataPreservation((ICloudDataPreservation.Listener) this);
+                            CloudDataPreservation preservation = new CloudDataPreservation(this);
                             preservation.createUserDoc(uid);
                             accountSignIn(email, password);
                         } else {
@@ -461,6 +461,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to return to display fragment
+     * (response)
      */
     @Override
     public void onReturnToDisplay() {
@@ -469,6 +470,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to wanting to switch console viewed
+     * (response)
+     *
      * @param console new console to view
      * @param scrollLeft position in scroll of the console
      */
@@ -479,6 +482,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to toggling favorite
+     * (response)
      *
      * @param videoGame game to change favorite
      */
@@ -490,6 +494,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to the video game needing editing
+     * (response)
+     *
      * @param videoGame that needs to be updated
      */
     @Override
@@ -499,6 +505,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to the video game needing deleting
+     * (response)
+     *
      * @param videoGame that needs to be deleted
      * @param curConsole current displayed console list
      */
@@ -512,6 +520,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to adding a new game
+     * (response)
      */
     @Override
     public void onAddNewGame() {
@@ -520,6 +529,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to show the about page
+     * (response)
      */
     public void onDisplayAboutPage() {
         showAboutFrag();
@@ -527,6 +537,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to saving on device
+     * (response)
      */
     @Override
     public boolean onDeviceSave() {
@@ -535,6 +546,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to loading from device
+     * (response)
      */
     @Override
     public void onDeviceLoad() {
@@ -548,6 +560,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to saving to cloud
+     * (response)
      */
     @Override
     public boolean onCloudSave() {
@@ -555,16 +568,18 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         if (user != null) {
             Log.i(MainActivity.VGL, "signed in");
             String uid = user.getUid();
-            CloudDataPreservation preservation = new CloudDataPreservation((ICloudDataPreservation.Listener) this);
+            CloudDataPreservation preservation = new CloudDataPreservation(this);
             preservation.saveConsoleOrganizer(this.consoleOrganizer, uid);
         } else {
-            //((IDisplayVGView) this.currentFragment).onUserSignIn();
+            String msg = getResources().getString(R.string.try_again_txt);
+            mainView.displayToast(msg);
         }
         return true;
     }
 
     /**
      * Alerts listener to loading from cloud
+     * (response)
      */
     @Override
     public boolean onCloudLoad() {
@@ -572,16 +587,18 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         if (user != null) {
             Log.i(MainActivity.VGL, "signed in");
             String uid = user.getUid();
-            CloudDataPreservation preservation = new CloudDataPreservation((ICloudDataPreservation.Listener) this);
+            CloudDataPreservation preservation = new CloudDataPreservation(this);
             preservation.loadConsoleOrganizer(uid);
         } else {
-            //((IDisplayVGView) this.currentFragment).onUserSignIn();
+            String msg = getResources().getString(R.string.try_again_txt);
+            mainView.displayToast(msg);
         }
         return true;
     }
 
     /**
      * Alerts listener to show the account management page
+     * (response)
      */
     @Override
     public void onDisplayAMPage() {
@@ -590,6 +607,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to submitting the video game
+     * (response)
+     *
      * @param videoGame the video game to edit/create
      */
     @Override
@@ -600,6 +619,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to submitting the video game
+     * (response)
      *
      * @param consoleName name of the new console
      */
@@ -611,6 +631,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to sign into account button
+     * (response)
      *
      * @param email email to save
      * @param password password to save
@@ -652,23 +673,39 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts the listener to successful save
+     * (response)
      */
     @Override
     public void onCloudSaveSuccess() {
-        this.mainView.displayToast("Successfully saved to cloud");
+        String msg = getResources().getString(R.string.saved_to_cloud);
+        mainView.displayToast(msg);
     }
 
     /**
      * Alerts the listener to successful load
+     * (response)
      */
     @Override
     public void onCloudLoadSuccess(ConsoleOrganizer consoleOrganizer) {
         this.consoleOrganizer = consoleOrganizer;
-        this.mainView.displayToast("Successfully loaded from cloud");
+        String msg = getResources().getString(R.string.loaded_from_cloud);
+        mainView.displayToast(msg);
         if(!this.consoleOrganizer.getConsoleList().isEmpty()) {
             showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
         } else {
             showDisplayFrag(null);
         }
     }
+
+    /**
+     * Alerts the listener to cloud failure
+     * (response)
+     */
+    @Override
+    public void onCloudFailure() {
+        String msg = getResources().getString(R.string.try_again_txt);
+        mainView.displayToast(msg);
+    }
+
+
 }

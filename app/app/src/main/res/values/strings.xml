@@ -70,4 +70,6 @@
     <string name="pw_updated_txt">Password updated.</string>
     <string name="account_deleted_txt">Account deleted.</string>
     <string name="saved_to_device">Successfully saved to device.</string>
+    <string name="saved_to_cloud">Successfully saved to cloud.</string>
+    <string name="loaded_from_cloud">Successfully loaded from cloud.</string>
 </resources>

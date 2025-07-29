@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -37,6 +38,22 @@ public class CloudDataPreservation implements ICloudDataPreservation {
      */
     public void saveConsoleOrganizer(ConsoleOrganizer consoleOrganizer, String uid) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+        DocumentReference doc = database.collection("users").document(uid);
+        doc.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    Log.d(MainActivity.VGL, "DocumentSnapshot data: " + document.getData());
+                } else {
+                    Log.d(MainActivity.VGL, "No such document");
+                    createUserDoc(uid);
+                }
+            } else {
+                Log.d(MainActivity.VGL, "get failed with ", task.getException());
+            }
+        });
+
         CollectionReference collection = database.collection(uid);
         Set<VideoGame> videoGameSet = consoleOrganizer.compileGames();
         for (VideoGame videoGame : videoGameSet) {
@@ -48,6 +65,7 @@ public class CloudDataPreservation implements ICloudDataPreservation {
                     CloudDataPreservation.this.listener.onCloudSaveSuccess();
                 } else {
                     Log.d(MainActivity.VGL, "Error saving documents: ", task.getException());
+                    CloudDataPreservation.this.listener.onCloudFailure();
                 }
             });
         }
@@ -60,6 +78,22 @@ public class CloudDataPreservation implements ICloudDataPreservation {
     public void loadConsoleOrganizer(String uid) {
         ConsoleOrganizer consoleOrganizer = new ConsoleOrganizer();
         FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+        DocumentReference doc = database.collection("users").document(uid);
+        doc.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    Log.d(MainActivity.VGL, "DocumentSnapshot data: " + document.getData());
+                } else {
+                    Log.d(MainActivity.VGL, "No such document");
+                    createUserDoc(uid);
+                }
+            } else {
+                Log.d(MainActivity.VGL, "get failed with ", task.getException());
+            }
+        });
+
         CollectionReference collection = database.collection(uid);
         collection.get()
                 .addOnCompleteListener(task -> {
@@ -76,6 +110,7 @@ public class CloudDataPreservation implements ICloudDataPreservation {
                         CloudDataPreservation.this.listener.onCloudLoadSuccess(consoleOrganizer);
                     } else {
                         Log.d(MainActivity.VGL, "Error getting documents: ", task.getException());
+                        CloudDataPreservation.this.listener.onCloudFailure();
                     }
                 });
     }
