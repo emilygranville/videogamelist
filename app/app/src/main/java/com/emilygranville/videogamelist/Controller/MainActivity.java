@@ -23,12 +23,14 @@ import com.emilygranville.videogamelist.View.IDisplayVGView;
 import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.MainView;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener,
@@ -413,14 +415,13 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         String uid = user.getUid();
 
         CloudDataPreservation preservation = new CloudDataPreservation(this);
+        preservation.deleteUserCollection(uid, (new Timestamp(new Date())));
         preservation.deleteUserDoc(uid);
-        preservation.deleteUserCollection(uid);
 
         user.delete()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d(MainActivity.VGL, "User account deleted.");
-
                         String msg = getResources().getString(R.string.account_deleted_txt);
                         mainView.displayToast(msg);
                     } else {
@@ -653,6 +654,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                 accountSignIn(email, password);
                 break;
             case AccountManagementVGView.CHANGE_PW_PURPOSE_KEY:
+            case AccountManagementVGView.DELETE_ACCOUNT_PURPOSE_KEY:
                 accountAuth(email, password, purpose);
                 break;
             case AccountManagementVGView.NEW_PW_PURPOSE_KEY:
@@ -660,10 +662,6 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                 break;
             case AccountManagementVGView.RESET_PW_PURPOSE_KEY:
                 accountPWReset(email);
-                break;
-            case AccountManagementVGView.DELETE_ACCOUNT_PURPOSE_KEY:
-                accountAuth(email, password, purpose);
-                accountDelete();
                 break;
         }
     }
@@ -683,7 +681,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * (response)
      */
     @Override
-    public void onCloudSaveSuccess() {
+    public void onCloudSaveSuccess(Timestamp timestamp) {
         String msg = getResources().getString(R.string.saved_to_cloud);
         mainView.displayToast(msg);
     }
@@ -713,6 +711,4 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         String msg = getResources().getString(R.string.try_again_txt);
         mainView.displayToast(msg);
     }
-
-
 }
