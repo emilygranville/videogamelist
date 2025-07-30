@@ -10,7 +10,6 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Represents organization of the consoles and games with in it
@@ -74,7 +73,7 @@ public class ConsoleOrganizer implements Serializable {
      * Adds a single video game to the console map
      * @param videoGame the video game to add
      */
-    protected void addVideoGame(VideoGame videoGame) {
+    public void addVideoGame(VideoGame videoGame) {
         for (String consoles : videoGame.getConsoles()) {
             if (!consoleMap.containsKey(consoles)) {
                 List<VideoGame> consoleList = new LinkedList<VideoGame>();

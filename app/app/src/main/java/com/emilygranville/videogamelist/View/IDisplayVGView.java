@@ -68,6 +68,11 @@ public interface IDisplayVGView {
         boolean onCloudSave();
 
         /**
+         * Alerts listener to loading from cloud
+         */
+        boolean onCloudLoad();
+
+        /**
          * Alerts listener to show the account management page
          */
         void onDisplayAMPage();

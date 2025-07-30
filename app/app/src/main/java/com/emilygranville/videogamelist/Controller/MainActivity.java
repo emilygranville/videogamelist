@@ -18,22 +18,25 @@ import com.emilygranville.videogamelist.View.DisplayVGView;
 import com.emilygranville.videogamelist.View.IAboutVGView;
 import com.emilygranville.videogamelist.View.Dialogs.IAddConsoleDialog;
 import com.emilygranville.videogamelist.View.IAccountManagementVGView;
+import com.emilygranville.videogamelist.View.ICloudDataPreservation;
 import com.emilygranville.videogamelist.View.IDisplayVGView;
 import com.emilygranville.videogamelist.View.IEditVVGView;
 import com.emilygranville.videogamelist.View.IMainView;
 import com.emilygranville.videogamelist.View.MainView;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IMainView.Listener,
         IDisplayVGView.Listener, IEditVVGView.Listener, IAddConsoleDialog.Listener,
         IAboutVGView.Listener, ISignInGVView.Listener,
-        IAccountManagementVGView.Listener {
+        IAccountManagementVGView.Listener, ICloudDataPreservation.Listener {
 
     private static final String CONSOLE_ORGANIZER_KEY = "console organizer";
     private static final String IN_PROGRESS_KEY = "in progress";
@@ -257,7 +260,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
                             Log.i(MainActivity.VGL, "Account created");
+                            assert auth.getCurrentUser() != null;
+                            String uid = auth.getCurrentUser().getUid();
+                            CloudDataPreservation preservation = new CloudDataPreservation(this);
                             accountSignIn(email, password);
+                            preservation.createUserDoc(uid);
                         } else {
                             Log.i(MainActivity.VGL, "Account not created");
                             String msg = getResources().getString(R.string.try_again_txt);
@@ -405,6 +412,12 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     private void accountDelete() {
         FirebaseUser user = auth.getCurrentUser();
         assert user != null;
+        String uid = user.getUid();
+
+        CloudDataPreservation preservation = new CloudDataPreservation(this);
+        preservation.deleteUserCollection(uid, (new Timestamp(new Date())));
+        preservation.deleteUserDoc(uid);
+
         user.delete()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -456,6 +469,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to return to display fragment
+     * (response)
      */
     @Override
     public void onReturnToDisplay() {
@@ -464,6 +478,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to wanting to switch console viewed
+     * (response)
+     *
      * @param console new console to view
      * @param scrollLeft position in scroll of the console
      */
@@ -474,6 +490,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to toggling favorite
+     * (response)
      *
      * @param videoGame game to change favorite
      */
@@ -485,6 +502,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to the video game needing editing
+     * (response)
+     *
      * @param videoGame that needs to be updated
      */
     @Override
@@ -494,6 +513,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to the video game needing deleting
+     * (response)
+     *
      * @param videoGame that needs to be deleted
      * @param curConsole current displayed console list
      */
@@ -507,6 +528,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to adding a new game
+     * (response)
      */
     @Override
     public void onAddNewGame() {
@@ -515,6 +537,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to show the about page
+     * (response)
      */
     public void onDisplayAboutPage() {
         showAboutFrag();
@@ -522,6 +545,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to saving on device
+     * (response)
      */
     @Override
     public boolean onDeviceSave() {
@@ -530,6 +554,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to loading from device
+     * (response)
      */
     @Override
     public void onDeviceLoad() {
@@ -543,24 +568,45 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to saving to cloud
+     * (response)
      */
     @Override
     public boolean onCloudSave() {
         FirebaseUser user = auth.getCurrentUser();
-//        ((IDisplayVGView) this.currentFragment).onUserSignIn();
         if (user != null) {
             Log.i(MainActivity.VGL, "signed in");
-            //TODO: do this once i have database stuff ready
-
-            // User is signed in
+            String uid = user.getUid();
+            CloudDataPreservation preservation = new CloudDataPreservation(this);
+            preservation.saveConsoleOrganizer(this.consoleOrganizer, uid);
         } else {
-            //((IDisplayVGView) this.currentFragment).onUserSignIn();
+            String msg = getResources().getString(R.string.try_again_txt);
+            mainView.displayToast(msg);
+        }
+        return true;
+    }
+
+    /**
+     * Alerts listener to loading from cloud
+     * (response)
+     */
+    @Override
+    public boolean onCloudLoad() {
+        FirebaseUser user = auth.getCurrentUser();
+        if (user != null) {
+            Log.i(MainActivity.VGL, "signed in");
+            String uid = user.getUid();
+            CloudDataPreservation preservation = new CloudDataPreservation(this);
+            preservation.loadConsoleOrganizer(uid);
+        } else {
+            String msg = getResources().getString(R.string.try_again_txt);
+            mainView.displayToast(msg);
         }
         return true;
     }
 
     /**
      * Alerts listener to show the account management page
+     * (response)
      */
     @Override
     public void onDisplayAMPage() {
@@ -569,6 +615,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to submitting the video game
+     * (response)
+     *
      * @param videoGame the video game to edit/create
      */
     @Override
@@ -579,6 +627,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to submitting the video game
+     * (response)
      *
      * @param consoleName name of the new console
      */
@@ -590,6 +639,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
 
     /**
      * Alerts listener to sign into account button
+     * (response)
      *
      * @param email email to save
      * @param password password to save
@@ -604,6 +654,7 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                 accountSignIn(email, password);
                 break;
             case AccountManagementVGView.CHANGE_PW_PURPOSE_KEY:
+            case AccountManagementVGView.DELETE_ACCOUNT_PURPOSE_KEY:
                 accountAuth(email, password, purpose);
                 break;
             case AccountManagementVGView.NEW_PW_PURPOSE_KEY:
@@ -611,10 +662,6 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                 break;
             case AccountManagementVGView.RESET_PW_PURPOSE_KEY:
                 accountPWReset(email);
-                break;
-            case AccountManagementVGView.DELETE_ACCOUNT_PURPOSE_KEY:
-                accountAuth(email, password, purpose);
-                accountDelete();
                 break;
         }
     }
@@ -627,5 +674,41 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     @Override
     public void onAMReturn() {
         showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
+    }
+
+    /**
+     * Alerts the listener to successful save
+     * (response)
+     */
+    @Override
+    public void onCloudSaveSuccess(Timestamp timestamp) {
+        String msg = getResources().getString(R.string.saved_to_cloud);
+        mainView.displayToast(msg);
+    }
+
+    /**
+     * Alerts the listener to successful load
+     * (response)
+     */
+    @Override
+    public void onCloudLoadSuccess(ConsoleOrganizer consoleOrganizer) {
+        this.consoleOrganizer = consoleOrganizer;
+        String msg = getResources().getString(R.string.loaded_from_cloud);
+        mainView.displayToast(msg);
+        if(!this.consoleOrganizer.getConsoleList().isEmpty()) {
+            showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
+        } else {
+            showDisplayFrag(null);
+        }
+    }
+
+    /**
+     * Alerts the listener to cloud failure
+     * (response)
+     */
+    @Override
+    public void onCloudFailure() {
+        String msg = getResources().getString(R.string.try_again_txt);
+        mainView.displayToast(msg);
     }
 }

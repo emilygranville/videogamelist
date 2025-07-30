@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -109,6 +110,14 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         this.isFavorite = isFavorite;
     }
 
+    public VideoGame(HashMap<String, Object> videoGameMap) throws NullPointerException {
+        // for some reason it needs to be cast as a long before it can be cast as an int
+        this.gameId = (int) (long) videoGameMap.get("gameID");
+        this.gameName = (String) videoGameMap.get("gameName");
+        this.price = (double) videoGameMap.get("price");
+        this.consoles = (List) videoGameMap.get("consoles");
+        this.isFavorite = (boolean) videoGameMap.get("isFavorite");
+    }
 
     /**
      * Creates a separate function to set up from a null list
@@ -147,6 +156,14 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         return gameId;
     }
 
+    public static int getNextId() {
+        return NEXT_ID;
+    }
+
+    public static void setNextId(int id) {
+        NEXT_ID = id;
+    }
+
     public static void resetNextID() {
         NEXT_ID = 0;
     }
@@ -174,6 +191,22 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         //makes the consoles lower case and removes whitespace
         this.consoles.add(console.toUpperCase().replaceAll("\\s", ""));
     }
+
+    /**
+     * Converts the VideoGame object into a HashMap
+     * object you can save in firestore database
+     * @return HashMap of the VideoGame
+     */
+    public HashMap<String, Object> convertToMap() {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("gameID", this.gameId);
+        map.put("gameName", this.gameName);
+        map.put("price", this.price);
+        map.put("consoles", this.consoles);
+        map.put("isFavorite", this.isFavorite);
+        return map;
+    }
+
 
     /**
      * Compares two VideoGames using the name of the video game
