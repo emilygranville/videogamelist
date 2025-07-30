@@ -1,6 +1,10 @@
 package com.emilygranville.videogamelist.Model;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+
+import com.emilygranville.videogamelist.Controller.MainActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -121,10 +125,20 @@ public class ConsoleOrganizer implements Serializable {
      * @param videoGame the video game to delete
      */
     public void deleteGame(VideoGame videoGame) {
+        Log.i(MainActivity.VGL, "deleting game: " + videoGame.getGameName()
+                + ", id: " + videoGame.getGameId());
         List<String> consoles = videoGame.getConsoles();
-        for (String console : consoles) {
+        for (int i = 0; i < consoles.size(); i++) {
+            String console = consoles.get(i);
+            Log.i(MainActivity.VGL, "checking console: "+console);
             List<VideoGame> gameList = this.consoleMap.get(console);
-            Objects.requireNonNull(gameList).remove(videoGame);
+            if (gameList != null) {
+                gameList.remove(videoGame);
+                if (Objects.requireNonNull(this.consoleMap.get(console)).isEmpty()) {
+                    this.consoleMap.remove(console);
+                    i--;
+                }
+            }
         }
     }
 
