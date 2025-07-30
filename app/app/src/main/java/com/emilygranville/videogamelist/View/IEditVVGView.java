@@ -17,6 +17,11 @@ public interface IEditVVGView {
         void submitGame(VideoGame videoGame);
 
         /**
+         * Alerts listener to return to display fragment
+         */
+        void onEditReturnToDisplay();
+
+        /**
          * Restores the fragment in MainActivity
          * @param curFragment fragment to restore
          */

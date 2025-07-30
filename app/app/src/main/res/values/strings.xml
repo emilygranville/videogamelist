@@ -11,7 +11,6 @@
     <string name="select_consoles">Select Consoles</string>
     <string name="console_list_label_text">Consoles:</string>
     <string name="add_console_dismiss_btn_text">Dismiss</string>
-    <string name="add_console_submit_btn_text">Submit</string>
     <string name="add_console_label">Console Name</string>
     <string name="add_console_hint">Console</string>
     <string name="add_console_instructions">Please add consoles one at a time.</string>
@@ -72,4 +71,5 @@
     <string name="saved_to_device">Successfully saved to device.</string>
     <string name="saved_to_cloud">Successfully saved to cloud.</string>
     <string name="loaded_from_cloud">Successfully loaded from cloud.</string>
+    <string name="submit_txt">Submit</string>
 </resources>

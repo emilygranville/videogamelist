@@ -89,6 +89,51 @@ public class EditVGView extends Fragment implements IEditVVGView {
             this.isEdited = getArguments().getBoolean(IS_EDITED_KEY);
         }
 
+        displayEditView();
+    }
+
+    /**
+     * Saves information about the fragment before the
+     * fragment is deleted
+     * @param outState Bundle in which to place your saved state.
+     */
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(MainActivity.CONSOLE_LIST_KEY, (Serializable) this.consoleOptions);
+        if (videoGame != null) {
+            outState.putSerializable(MainActivity.VIDEO_GAME_KEY, this.videoGame);
+        }
+        outState.putBoolean(IS_EDITED_KEY, this.isEdited);
+    }
+
+    /**
+     * Restores the View
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            this.consoleOptions = (List<String>) savedInstanceState.getSerializable(MainActivity
+                    .CONSOLE_LIST_KEY);
+            try {
+                this.videoGame = (VideoGame) savedInstanceState.getSerializable(MainActivity
+                        .VIDEO_GAME_KEY);
+            } catch (NullPointerException e) {
+                Log.e("vgl", e.toString());
+            }
+            this.isEdited = savedInstanceState.getBoolean(IS_EDITED_KEY);
+            this.listener.restoreEditFragment(this);
+        }
+        displayEditView();
+    }
+
+    /**
+     * Shows the edit view fragment
+     */
+    private void displayEditView() {
         ChipGroup consoleChipGroup = this.binding.consoleChipGroup;
         for (int i = 0; i < this.consoleOptions.size(); i++) {
             String console = this.consoleOptions.get(i);
@@ -154,43 +199,9 @@ public class EditVGView extends Fragment implements IEditVVGView {
                         Snackbar.LENGTH_LONG).show();
             }
         });
-    }
 
-    /**
-     * Saves information about the fragment before the
-     * fragment is deleted
-     * @param outState Bundle in which to place your saved state.
-     */
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable(MainActivity.CONSOLE_LIST_KEY, (Serializable) this.consoleOptions);
-        if (videoGame != null) {
-            outState.putSerializable(MainActivity.VIDEO_GAME_KEY, this.videoGame);
-        }
-        outState.putBoolean(IS_EDITED_KEY, this.isEdited);
-    }
-
-    /**
-     * Restores the View
-     * @param savedInstanceState If the fragment is being re-created from
-     * a previous saved state, this is the state.
-     */
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            this.consoleOptions = (List<String>) savedInstanceState.getSerializable(MainActivity
-                    .CONSOLE_LIST_KEY);
-            try {
-                this.videoGame = (VideoGame) savedInstanceState.getSerializable(MainActivity
-                        .VIDEO_GAME_KEY);
-            } catch (NullPointerException e) {
-                Log.e("vgl", e.toString());
-            }
-            this.isEdited = savedInstanceState.getBoolean(IS_EDITED_KEY);
-            this.listener.restoreEditFragment(this);
-        }
+        this.binding.editReturnToDisplayBtn.setOnClickListener(view ->
+                EditVGView.this.listener.onEditReturnToDisplay());
     }
 
     /**

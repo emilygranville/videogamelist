@@ -626,6 +626,14 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     }
 
     /**
+     * Alerts listener to return to display fragment
+     */
+    @Override
+    public void onEditReturnToDisplay() {
+        showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
+    }
+
+    /**
      * Alerts listener to submitting the video game
      * (response)
      *
