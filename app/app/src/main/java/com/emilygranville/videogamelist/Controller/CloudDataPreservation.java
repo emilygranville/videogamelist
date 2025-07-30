@@ -1,30 +1,25 @@
 package com.emilygranville.videogamelist.Controller;
 
-import android.content.Context;
 import android.util.Log;
-
-
-import androidx.annotation.NonNull;
 
 import com.emilygranville.videogamelist.Model.ConsoleOrganizer;
 import com.emilygranville.videogamelist.Model.VideoGame;
 import com.emilygranville.videogamelist.View.ICloudDataPreservation;
-import com.emilygranville.videogamelist.View.IDisplayVGView;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class CloudDataPreservation implements ICloudDataPreservation {
 
+    public static final String NEXT_GAME_ID_KEY = "nextGameID";
     private final ICloudDataPreservation.Listener listener;
 
     public CloudDataPreservation(Listener listener) {
@@ -37,17 +32,16 @@ public class CloudDataPreservation implements ICloudDataPreservation {
      * @param uid the user id for the person saving
      */
     public void saveConsoleOrganizer(ConsoleOrganizer consoleOrganizer, String uid) {
+        Timestamp timestamp = new Timestamp(new Date());
+        Log.i(MainActivity.VGL, String.valueOf(timestamp));
+
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-
-        //checkForUser(uid);
-
-        Log.i(MainActivity.VGL, "next steps");
-
         CollectionReference collection = database.collection(uid);
         Set<VideoGame> videoGameSet = consoleOrganizer.compileGames();
         for (VideoGame videoGame : videoGameSet) {
             int gameId = videoGame.getGameId();
             HashMap<String, Object> gameMap = videoGame.convertToMap();
+            gameMap.put("timestamp", timestamp);
             DocumentReference document = collection.document(String.valueOf(gameId));
             document.set(gameMap).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -75,17 +69,25 @@ public class CloudDataPreservation implements ICloudDataPreservation {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d(MainActivity.VGL, "document: " + document.getId() + ", info: " + document.getData());
-                            try {
-                                VideoGame videoGame = new VideoGame((HashMap<String, Object>) document.getData());
-                                consoleOrganizer.addVideoGame(videoGame);
-                            } catch (NullPointerException e) {
-                                Log.i(MainActivity.VGL, "Could not load this video game");
+                            String docId = document.getId();
+                            Log.d(MainActivity.VGL, "document: " + document.getId() +
+                                    ", info: " + document.getData());
+                            if (!docId.equals(NEXT_GAME_ID_KEY)) {
+                                try {
+                                    VideoGame videoGame = new VideoGame((HashMap<String, Object>)
+                                            document.getData());
+                                    consoleOrganizer.addVideoGame(videoGame);
+                                } catch (NullPointerException e) {
+                                    Log.i(MainActivity.VGL, "Could not load this video game");
+                                }
+                            } else {
+                                VideoGame.setNextId((int) (long) document.getData().get(NEXT_GAME_ID_KEY));
                             }
                         }
                         CloudDataPreservation.this.listener.onCloudLoadSuccess(consoleOrganizer);
                     } else {
-                        Log.d(MainActivity.VGL, "Error getting documents: ", task.getException());
+                        Log.d(MainActivity.VGL, "Error getting documents: ",
+                                task.getException());
                         CloudDataPreservation.this.listener.onCloudFailure();
                     }
                 });
@@ -97,7 +99,6 @@ public class CloudDataPreservation implements ICloudDataPreservation {
      */
     private void checkForUser(String uid) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-
         DocumentReference doc = database.collection("users").document(uid);
         doc.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -119,11 +120,18 @@ public class CloudDataPreservation implements ICloudDataPreservation {
      * @param uid user's id
      */
     public void createUserDoc(String uid) {
+        Log.i(MainActivity.VGL, "creating user doc");
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-        CollectionReference collection = database.collection("users");
-        DocumentReference document = collection.document(uid);
+        CollectionReference userCollection = database.collection("users");
+        DocumentReference userDocument = userCollection.document(uid);
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("user id", uid);
-        document.set(userMap);
+        userDocument.set(userMap);
+
+        CollectionReference collection = database.collection(uid);
+        DocumentReference document = collection.document(NEXT_GAME_ID_KEY);
+        HashMap<String, Object> gameIDMap = new HashMap<String, Object>();
+        gameIDMap.put(NEXT_GAME_ID_KEY, VideoGame.getNextId());
+        document.set(gameIDMap);
     }
 }

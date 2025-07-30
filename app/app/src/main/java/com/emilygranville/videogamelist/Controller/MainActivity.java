@@ -261,8 +261,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                             assert auth.getCurrentUser() != null;
                             String uid = auth.getCurrentUser().getUid();
                             CloudDataPreservation preservation = new CloudDataPreservation(this);
-                            preservation.createUserDoc(uid);
                             accountSignIn(email, password);
+                            preservation.createUserDoc(uid);
                         } else {
                             Log.i(MainActivity.VGL, "Account not created");
                             String msg = getResources().getString(R.string.try_again_txt);
@@ -410,10 +410,17 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     private void accountDelete() {
         FirebaseUser user = auth.getCurrentUser();
         assert user != null;
+        String uid = user.getUid();
+
+        CloudDataPreservation preservation = new CloudDataPreservation(this);
+        preservation.deleteUserDoc(uid);
+        preservation.deleteUserCollection(uid);
+
         user.delete()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d(MainActivity.VGL, "User account deleted.");
+
                         String msg = getResources().getString(R.string.account_deleted_txt);
                         mainView.displayToast(msg);
                     } else {

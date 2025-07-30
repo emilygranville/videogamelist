@@ -156,6 +156,14 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         return gameId;
     }
 
+    public static int getNextId() {
+        return NEXT_ID;
+    }
+
+    public static void setNextId(int id) {
+        NEXT_ID = id;
+    }
+
     public static void resetNextID() {
         NEXT_ID = 0;
     }
