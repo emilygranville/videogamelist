@@ -79,7 +79,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
         setContentView(this.mainView.getRootView());
 
         if (savedInstanceState != null) {
-            this.consoleOrganizer = (ConsoleOrganizer) savedInstanceState.getSerializable(CONSOLE_ORGANIZER_KEY);
+            this.consoleOrganizer = (ConsoleOrganizer) savedInstanceState
+                    .getSerializable(CONSOLE_ORGANIZER_KEY);
         } else {
 
             loadLocally();
@@ -111,7 +112,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        this.consoleOrganizer = (ConsoleOrganizer) savedInstanceState.getSerializable(CONSOLE_ORGANIZER_KEY);
+        this.consoleOrganizer = (ConsoleOrganizer) savedInstanceState
+                .getSerializable(CONSOLE_ORGANIZER_KEY);
     }
 
     /*
@@ -139,7 +141,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     private void showAccountManagementFrag() {
         this.currentFragment = new AccountManagementVGView(this);
-        this.mainView.displayFragment(currentFragment, true, AccountManagementVGView.FRAG_NAME);
+        this.mainView.displayFragment(currentFragment, true,
+                AccountManagementVGView.FRAG_NAME);
     }
 
     /**
@@ -191,7 +194,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     private void showEditFrag(){
         Bundle fragArgs = new Bundle();
-        fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) this.consoleOrganizer.getConsoleList());
+        fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) this.consoleOrganizer
+                .getConsoleList());
         fragArgs.putBoolean(IS_EDITED_KEY, false);
         this.currentFragment = new EditVGView(this);
         currentFragment.setArguments(fragArgs);
@@ -205,7 +209,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
     private void showEditFrag(VideoGame videoGame){
         Bundle fragArgs = new Bundle();
         fragArgs.putSerializable(VIDEO_GAME_KEY, videoGame);
-        fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) this.consoleOrganizer.getConsoleList());
+        fragArgs.putSerializable(CONSOLE_LIST_KEY, (Serializable) this.consoleOrganizer
+                .getConsoleList());
         fragArgs.putBoolean(IS_EDITED_KEY, true);
         this.currentFragment = new EditVGView(this);
         currentFragment.setArguments(fragArgs);
@@ -262,7 +267,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                             Log.i(MainActivity.VGL, "Account created");
                             assert auth.getCurrentUser() != null;
                             String uid = auth.getCurrentUser().getUid();
-                            CloudDataPreservation preservation = new CloudDataPreservation(this);
+                            CloudDataPreservation preservation =
+                                    new CloudDataPreservation(this);
                             accountSignIn(email, password);
                             preservation.createUserDoc(uid);
                         } else {
@@ -345,7 +351,8 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
                         if (task.isSuccessful()) {
                             switch (purpose) {
                                 case AccountManagementVGView.CHANGE_PW_PURPOSE_KEY:
-                                    ((IAccountManagementVGView) MainActivity.this.currentFragment).newPWPopUp();
+                                    ((IAccountManagementVGView) MainActivity.this.currentFragment)
+                                            .newPWPopUp();
                                     break;
                                 case AccountManagementVGView.DELETE_ACCOUNT_PURPOSE_KEY:
                                     accountDelete();

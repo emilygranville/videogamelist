@@ -127,7 +127,6 @@ public class EditVGView extends Fragment implements IEditVVGView {
             this.isEdited = savedInstanceState.getBoolean(IS_EDITED_KEY);
             this.listener.restoreEditFragment(this);
         }
-        displayEditView();
     }
 
     /**
@@ -135,6 +134,7 @@ public class EditVGView extends Fragment implements IEditVVGView {
      */
     private void displayEditView() {
         ChipGroup consoleChipGroup = this.binding.consoleChipGroup;
+        Log.i(MainActivity.VGL, "edit view console chip group:"+consoleChipGroup.toString());
         for (int i = 0; i < this.consoleOptions.size(); i++) {
             String console = this.consoleOptions.get(i);
             Chip consoleChip = new Chip(this.getContext());
