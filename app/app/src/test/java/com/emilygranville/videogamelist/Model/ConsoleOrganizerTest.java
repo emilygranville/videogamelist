@@ -222,8 +222,8 @@ class ConsoleOrganizerTest {
 
         assertTrue(consoleOrganizer.getConsoleMap().get("1").contains(v1));
         assertFalse(consoleOrganizer.getConsoleMap().get("1").contains(v2));
-        assertFalse(consoleOrganizer.getConsoleMap().get("2").contains(v2));
         assertTrue(consoleOrganizer.getConsoleMap().get("1").contains(v3));
+        assertNull(consoleOrganizer.getConsoleMap().get("2"));
 
         this.consoleOrganizer.deleteGame(v3);
         assertFalse(consoleOrganizer.getConsoleMap().get("1").contains(v3));
