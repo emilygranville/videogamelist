@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,28 +95,6 @@ public class DisplayVGView extends Fragment implements IDisplayVGView, IConfirmV
     }
 
     /**
-     * Handles setting up and displaying the fragment
-     */
-    private void displayFragment() {
-        if (this.videoGameList != null && !this.videoGameList.isEmpty()) {
-            displayVideoGameList();
-        } else {
-            this.binding.noGamesTextview.setVisibility(VISIBLE);
-        }
-
-        if (consoleList != null) {
-            displayConsoleList();
-        }
-
-        if (scrollLeft > 0) {
-            this.binding.consoleListScroll.post(() -> DisplayVGView.this.binding.consoleListScroll.scrollTo(
-                    DisplayVGView.this.scrollLeft, 0));
-        }
-
-        this.binding.displayMenuBtn.setOnClickListener(view -> DisplayVGView.this.displayMenu());
-    }
-
-    /**
      * Saves information about the fragment before the
      * fragment is deleted
      * @param outState Bundle in which to place your saved state.
@@ -148,6 +125,35 @@ public class DisplayVGView extends Fragment implements IDisplayVGView, IConfirmV
 
             displayFragment();
             this.listener.restoreDisplayFragment(this);
+        }
+    }
+
+    /**
+     * Handles setting up and displaying the fragment
+     */
+    private void displayFragment() {
+        toggleListDisplay();
+
+        if (consoleList != null) {
+            displayConsoleList();
+        }
+
+        if (scrollLeft > 0) {
+            this.binding.consoleListScroll.post(() -> DisplayVGView.this.binding.consoleListScroll.scrollTo(
+                    DisplayVGView.this.scrollLeft, 0));
+        }
+
+        this.binding.displayMenuBtn.setOnClickListener(view -> DisplayVGView.this.displayMenu());
+    }
+
+    /**
+     * toggles the list display when the list is or isn't null
+     */
+    private void toggleListDisplay() {
+        if (this.videoGameList != null && !this.videoGameList.isEmpty()) {
+            displayVideoGameList();
+        } else {
+            this.binding.noGamesTextview.setVisibility(VISIBLE);
         }
     }
 
@@ -206,6 +212,7 @@ public class DisplayVGView extends Fragment implements IDisplayVGView, IConfirmV
      */
     public void updateDeletedItem(int index) {
         this.vgItemAdapter.notifyItemRemoved(index);
+        toggleListDisplay();
     }
 
     /**
