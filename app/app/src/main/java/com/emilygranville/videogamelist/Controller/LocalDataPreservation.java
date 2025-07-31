@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.emilygranville.videogamelist.Model.ConsoleOrganizer;
+import com.emilygranville.videogamelist.Model.VideoGame;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +16,7 @@ import java.io.ObjectOutputStream;
 public class LocalDataPreservation implements IDataPreservation {
 
     public static final String CONSOLE_ORGANIZER_FILE_NAME = "console organizer file name";
+    private static final String NEXT_VG_ID_FILE_NAME = "next vg id file name";
 
     /**
      * Saves the console organizer
@@ -25,11 +27,29 @@ public class LocalDataPreservation implements IDataPreservation {
      */
     @Override
     public boolean saveConsoleOrganizer(Context context, ConsoleOrganizer consoleOrganizer) {
+
+        saveNextVGID(context);
+
         File outFile = new File(context.getFilesDir(), CONSOLE_ORGANIZER_FILE_NAME);
         try {
             FileOutputStream fileOutStream = new FileOutputStream(outFile);
             ObjectOutputStream objectOutStream = new ObjectOutputStream(fileOutStream);
             objectOutStream.writeObject(consoleOrganizer);
+            return true;
+        } catch (IOException e) {
+            final String msg = String.format("I/O error writing to %s", outFile);
+            Log.e(MainActivity.VGL, msg);
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean saveNextVGID(Context context) {
+        File outFile = new File(context.getFilesDir(), NEXT_VG_ID_FILE_NAME);
+        try {
+            FileOutputStream fileOutStream = new FileOutputStream(outFile);
+            ObjectOutputStream objectOutStream = new ObjectOutputStream(fileOutStream);
+            objectOutStream.writeObject(VideoGame.getNextId());
             return true;
         } catch (IOException e) {
             final String msg = String.format("I/O error writing to %s", outFile);
@@ -47,6 +67,9 @@ public class LocalDataPreservation implements IDataPreservation {
      */
     @Override
     public ConsoleOrganizer loadConsoleOrganizer(Context context) {
+
+        VideoGame.setNextId(loadNextVGID(context));
+
         File inFile = new File(context.getFilesDir(), CONSOLE_ORGANIZER_FILE_NAME);
         if (inFile.isFile()) {
             try {
@@ -66,5 +89,27 @@ public class LocalDataPreservation implements IDataPreservation {
             }
         }
         return new ConsoleOrganizer();
+    }
+
+    private int loadNextVGID(Context context) {
+        File inFile = new File(context.getFilesDir(), NEXT_VG_ID_FILE_NAME);
+        if (inFile.isFile()) {
+            try {
+                FileInputStream fileInStream = new FileInputStream(inFile);
+                ObjectInputStream objectInStream = new ObjectInputStream(fileInStream);
+                return (int) objectInStream.readObject();
+            } catch (IOException e) {
+                final String msg = String.format("I/O error reading from %s", inFile);
+                Log.e(MainActivity.VGL, msg);
+                e.printStackTrace();
+                return 0;
+            } catch (ClassNotFoundException e) {
+                final String msg = String.format("Can't find class of object from %s", inFile);
+                Log.e(MainActivity.VGL, msg);
+                e.printStackTrace();
+                return 0;
+            }
+        }
+        return 0;
     }
 }
