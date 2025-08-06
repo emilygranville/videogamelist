@@ -2,8 +2,6 @@ package com.emilygranville.videogamelist.Model;
 
 import androidx.annotation.NonNull;
 
-import com.emilygranville.videogamelist.Controller.MainActivity;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -95,7 +93,7 @@ public class ConsoleOrganizer implements Serializable {
      * @return the list of games for the console
      */
     public List<VideoGame> getGamesForConsole(String console) {
-        String consoleKey = console.toUpperCase().replaceAll("\\s", "");
+        String consoleKey = console.toUpperCase();
         return consoleMap.get(consoleKey);
     }
 

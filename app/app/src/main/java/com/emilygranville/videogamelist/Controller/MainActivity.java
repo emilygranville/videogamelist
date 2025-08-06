@@ -637,7 +637,11 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      */
     @Override
     public void onEditReturnToDisplay() {
-        showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
+        try {
+            showDisplayFrag(this.consoleOrganizer.getConsoleList().get(0));
+        } catch (Exception e) {
+            showDisplayFrag(null);
+        }
     }
 
     /**

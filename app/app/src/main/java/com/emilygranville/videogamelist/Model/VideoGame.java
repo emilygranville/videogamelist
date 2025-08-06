@@ -115,7 +115,7 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         this.gameId = (int) (long) videoGameMap.get("gameID");
         this.gameName = (String) videoGameMap.get("gameName");
         this.price = (double) videoGameMap.get("price");
-        this.consoles = (List) videoGameMap.get("consoles");
+        this.consoles = (List<String>) videoGameMap.get("consoles");
         this.isFavorite = (boolean) videoGameMap.get("isFavorite");
     }
 
@@ -188,8 +188,8 @@ public class VideoGame implements Comparable<VideoGame>, Serializable {
         if (this.consoles == null) {
             createConsoleList();
         }
-        //makes the consoles lower case and removes whitespace
-        this.consoles.add(console.toUpperCase().replaceAll("\\s", ""));
+        //makes the consoles lower case
+        this.consoles.add(console.toUpperCase());
     }
 
     /**

@@ -85,8 +85,10 @@ public class DisplayVGView extends Fragment implements IDisplayVGView, IConfirmV
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null && !hasInitInfo) {
-            this.videoGameList = (List<VideoGame>) getArguments().getSerializable(MainActivity.GAMES_FOR_CONSOLE);
-            this.consoleList = (List<String>) getArguments().getSerializable(MainActivity.CONSOLE_LIST_KEY);
+            this.videoGameList = (List<VideoGame>) getArguments().getSerializable(
+                    MainActivity.GAMES_FOR_CONSOLE);
+            this.consoleList = (List<String>) getArguments().getSerializable(
+                    MainActivity.CONSOLE_LIST_KEY);
             this.curConsole = getArguments().getString(MainActivity.CONSOLE_NAME_KEY);
             this.scrollLeft = getArguments().getInt(MainActivity.SCROLL_LEFT_KEY);
         }
@@ -118,12 +120,13 @@ public class DisplayVGView extends Fragment implements IDisplayVGView, IConfirmV
         super.onViewStateRestored(savedInstanceState);
 
         if (savedInstanceState != null) {
-            this.videoGameList = (List<VideoGame>) savedInstanceState.getSerializable(MainActivity.GAMES_FOR_CONSOLE);
-            this.consoleList = (List<String>) savedInstanceState.getSerializable(MainActivity.CONSOLE_LIST_KEY);
+            this.videoGameList = (List<VideoGame>) savedInstanceState.getSerializable(
+                    MainActivity.GAMES_FOR_CONSOLE);
+            this.consoleList = (List<String>) savedInstanceState.getSerializable(
+                    MainActivity.CONSOLE_LIST_KEY);
             this.curConsole = savedInstanceState.getString(MainActivity.CONSOLE_NAME_KEY);
             this.scrollLeft = savedInstanceState.getInt(MainActivity.SCROLL_LEFT_KEY);
 
-            displayFragment();
             this.listener.restoreDisplayFragment(this);
         }
     }
