@@ -523,11 +523,10 @@ public class MainActivity extends AppCompatActivity implements IMainView.Listene
      * (response)
      *
      * @param videoGame that needs to be deleted
-     * @param curConsole current displayed console list
+     * @param index index in the displayed console list
      */
     @Override
-    public void onDeleteGame(VideoGame videoGame, String curConsole) {
-        int index = this.consoleOrganizer.getGameIndex(videoGame, curConsole);
+    public void onDeleteGame(VideoGame videoGame, int index) {
         this.consoleOrganizer.deleteGame(videoGame);
         Log.i("vgl", "delete");
         ((IDisplayVGView) this.currentFragment).updateDeletedItem(index);

@@ -133,6 +133,9 @@ public class ConsoleOrganizer implements Serializable {
                 }
             }
         }
+        if (videoGame.getIsFavorite()) {
+            this.favorites.remove(videoGame);
+        }
     }
 
     /**
@@ -194,9 +197,7 @@ public class ConsoleOrganizer implements Serializable {
     public LinkedHashSet<VideoGame> compileGames() {
         LinkedHashSet<VideoGame> allGames = new LinkedHashSet<VideoGame>();
         for (String console : getConsoleList()) {
-            for (VideoGame game : this.consoleMap.get(console)) {
-                allGames.add(game);
-            }
+            allGames.addAll(Objects.requireNonNull(this.consoleMap.get(console)));
         }
         return allGames;
     }

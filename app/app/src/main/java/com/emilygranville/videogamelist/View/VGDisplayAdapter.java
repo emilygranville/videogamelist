@@ -82,7 +82,7 @@ public class VGDisplayAdapter extends RecyclerView.Adapter<VGViewHolder>{
      */
     @Override
     public void onBindViewHolder(@NonNull VGViewHolder holder, int position) {
-        holder.setValues(videoGameList.get(holder.getAdapterPosition()), this.curConsole);
+        holder.setValues(videoGameList.get(holder.getAdapterPosition()), this.curConsole, position);
     }
 
     /**

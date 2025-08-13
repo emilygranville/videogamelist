@@ -20,6 +20,7 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
 
     private VideoGame videoGame;
     private String curConsole;
+    private int position;
 
     private final TextView gameName;
     private final TextView consolesDisplay;
@@ -52,7 +53,7 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
         });
         this.favoriteButton.setOnClickListener(view -> VGViewHolder.this.listener.onFavorite(VGViewHolder.this.videoGame));
         gameEditBtn.setOnClickListener(view -> VGViewHolder.this.listener.onEditGame(VGViewHolder.this.videoGame));
-        gameDeleteBtn.setOnClickListener(view -> VGViewHolder.this.listener.onDeleteGame(VGViewHolder.this.videoGame, VGViewHolder.this.curConsole));
+        gameDeleteBtn.setOnClickListener(view -> VGViewHolder.this.listener.onDeleteGame(VGViewHolder.this.videoGame, VGViewHolder.this.position));
     }
 
     /**
@@ -60,10 +61,11 @@ public class VGViewHolder extends RecyclerView.ViewHolder {
      * @param videoGame the game to display
      * @param curConsole the current console to display
      */
-    public void setValues(VideoGame videoGame, String curConsole) {
+    public void setValues(VideoGame videoGame, String curConsole, int position) {
         this.videoGame = videoGame;
         this.gameName.setText(videoGame.getGameName());
         this.curConsole = curConsole;
+        this.position = position;
         StringBuilder consoleText = new StringBuilder("Consoles:\n");
         for(String consoles : videoGame.getConsoles()) {
             consoleText.append("• ").append(consoles).append("\n");

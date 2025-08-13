@@ -10,13 +10,12 @@ public interface IDisplayVGView {
      * Listener so that controller classes are alerted to edits
      */
     interface Listener {
-
         /**
          * Alerts listener to the video game needing deleting
          * @param videoGame that needs to be deleted
-         * @param curConsole current displayed console list
+         * @param index current displayed console list
          */
-        void onDeleteGame(VideoGame videoGame, String curConsole);
+        void onDeleteGame(VideoGame videoGame, int index);
 
         /**
          * Alerts listener to the video game needing editing
