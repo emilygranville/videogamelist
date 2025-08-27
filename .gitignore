@@ -1,0 +1,4 @@
+# extra git ignore to ensure that app doesn't clog the website branch
+# ONLY for website branch
+
+app/
