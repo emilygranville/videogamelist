@@ -1,0 +1,25 @@
+.mainBody {
+    margin-left: 210px;
+    margin-right: 10px;
+    margin-top: 50px;
+}
+
+.mainBody__consoleList {
+    top: 50px;
+    width: 100%;
+    position: fixed;
+    display: flex;
+    background-color: bisque;
+    margin: 0%;
+}
+
+.mainBody__consoleList__button{
+    margin: 10px;
+}
+
+.mainBody__cardSection{
+    margin-top: 50px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    overflow: auto;
+}

@@ -1,0 +1,27 @@
+
+.topNavBar__list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(255, 164, 255);
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.topNavBar__listItem {
+    float: right;
+}
+
+.topNavBar__link {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.topNavBar__link:hover {
+    background-color: #e9e9e9;
+}

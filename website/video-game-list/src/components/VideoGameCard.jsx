@@ -5,7 +5,7 @@ function VideoGameCard() {
   const [count, setCount] = useState(0);
 
   return (
-    <>
+    <div class="videoGameCard">
         <h2>Game Name</h2>
         <button>Favorite</button>
         <ul>
@@ -14,7 +14,7 @@ function VideoGameCard() {
         </ul>
         <button>Edit</button>
         <button>Delete</button>
-    </>
+    </div>
   );
 }
 

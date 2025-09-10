@@ -1,0 +1,14 @@
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+ }
+
+ body {
+    margin: 0%;
+ }
+
+body,
+input,
+select,
+button {
+  font-size: 1.2em;
+}

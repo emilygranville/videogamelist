@@ -6,10 +6,17 @@ function TopNavbar() {
 
   return (
     <>
-        <nav>
-            <ul>
-                <li>Contact</li>
-                <li>About</li>
+        <nav class="topNavBar">
+            <ul class="topNavBar__list">
+                <li class="topNavBar__listItem">
+                    <a class="topNavBar__link" href="">Contact</a>
+                </li>
+                <li class="topNavBar__listItem">
+                    <a class="topNavBar__link" href="">About</a>
+                </li>
+                <li class="topNavBar__listItem">
+                    <a class="topNavBar__link" href="./index.html">Home</a>
+                </li>
             </ul>
         </nav>
     </>

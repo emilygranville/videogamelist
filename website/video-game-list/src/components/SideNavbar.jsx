@@ -6,21 +6,45 @@ function SideNavbar() {
 
   return (
     <>
-        <nav>
-            <button>Add new game</button>
-            <ul>
-                <li>Save to device</li>
-                <li>Load from device (default)</li>
-                <li>Save to cloud</li>
-                <li>Load from cloud</li>
+        <nav class="sideNavBar">
+            <ul class="sideNavBar__list">
+                <li class="sideNavBar__listItem">
+                    <a class="sideNavBar__link" href="">Add new game</a>
+                </li>
             </ul>
-            <ul>
-                <li>Sign up</li>
-                <li>Sign in</li>
-                <li>Change password</li>
-                <li>Reset password</li>
-                <li>Sign out</li>
-                <li>Delete account</li>
+            <ul class="sideNavBar__list">
+                <li class="sideNavBar__listItem">   
+                    <a class="sideNavBar__link" href="">Save to device</a>
+                </li>
+                <li class="sideNavBar__listItem">
+                    <a class="sideNavBar__link" href="">Load from device (default)</a>
+                </li>
+                <li class="sideNavBar__listItem">
+                    <a class="sideNavBar__link" href="">Save to cloud</a>
+                </li>
+                <li class="sideNavBar__listItem">
+                    <a class="sideNavBar__link" href="">Load from cloud</a>
+                </li>
+            </ul>
+            <ul class="sideNavBar__list">
+                <li class="sideNavBar__listItem">
+                    <a class="sideNavBar__link" href="">Sign up</a>
+                </li>
+                <li class="sideNavBar__listItem">
+                    <a class="sideNavBar__link" href="">Sign in</a>
+                </li>
+                <li class="sideNavBar__listItem">
+                    <a class="sideNavBar__link" href="">Change password</a>
+                </li>
+                <li class="sideNavBar__listItem">
+                    <a class="sideNavBar__link" href="">Reset password</a>
+                </li>
+                <li class="sideNavBar__listItem">
+                    <a class="sideNavBar__link" href="">Sign out</a>
+                </li>
+                <li class="sideNavBar__listItem">
+                    <a class="sideNavBar__link" href="">Delete account</a>
+                </li>
             </ul>
         </nav>
     </>

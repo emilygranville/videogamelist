@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import './App.css';
-import VideoGameCard from "./components/VideoGameCard.jsx";
 import TopNavbar from "./components/TopNavbar.jsx";
 import SideNavbar from "./components/SideNavbar.jsx";
+import MainBody from './components/MainBody.jsx';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -12,9 +12,9 @@ function App() {
   // this is not permanent
   return (
     <div>
-        <TopNavbar/>
-        <VideoGameCard/>
         <SideNavbar/>
+        <TopNavbar/>
+        <MainBody/>
     </div>
   );
 }
