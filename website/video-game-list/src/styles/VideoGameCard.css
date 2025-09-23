@@ -1,6 +1,7 @@
 .videoGameCard {
     background-color: rgb(102, 174, 236);
-    margin: 0%;
     padding: 20px;
-    margin: 10px;
+    margin: 6px;
+    width: calc(20%);
+    border-radius: 25px;
 }
