@@ -7,13 +7,13 @@ function VideoGameCard() {
   return (
     <div class="videoGameCard">
         <h2>Game Name</h2>
-        <button>Favorite</button>
-        <ul>
-            <li>Console</li>
-            <li>Console</li>
+        <button class="videoGameCard__button">Favorite</button>
+        <ul class="videoGameCard__list">
+            <li class="videoGameCard__listItem">Console</li>
+            <li class="videoGameCard__listItem">Console</li>
         </ul>
-        <button>Edit</button>
-        <button>Delete</button>
+        <button class="videoGameCard__button">Edit</button>
+        <button class="videoGameCard__button">Delete</button>
     </div>
   );
 }

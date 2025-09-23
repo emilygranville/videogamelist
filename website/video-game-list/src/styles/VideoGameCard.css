@@ -2,6 +2,10 @@
     background-color: rgb(102, 174, 236);
     padding: 20px;
     margin: 6px;
-    width: calc(20%);
+    width: 20%;
     border-radius: 25px;
+}
+
+.videoGameCard__button {
+    margin: 2px;
 }
