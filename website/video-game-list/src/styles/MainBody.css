@@ -23,4 +23,5 @@
     flex-wrap: wrap;
     overflow: auto;
     padding-left: 5px;
+    width: calc(100% - 5px)
 }
