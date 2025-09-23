@@ -17,13 +17,13 @@ function MainBody() {
 
   return (
     <>
-        <div class="mainBody">
-            <div class="mainBody__consoleList">
+        <section class="mainBody">
+            <section class="mainBody__consoleList">
                 <button class="mainBody__consoleList__button">Button</button>
                 <button class="mainBody__consoleList__button">Button 2</button>
-            </div>
-            <div class="mainBody__cardSection">{videoGameCards}</div>
-        </div>
+            </section>
+            <section class="mainBody__cardSection">{videoGameCards}</section>
+        </section>
     </>
   );
 }
