@@ -3,22 +3,40 @@
     margin-top: 50px;
 }
 
-.mainBody__consoleList {
+.mainBody__consoleSection {
     top: 50.5px;
     width: calc(100% - 200px);
     position: fixed;
     display: flex;
     background-color: rgb(208, 208, 208);
     margin: 0%;
-    /* overflow-x: auto; */
 }
 
-.mainBody__consoleList__button {
-    margin: 10px;
+.mainBody__consoleList {
+    list-style-type: none;
+    overflow: auto;
+    white-space: nowrap;
+    margin: 0%;
+}
+
+.mainBody__consoleListSection__item {
+    display: inline-block;
+    text-align: center;
+    padding: 15px;
+    margin: 0%;
+}
+
+.mainBody__consoleListSection__itemLink {
+    text-decoration: none;
+    color: black;
+}
+
+.mainBody__consoleListSection__item:hover {
+    background-color: rgb(114, 114, 114);
 }
 
 .mainBody__cardSection {
-    margin-top: 50px;
+    margin-top: 65px;
     display: inline-flex;
     flex-wrap: wrap;
     overflow: auto;

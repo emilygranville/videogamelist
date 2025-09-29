@@ -39,7 +39,13 @@ export default [
         consoles: [
             "CONSOLE 1",
             "CONSOLE 2",
-            "CONSOLE 0"
+            "CONSOLE 0",
+            "CONSOLE 21",
+            "CONSOLE 23",
+            "CONSOLE 20",
+            "CONSOLE 61",
+            "CONSOLE 26",
+            "CONSOLE 60",
         ]
     },
     {

@@ -24,14 +24,19 @@ function MainBody() {
     });
     const consoleButtons = Array.from(consoleSet).map((x) => {
         return (
-            <button className="mainBody__consoleList__button">{x}</button>
+            <li className="mainBody__consoleListSection__item">
+                <a href="" className="mainBody__consoleListSection__itemLink">{x}</a>
+            </li>
+            // <button className="mainBody__consoleList__button">{x}</button>
         )
     });
 
     return (
         <>
             <section className="mainBody">
-                <section className="mainBody__consoleList">{consoleButtons}</section>
+                <section className="mainBody__consoleSection">
+                    <ul className="mainBody__consoleList">{consoleButtons}</ul>
+                </section>
                 <section className="mainBody__cardSection">{videoGameCards}</section>
             </section>
         </>
