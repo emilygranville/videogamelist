@@ -4,28 +4,38 @@ import VideoGameCard from "./VideoGameCard.jsx";
 import data from '../test-data.js'
 
 function MainBody() {
-  const [count, setCount] = useState(0);
+    const [count, setCount] = useState(0);
 
-  const videoGameCards = data.map((x) => {
+    const videoGameCards = data.map((x) => {
+        return (
+            <VideoGameCard
+                key={x.gameID}
+                {...x}
+            />
+        )
+    });
+
+    // dealing with the console list buttons
+    const consoleSet = new Set(["Favorites"]);
+    data.map((x) => {
+        for (const console of x.consoles) {
+            consoleSet.add(console);
+        }
+    });
+    const consoleButtons = Array.from(consoleSet).map((x) => {
+        return (
+            <button className="mainBody__consoleList__button">{x}</button>
+        )
+    });
+
     return (
-        <VideoGameCard
-            key={x.gameID}
-            {...x}
-        />
-    )
-  });
-
-  return (
-    <>
-        <section class="mainBody">
-            <section class="mainBody__consoleList">
-                <button class="mainBody__consoleList__button">Button</button>
-                <button class="mainBody__consoleList__button">Button 2</button>
+        <>
+            <section className="mainBody">
+                <section className="mainBody__consoleList">{consoleButtons}</section>
+                <section className="mainBody__cardSection">{videoGameCards}</section>
             </section>
-            <section class="mainBody__cardSection">{videoGameCards}</section>
-        </section>
-    </>
-  );
+        </>
+    );
 }
 
 export default MainBody;
