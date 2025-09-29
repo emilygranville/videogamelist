@@ -1,9 +1,10 @@
 .videoGameCard {
-    background-color: rgb(102, 174, 236);
+    background-color: #ff3333;
     padding: 20px;
     margin: 6px;
     width: 20%;
     border-radius: 25px;
+    color: black;
 }
 
 .videoGameCard__button {

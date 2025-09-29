@@ -1,23 +1,23 @@
 .mainBody {
     margin-left: 200px;
     margin-top: 50px;
-    background-color: aquamarine;
 }
 
 .mainBody__consoleList {
-    top: 50px;
-    width: 100%;
+    top: 50.5px;
+    width: calc(100% - 200px);
     position: fixed;
     display: flex;
-    background-color: bisque;
+    background-color: rgb(208, 208, 208);
     margin: 0%;
+    /* overflow-x: auto; */
 }
 
-.mainBody__consoleList__button{
+.mainBody__consoleList__button {
     margin: 10px;
 }
 
-.mainBody__cardSection{
+.mainBody__cardSection {
     margin-top: 50px;
     display: inline-flex;
     flex-wrap: wrap;

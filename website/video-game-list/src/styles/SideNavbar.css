@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     width: 200px;
-    background-color: #f1f1f1;
+    background-color: #00cc33;
     position: fixed;
     height: 100%;
     
@@ -17,6 +17,6 @@
 }
 
 .sideNavBar__link:hover {
-    background-color: #555555;
+    background-color: #008020;
     color: white;
 }
